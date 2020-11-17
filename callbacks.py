@@ -18,6 +18,8 @@ import pandas as pd
 from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,\
 modify_df,df_2015_stw , both_options, years, df_2014_stw
 
+from data_import import download_data
+
 
 # Chained option for tubewell location
 # @app.callback(
@@ -159,5 +161,7 @@ def state_hover(feature):
 @app.callback(Output('live_table','data'),
             [Input('interval_component','n_intervals')])
 def update_table(n):
+    gw_sw = download_data()
     df = pd.read_csv("updated_data.csv")
+
     return df.to_dict('records')

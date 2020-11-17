@@ -30,3 +30,5 @@ six==1.15.0
 urllib3==1.25.11
 Werkzeug==1.0.1
 xlrd==1.2.0
+APScheduler==3.0.0
+

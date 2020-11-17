@@ -1,3 +1,8 @@
 ,Enumerator Name,Geo_location,Municipality,village_name,ward,well_type,well_no_st,well_no_dt,gw_level,measurement_unit
 0,test_1,27.371767 77.805201 0 0,Kohalpur,te,1,sw,1-045/46(BK)4,,9,feet
 1,test_2,27.994401 82.71702 0 0,Raptisonari,dude,1,sw,1-045/46(BK)4,,12,meters
+2,uplaoded,27.371767 82.015332 0 0,Nepalgunj,1,12,sw,1-045/46(BK)3,,12,feet
+3,beofer_corm,33.72434 75.787406 0 0,Khajura,21,1,dt,,SP-6,12,feet
+4,test_100,27.994401 79.208578 0 0,Nepalgunj,test_100,100,dt,,SP-9,100,feet
+5,callback,25.482951 77.103512 0 0,Nepalgunj,x,10,dt,,SP-9,12,feet
+6,tet_100,20.96144 60.964675 0 0,Baijnath,dasd,12,dt,,SP-13,12,meters
