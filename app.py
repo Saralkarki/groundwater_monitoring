@@ -1,9 +1,10 @@
 import dash
 
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
-server = app.server
 
 external_stylesheets = ['assets/css/main.css','assets/css/user.css' ]
+app = dash.Dash(__name__, external_stylesheets = external_stylesheets)
+app.config.suppress_callback_exceptions = True
+
 
 
 
