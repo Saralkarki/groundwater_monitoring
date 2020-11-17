@@ -13,6 +13,8 @@ from app import app
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
 
+import pandas as pd
+
 from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,\
 modify_df,df_2015_stw , both_options, years, df_2014_stw
 
@@ -154,4 +156,8 @@ def state_hover(feature):
         # return f"Location: {feature['properties']['Location ']}, Well No: {feature['properties']['Well No.']}"
 
 
-        
+@app.callback(Output('live_table','data'),
+            [Input('interval_component','n_intervals')])
+def update_table(n):
+    df = pd.read_csv("updated_data.csv")
+    return df.to_dict('records')

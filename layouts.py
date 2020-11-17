@@ -1,9 +1,14 @@
 
 import dash_core_components as dcc
+import dash_table
+
 import dash_html_components as html
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
 
+
+from data_import import gw_df
+import pandas as pd
 
 
 
@@ -24,6 +29,19 @@ def get_info(feature=None):
 info = html.Div(children=get_info(), id="info", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "1000"})
 
 app.title = 'Groundwater Monitoring'
+pilot_layout = html.Div([
+   dash_table.DataTable(
+    id='live_table',
+    columns=[{"name": i, "id": i} for i in gw_df.columns],
+    data=gw_df.to_dict('records'),
+    export_format="csv",
+),
+dcc.Interval(
+        id='interval_component',
+        interval=60000,
+        n_intervals=0
+    )
+])
 main_layout = html.Div(
     [
 # header div

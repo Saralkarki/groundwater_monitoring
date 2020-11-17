@@ -1,0 +1,3 @@
+,Enumerator Name,Geo_location,Municipality,village_name,ward,well_type,well_no_st,well_no_dt,gw_level,measurement_unit
+0,test_1,27.371767 77.805201 0 0,Kohalpur,te,1,sw,1-045/46(BK)4,,9,feet
+1,test_2,27.994401 82.71702 0 0,Raptisonari,dude,1,sw,1-045/46(BK)4,,12,meters
