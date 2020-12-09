@@ -76,6 +76,9 @@ main_layout = html.Div(
             [
                 html.H1('GroundWater Monitoring', className = 'main_title'),
                 html.Img(src = 'assets/images/partners.png', className = 'logos'),
+                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
                 # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
                 html.Br(),
                 
