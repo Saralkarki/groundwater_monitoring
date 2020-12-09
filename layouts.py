@@ -30,10 +30,37 @@ info = html.Div(children=get_info(), id="info", className="info",style={"positio
 
 app.title = 'Groundwater Monitoring'
 pilot_layout = html.Div([
+    html.Div(
+            [
+                html.H1('GroundWater Monitoring', className = 'main_title'),
+                html.Img(src = 'assets/images/partners.png', className = 'logos'),
+                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Br(),
+                
+                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
+            ], className = 'header'
+        ),
+        ### Navigation bar
+        html.Div([
+            
+            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+        ],className = 'nav_bar'),
+    dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '10px', 'font-size': '25px', 'text-decoration': 'none'}),
    dash_table.DataTable(
     id='live_table',
     columns=[{"name": i, "id": i} for i in gw_df.columns],
+     style_cell={
+      
+        'height': 'auto',
+        # all three widths are needed
+        'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
+        'whiteSpace': 'normal'
+         
+    },
+    style_table={'overflowX': 'auto'},
     data=gw_df.to_dict('records'),
+   
     export_format="csv",
 ),
 dcc.Interval(
@@ -41,7 +68,7 @@ dcc.Interval(
         interval=60000,
         n_intervals=0
     )
-])
+], className = 'eleven columns offset-by-one')
 main_layout = html.Div(
     [
 # header div
@@ -58,12 +85,13 @@ main_layout = html.Div(
         ### Navigation bar
         html.Div([
             
-            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '10px', 'font-size': '25px', 'text-decoration': 'none'}),
-            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '10px', 'font-size': '25px', 'text-decoration': 'none'}),
+            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
         ],className = 'nav_bar'),
 #main body
         html.Div([
             # sidebar
+            html.Br(),
             html.Div([
                 dcc.Checklist(id = 'Tubewell_type', options = tubewell_options, 
                 value = [], labelStyle={'display': 'inline-block'},
