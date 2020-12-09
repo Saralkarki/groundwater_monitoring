@@ -16,9 +16,6 @@ VALID_USERNAME_PASSWORD_PAIRS = {
 
 
 
-
-
-
 server = app.server
 
 auth = dash_auth.BasicAuth(
@@ -44,4 +41,4 @@ def display_page(pathname):
         return '404'
 
 if __name__ == '__main__':
-    app.run_server(debug=False, port = 8888)
+    app.run_server(debug=True, port = 8888)

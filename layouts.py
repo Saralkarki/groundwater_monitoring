@@ -48,11 +48,19 @@ main_layout = html.Div(
         html.Div(
             [
                 html.H1('GroundWater Monitoring', className = 'main_title'),
-                html.Img(src = 'assets/images/cimmyt-logo.png', className = 'logo_cimmyt'),
-                html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Img(src = 'assets/images/partners.png', className = 'logos'),
+                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Br(),
+                
                 # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
             ], className = 'header'
         ),
+        ### Navigation bar
+        html.Div([
+            
+            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '10px', 'font-size': '25px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '10px', 'font-size': '25px', 'text-decoration': 'none'}),
+        ],className = 'nav_bar'),
 #main body
         html.Div([
             # sidebar

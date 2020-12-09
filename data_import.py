@@ -11,13 +11,12 @@ auth = HTTPBasicAuth('gw_monitoring', 'gwmonitor@2020')
 # files = {'filename': open('filename.txt','rb')}
 def download_data():
     download = requests.get(url, auth=auth )
-    
     col_names = ['Enumerator Name','Geo_location','Municipality','village_name','ward','well_type','well_no_st','well_no_dt','gw_level','measurement_unit']
-    df = pd.read_csv('updated_data.csv')
+    # df = pd.read_csv('updated_data.csv')
     
             
     gw_df = pd.read_json(download.text)
-    # print(len(gw_df))
+    print(gw_df)
 
     if not 'Main_group/location_details/well_no_dt' in gw_df.columns:
         # print('NO DT')
@@ -45,18 +44,6 @@ def download_data():
         df = pd.read_csv('updated_data.csv')  
         return df
 
-# from apscheduler.schedulers.blocking import BlockingScheduler
-
-# sched = BlockingScheduler()
-
-# @sched.scheduled_job('interval', minutes=1)
-# def timed_job():
-#     print('This job is run every three minutes.')
-#     gw_sw = download_data()
-#     return gw_sw
-
-# x  = timed_job()
-# print(x)
 
 gw_df = pd.read_csv('updated_data.csv')
 

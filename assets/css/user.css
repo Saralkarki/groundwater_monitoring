@@ -4,21 +4,16 @@
     /* border: 3px solid green; */
     padding: 10px;
     text-align: center;
-    background-color: azure;
+    background-color: #fff;
     box-shadow: 0 8px 9px -3px #6688994d;
     margin-bottom: 10px;
 }
-.logo_cimmyt{
+.logos{
     margin: 10px;
-    width: 12%;
-    height:12%;
+    width: 100%;
+    height:100%;
 }
-.logo_csisa{
-    margin: 10px;
-    width: 5%;
-    height:5%;
 
-}
 
 /* Side bar CSS */
 .sidebar{
@@ -34,4 +29,9 @@
 .graph_text{
     text-emphasis: none;
     text-align: center;
+}
+.nav_bar{
+    margin: auto;
+    width: 20%;
+    
 }
