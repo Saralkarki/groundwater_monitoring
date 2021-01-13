@@ -7,10 +7,10 @@ import dash_leaflet as dl
 import dash_leaflet.express as dlx
 
 
-from data_import import gw_df
+from data_import import gw_df, banke_sw, banke_dw,bardiya_sw, bardiya_dw
 import pandas as pd
 
-
+print(gw_df)
 
 from app import app
 
@@ -49,8 +49,14 @@ pilot_layout = html.Div([
             dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
         ],className = 'nav_bar'),
-    dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '10px', 'font-size': '25px', 'text-decoration': 'none'}),
-   dash_table.DataTable(
+    html.Div([
+         dcc.Link('Banke- Shallow Tube Well', href = '/pilot/bstw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Banke- Deep Tube Well', href = '/pilot/bdtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Shallow Tube Well', href = '/pilot/bastw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Deep Tube Well', href = '/pilot/badtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    ], style = {'background':'#fffccc'}),
+    html.Br(),
+    dash_table.DataTable(
     id='live_table',
     columns=[{"name": i, "id": i} for i in gw_df.columns],
      style_cell={
@@ -72,6 +78,8 @@ dcc.Interval(
         n_intervals=0
     )
 ], className = 'eleven columns offset-by-one')
+
+
 main_layout = html.Div(
     [
 # header div
@@ -144,4 +152,219 @@ main_layout = html.Div(
 # Main container      
     ], className = 'twelve columns'
 )
+
+################
+
+banke_stw_layout = html.Div([
+    html.Div(
+            [
+                html.H1('GroundWater Monitoring', className = 'main_title'),
+                html.Img(src = 'assets/images/partners.png', className = 'logos'),
+                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
+                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Br(),
+                
+                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
+            ], className = 'header'
+        ),
+        ### Navigation bar
+        html.Div([
+            
+            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+        ],className = 'nav_bar'),
+    html.Div([
+        dcc.Link('All Data', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+
+         dcc.Link('Banke- Shallow Tube Well', href = '/pilot/bstw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Banke- Deep Tube Well', href = '/pilot/bdtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Shallow Tube Well', href = '/pilot/bastw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Deep Tube Well', href = '/pilot/badtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    ], style = {'background':'#fffccc'}),
+    html.Br(),
+    dash_table.DataTable(
+    id='live_table_banke_stw',
+    columns=[{"name": i, "id": i} for i in banke_sw.columns],
+    style_cell={
+      
+        'height': 'auto',
+        # all three widths are needed
+        'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
+        'whiteSpace': 'normal'
+         
+    },
+    style_table={'overflowX': 'auto'},
+    data=banke_sw.to_dict('records'),
+   
+    export_format="csv",
+),
+dcc.Interval(
+        id='interval_component',
+        interval=60000,
+        n_intervals=0
+    )
+], className = 'eleven columns offset-by-one')
+
+### Banke Deep deep well layout
+
+banke_dtw_layout = html.Div([
+    html.Div(
+            [
+                html.H1('GroundWater Monitoring', className = 'main_title'),
+                html.Img(src = 'assets/images/partners.png', className = 'logos'),
+                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
+                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Br(),
+                
+                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
+            ], className = 'header'
+        ),
+        ### Navigation bar
+        html.Div([
+            
+            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+        ],className = 'nav_bar'),
+    html.Div([
+    dcc.Link('All Data', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Banke- Shallow Tube Well', href = '/pilot/bstw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Banke- Deep Tube Well', href = '/pilot/bdtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Shallow Tube Well', href = '/pilot/bastw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Deep Tube Well', href = '/pilot/badtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    ], style = {'background':'#fffccc'}),
+    html.Br(),
+    dash_table.DataTable(
+    id='live_table_banke_dtw',
+    columns=[{"name": i, "id": i} for i in banke_dw.columns],
+    style_cell={
+      
+        'height': 'auto',
+        # all three widths are needed
+        'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
+        'whiteSpace': 'normal'
+         
+    },
+    style_table={'overflowX': 'auto'},
+    data=banke_dw.to_dict('records'),
+   
+    export_format="csv",
+),
+dcc.Interval(
+        id='interval_component',
+        interval=60000,
+        n_intervals=0
+    )
+], className = 'eleven columns offset-by-one')
+
+### Bardiya Shallow well layout
+
+bardiya_stw_layout = html.Div([
+    html.Div(
+            [
+                html.H1('GroundWater Monitoring', className = 'main_title'),
+                html.Img(src = 'assets/images/partners.png', className = 'logos'),
+                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
+                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Br(),
+                
+                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
+            ], className = 'header'
+        ),
+        ### Navigation bar
+        html.Div([
+            
+            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+        ],className = 'nav_bar'),
+    html.Div([
+        dcc.Link('All Data', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),      
+         dcc.Link('Banke- Shallow Tube Well', href = '/pilot/bstw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Banke- Deep Tube Well', href = '/pilot/bdtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Shallow Tube Well', href = '/pilot/bastw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Deep Tube Well', href = '/pilot/badtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    ], style = {'background':'#fffccc'}),
+    html.Br(),
+    dash_table.DataTable(
+    id='live_table_bardiya_stw',
+    columns=[{"name": i, "id": i} for i in bardiya_sw.columns],
+    style_cell={
+      
+        'height': 'auto',
+        # all three widths are needed
+        'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
+        'whiteSpace': 'normal'
+         
+    },
+    style_table={'overflowX': 'auto'},
+    data=bardiya_sw.to_dict('records'),
+   
+    export_format="csv",
+),
+dcc.Interval(
+        id='interval_component',
+        interval=60000,
+        n_intervals=0
+    )
+], className = 'eleven columns offset-by-one')
+
+
+### Bardiya Deep deep well layout
+
+bardiya_dtw_layout = html.Div([
+    html.Div(
+            [
+                html.H1('GroundWater Monitoring', className = 'main_title'),
+                html.Img(src = 'assets/images/partners.png', className = 'logos'),
+                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
+                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Br(),
+                
+                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
+            ], className = 'header'
+        ),
+        ### Navigation bar
+        html.Div([
+            
+            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+        ],className = 'nav_bar'),
+    html.Div([
+        dcc.Link('All Data', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+
+         dcc.Link('Banke- Shallow Tube Well', href = '/pilot/bstw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Banke- Deep Tube Well', href = '/pilot/bdtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Shallow Tube Well', href = '/pilot/bastw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    dcc.Link('Bardiya- Deep Tube Well', href = '/pilot/badtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
+    ], style = {'background':'#fffccc'}),
+    html.Br(),
+    dash_table.DataTable(
+    id='live_table_bardiya_dtw',
+    columns=[{"name": i, "id": i} for i in bardiya_dw.columns],
+    style_cell={
+      
+        'height': 'auto',
+        # all three widths are needed
+        'minWidth': '180px', 'width': '180px', 'maxWidth': '180px',
+        'whiteSpace': 'normal'
+         
+    },
+    style_table={'overflowX': 'auto'},
+    data=bardiya_dw.to_dict('records'),
+   
+    export_format="csv",
+),
+dcc.Interval(
+        id='interval_component',
+        interval=60000,
+        n_intervals=0
+    )
+], className = 'eleven columns offset-by-one')
 
