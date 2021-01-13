@@ -1,5 +1,2 @@
 ,Enumerator Name,Geo_location,District,well_type,sw_bk_well_no,bk_dw_no,well_no_sw_bardiya,well_no_dw_bardiya,gw_level,Height_of_measuremen_in_measurement_unit,Measurement_of_tape_ent_point_MP_in_m,Notes
-0,Default_test_data,27.371767 79.910266 0 0,Banke,sw,bk-sw-01,,,,0,1,0,This is test default data
-1,Default test data,25.482951 79.910266 0 0,Banke,dt,,bk-dw-04_1,,,0,0,0,This is test default data
-2,Default test,26.115986 76.401823 0 0,Bardiya,sw,,,bd-sw-04,,0,0,0,This is test default data
 3,Default test,25.482951 78.506889 0 0,Bardiya,dt,,,,bd-dw-04,0,0,0,This is test data

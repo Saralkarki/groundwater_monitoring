@@ -10,7 +10,7 @@ import dash_leaflet.express as dlx
 from data_import import gw_df, banke_sw, banke_dw,bardiya_sw, bardiya_dw
 import pandas as pd
 
-print(gw_df)
+
 
 from app import app
 

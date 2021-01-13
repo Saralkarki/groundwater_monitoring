@@ -3,6 +3,8 @@ from requests.auth import HTTPBasicAuth
 import pandas as pd
 import time, sched
 
+import dash_html_components as html
+
 
 
 url= "https://kc.humanitarianresponse.info/api/v1/data/669773.json"
@@ -45,13 +47,14 @@ def download_data():
         'Notes']]
         # print(gw_df)
     df = gw_df.copy()   
+    df = gw_df.iloc[4:]
             # print(gw_df[i])      
-    df.to_csv('new_updated_data.csv')
+    df.to_csv('updated_data.csv')
+    return df 
 
-download_data()
-gw_df = pd.read_csv('new_updated_data.csv')
+gw_df = download_data()
 
-gw_df = gw_df.iloc[3:-1]
+
 
 
 
@@ -66,8 +69,11 @@ if len(gw_df['sw_bk_well_no']) != 0 :
         'Notes']]
     
 else:
-    banke_sw = pd.DataFrame() 
+    banke_sw = gw_df
     
+    
+def no_data():
+    return html.Div([html.H5("There is no data")])
 
 if len(gw_df['bk_dw_no']) != 0 :
     banke_dw = gw_df[(gw_df['District']=="Banke") & (gw_df['well_type'] == 'dt')]
@@ -78,7 +84,7 @@ if len(gw_df['bk_dw_no']) != 0 :
         'Notes']]
     
 else:
-    banke_dw = pd.DataFrame() 
+    banke_dw = gw_df
 
 if len(gw_df['well_no_sw_bardiya']) != 0 :
     bardiya_sw = gw_df[(gw_df['District']=="Bardiya") & (gw_df['well_type'] == 'sw')]
@@ -90,7 +96,10 @@ if len(gw_df['well_no_sw_bardiya']) != 0 :
         'Measurement_of_tape_ent_point_MP_in_m',
         'Notes']]
 else:
-    bardiya_sw = pd.DataFrame() 
+    bardiya_sw = gw_df
+    
+
+
 
 
 
