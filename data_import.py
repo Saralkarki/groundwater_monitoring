@@ -60,47 +60,34 @@ gw_df = download_data()
 
 #banke SW data
 
-if len(gw_df['sw_bk_well_no']) != 0 :
-    banke_sw = gw_df[(gw_df['District']=="Banke") & (gw_df['well_type'] == 'sw')]
-    banke_sw= banke_sw[['Enumerator Name','Geo_location','District',
+
+banke_sw = gw_df[(gw_df['District']=="Banke") & (gw_df['well_type'] == 'sw')]
+banke_sw= banke_sw[['Enumerator Name','Geo_location','District',
         'well_type','sw_bk_well_no','gw_level',
         'Height_of_measuremen_in_measurement_unit',
         'Measurement_of_tape_ent_point_MP_in_m',
         'Notes']]
-    
-else:
-    banke_sw = gw_df
-    
-    
-def no_data():
-    return html.Div([html.H5("There is no data")])
 
-if len(gw_df['bk_dw_no']) != 0 :
-    banke_dw = gw_df[(gw_df['District']=="Banke") & (gw_df['well_type'] == 'dt')]
-    banke_dw = banke_dw[['Enumerator Name','Geo_location','District',
+
+
+
+banke_dw = gw_df[(gw_df['District']=="Banke") & (gw_df['well_type'] == 'dt')]
+banke_dw = banke_dw[['Enumerator Name','Geo_location','District',
         'well_type','bk_dw_no','gw_level',
         'Height_of_measuremen_in_measurement_unit',
         'Measurement_of_tape_ent_point_MP_in_m',
         'Notes']]
-    
-else:
-    banke_dw = gw_df
-
-if len(gw_df['well_no_sw_bardiya']) != 0 :
-    bardiya_sw = gw_df[(gw_df['District']=="Bardiya") & (gw_df['well_type'] == 'sw')]
 
 
-    bardiya_sw = bardiya_sw[['Enumerator Name','Geo_location','District',
-        'well_type','well_no_sw_bardiya','gw_level',
-        'Height_of_measuremen_in_measurement_unit',
-        'Measurement_of_tape_ent_point_MP_in_m',
+
+bardiya_sw = gw_df[(gw_df['District']=="Bardiya") & (gw_df['well_type'] == 'sw')]
+
+
+bardiya_sw = bardiya_sw[['Enumerator Name','Geo_location','District','well_type','well_no_sw_bardiya','gw_level',
+        'Height_of_measuremen_in_measurement_unit','Measurement_of_tape_ent_point_MP_in_m',
         'Notes']]
-else:
-    bardiya_sw = gw_df
+
     
-
-
-
 
 
 bardiya_dw = gw_df[(gw_df['District']=="Bardiya") & (gw_df['well_type'] == 'dt')]
