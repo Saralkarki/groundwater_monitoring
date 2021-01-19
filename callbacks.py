@@ -109,8 +109,9 @@ def tubewell_location(map_click_feature, selected_year):
             layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
             fig.update_layout(title=f'Ground Water level of {selected_tubewell_location}',
                    xaxis_title='Months',
-                   yaxis_title='Groundwater in mm')
-                   
+                   yaxis_title='Groundwater in mm'),
+            fig.update_yaxes(autorange="reversed")
+                
         else:
             fig = px.line(title = 'No Data Available')
         return fig

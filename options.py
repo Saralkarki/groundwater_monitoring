@@ -58,7 +58,6 @@ both_options = {
 
 # Converting data to dictinoary to use in the maps
 dicts_swt = df.to_dict('rows')
-print(df)
 dicts_dwt = df_dptw.to_dict('rows')
 dicts_both = df_both.to_dict('rows')
 
