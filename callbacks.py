@@ -100,8 +100,8 @@ def tubewell_location(map_click_feature, selected_year):
             # print(data)
         else:
             data = ()
-        print(selected_year)
-        print(data)
+        # print(selected_year)
+        # print(data)
         # data = df[df.year == selected_year]
         
         if not data.empty:

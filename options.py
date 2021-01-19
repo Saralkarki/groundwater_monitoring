@@ -9,9 +9,9 @@ tubewell_options = [{'label': 'Deep Tubewell', 'value': 'dt'},
                         ]
 
 # tubewell locations
-df = pd.read_excel('data/preloaded_data/groundwater_location_data.xlsx')
+df = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
 # print(df.columns)
-df_dptw = pd.read_excel('data/preloaded_data/groundwater_location_data.xlsx', sheet_name= 'Deep tube wells')
+df_dptw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= 'Deep tube wells')
 df_both = pd.concat([df,df_dptw])
 # print(df.columns)
 st_location_options = [{'label': i, 'value': i} for i in df['Location ']]
@@ -58,13 +58,13 @@ both_options = {
 
 # Converting data to dictinoary to use in the maps
 dicts_swt = df.to_dict('rows')
+print(df)
 dicts_dwt = df_dptw.to_dict('rows')
 dicts_both = df_both.to_dict('rows')
 
 swt_geojson = dlx.dicts_to_geojson(dicts_swt, lon="Longitude", lat = 'Latitude')  # convert to geojson
 dwt_geojson = dlx.dicts_to_geojson(dicts_dwt, lon="Longitude", lat = 'Latitude')  # convert to geojson
 both_geojson = dlx.dicts_to_geojson(dicts_both, lon="Longitude", lat = 'Latitude')  # convert to geojson
-
 
 
 ## Years options
