@@ -92,7 +92,8 @@ def display_value(value):
 def tubewell_location(map_click_feature, selected_year):
     if map_click_feature is not None:
         selected_tubewell_location = map_click_feature['properties']['well_no']
-        data = map_data()
+        print(selected_tubewell_location)
+        data = map_data(selected_tubewell_location)
         print(data)
         # if selected_year == 2015:
         #     data = modify_df(df_2015_stw,selected_tubewell_location) 

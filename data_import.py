@@ -56,7 +56,7 @@ gw_df = download_data()
 
 
 ### Data to map the values
-def map_data():
+def map_data(well_number):
         df = pd.read_csv('updated_data.csv')
         df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
         ## onvertt he today data to date    
@@ -66,11 +66,11 @@ def map_data():
         df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
         cols = ['well_no','Month','gw_level']
         df = df[cols]
-        print(df)
-        return df
+        x = df[df['well_no'].isin([well_number])]
+        # print(x)
+        return x
 
 
-map_data()
 #banke SW data
 
 

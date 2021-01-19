@@ -143,7 +143,8 @@ main_layout = html.Div(
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
                 dcc.Graph(id = 'timeseries_gw_data',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
-                dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)
+                html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)], style = {'display':'none'}),
+               
                 #  dcc.Graph(id = 'test_1'),
 
             ],className = 'six columns main_window')    
