@@ -18,7 +18,7 @@ import pandas as pd
 from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,\
 modify_df,df_2015_stw , both_options, years, df_2014_stw
 
-from data_import import download_data
+from data_import import download_data, map_data
 
 
 # Chained option for tubewell location
@@ -91,21 +91,23 @@ def display_value(value):
     ])
 def tubewell_location(map_click_feature, selected_year):
     if map_click_feature is not None:
-        selected_tubewell_location = map_click_feature['properties']['Location ']
-        if selected_year == 2015:
-            data = modify_df(df_2015_stw,selected_tubewell_location) 
-            # print(data)
-        elif selected_year == 2014:
-            data = modify_df(df_2014_stw,selected_tubewell_location) 
-            # print(data)
-        else:
-            data = ()
+        selected_tubewell_location = map_click_feature['properties']['well_no']
+        data = map_data()
+        print(data)
+        # if selected_year == 2015:
+        #     data = modify_df(df_2015_stw,selected_tubewell_location) 
+        #     # print(data)
+        # elif selected_year == 2014:
+        #     data = modify_df(df_2014_stw,selected_tubewell_location) 
+        #     # print(data)
+        # else:
+        #     data = ()
         # print(selected_year)
         # print(data)
         # data = df[df.year == selected_year]
         
         if not data.empty:
-            fig = go.Figure(data=go.Scatter(x=data["Months"], y=data['Measurement']), 
+            fig = go.Figure(data=go.Scatter(x=data["Month"], y=data['gw_level']), 
             layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
             fig.update_layout(title=f'Ground Water level of {selected_tubewell_location}',
                    xaxis_title='Months',

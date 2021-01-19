@@ -23,7 +23,7 @@ def get_info(feature=None):
     if not feature:
         return header + ["Mouse over an area"]
     return header + [html.B(f"Location: {feature['properties']['Location ']}"), html.Br(),
-    html.B(f"Well No: {feature['properties']['Well No.']}")]
+    html.B(f"Well No: {feature['properties']['well_no']}")]
 
 # Create info control.
 info = html.Div(children=get_info(), id="info", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "1000"})

@@ -5,7 +5,7 @@ import time, sched
 
 import dash_html_components as html
 
-
+import calendar
 
 url= "https://kc.humanitarianresponse.info/api/v1/data/669773.json"
 auth = HTTPBasicAuth('gw_monitoring', 'gwmonitor@2020')
@@ -44,7 +44,7 @@ def download_data():
         'well_type','sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya','gw_level',
         'Height_of_measuremen_in_measurement_unit',
         'Measurement_of_tape_ent_point_MP_in_m',
-        'Notes']]
+        'Notes','today']]
         # print(gw_df)
     df = gw_df.copy()   
     df = gw_df.iloc[4:]
@@ -55,9 +55,22 @@ def download_data():
 gw_df = download_data()
 
 
+### Data to map the values
+def map_data():
+        df = pd.read_csv('updated_data.csv')
+        df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
+        ## onvertt he today data to date    
+        df['today'] = pd.to_datetime(df['today'])
+        df['Month'] = df['today'].dt.month
+        # print(df['Month'])
+        df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
+        cols = ['well_no','Month','gw_level']
+        df = df[cols]
+        print(df)
+        return df
 
 
-
+map_data()
 #banke SW data
 
 
