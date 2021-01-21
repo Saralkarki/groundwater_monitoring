@@ -25,8 +25,16 @@ def get_info(feature=None):
     return header + [html.B(f"Location: {feature['properties']['Location ']}"), html.Br(),
     html.B(f"Well No: {feature['properties']['well_no']}")]
 
+def get_info_home(feature=None):
+    header = [html.H4("Tubewells in Banke District")]
+    if not feature:
+        return header + ["Hover mouse over an area and click"]
+    return header + [html.B(f"Location: {feature['properties']['Location ']}"), html.Br(),
+    html.B(f"Well No: {feature['properties']['well_no']}")]
+
 # Create info control.
 info = html.Div(children=get_info(), id="info", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "1000"})
+info_home = html.Div(children=get_info_home(), id="info_home", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "1000"})
 
 app.title = 'Groundwater Monitoring'
 pilot_layout = html.Div([
@@ -110,43 +118,18 @@ main_layout = html.Div(
             # sidebar
             html.Br(),
             html.Div([
-                dcc.Checklist(id = 'Tubewell_type', options = tubewell_options, 
+                dcc.Checklist(id = 'Tubewell_type_home', options = tubewell_options, 
                 value = [], labelStyle={'display': 'inline-block'},
                 ),
-                html.Div(id = 'gw_map'),
-                dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt"), info]),
-                #  html.Div(id = 'Test'),
-                 
-
-                # dcc.Dropdown(id = 'Taubewell_type',
-                # options=tubewell_options,
-                #         searchable=False,
-                #         value='both',
-                #         placeholder = "select a tubewell type",
-                #         style = {'width': '95%', 'margin': '10px'},
-                #         clearable=False
-                # ),
-                # Tubewells (This list will change as per the above selection)
-                # dcc.Dropdown(id = 'Tubewell_location',
-                # # options= st_location_options,
-                #         searchable=False,
-                #         value='',
-                #         placeholder = "Select Tubewell region",
-                #         style = {'width': '95%', 'margin': '10px'},
-                # ),
-                # html.H5("Date picker"),
-                # html.H5("time picker"),
-                # html.H5("actual value or average"),
-                # html.H5("map view"),
-                # html.H5("visualization view"),
-                
-
+                html.Div(id = 'gw_map_home'),
+                dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt_home"), info_home]),
+             
             ], className = 'six columns sidebar offset-by-one'),
             #main window
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
                 dcc.Graph(id = 'timeseries_gw_data',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
-                html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)], style = {'display':'none'}),
+                # html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)], style = {'display':'none'}),
                
                 #  dcc.Graph(id = 'test_1'),
 
