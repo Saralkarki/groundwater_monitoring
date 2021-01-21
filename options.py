@@ -22,25 +22,25 @@ dt_location_options = [{'label': i, 'value': i} for i in df_dptw['Location ']]
 # print(location_options)
 
 ## Data for yearly water level 
-df_2015_stw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2015.xlsx')
-df_2015_dtw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2015.xlsx',
-sheet_name= 'df_2015_dtw')
-df_2014_stw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2014.xlsx')
-df_2014_dtw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2014.xlsx',
-sheet_name= 'df_2014_dtw')
+df_2015 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = '2015')
+df_2014 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = '2014')
+# df_2015_stw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2015.xlsx')
+# df_2015_dtw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2015.xlsx',
+# sheet_name= 'df_2015_dtw')
+# df_2014_stw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2014.xlsx')
+# df_2014_dtw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2014.xlsx',
+# sheet_name= 'df_2014_dtw')
 # print(df_2015_stw.columns)
 
 # modify the data to meet requirements
-def modify_df(dataframe,location):
-    df = dataframe[dataframe['STWs'].isin([location])]
+def modify_df(dataframe,well_no):
+    df = dataframe[dataframe['well_no'].isin([well_no])]
     # print(df)
     if not df.empty:
-        df = df.transpose()
-        df = df.iloc[3:15,:]
-        df.columns = ['Measurement']
-        df['Months'] = df.index
-        df = df.reset_index()
-        df = df.drop(['index'], axis=1) 
+        df = df.iloc[:, 4:].T
+        df['Months'] =df.index
+        df.columns = ['gw_level','Months']
+
     else:
         df = pd.DataFrame()
     return df

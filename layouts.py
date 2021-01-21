@@ -48,6 +48,8 @@ pilot_layout = html.Div([
             
             dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+
         ],className = 'nav_bar'),
     html.Div([
          dcc.Link('Banke- Shallow Tube Well', href = '/pilot/bstw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
@@ -101,6 +103,7 @@ main_layout = html.Div(
             
             dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
         ],className = 'nav_bar'),
 #main body
         html.Div([
@@ -143,7 +146,7 @@ main_layout = html.Div(
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
                 dcc.Graph(id = 'timeseries_gw_data',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
-                html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)], style = {'display':'none'}),
+                # html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)], style = {'display':'none'}),
                
                 #  dcc.Graph(id = 'test_1'),
 
@@ -155,7 +158,88 @@ main_layout = html.Div(
 )
 
 ################
+####################Historical data######################
 
+history_layout = html.Div(
+    [
+# header div
+        html.Div(
+            [
+                html.H1('GroundWater Monitoring', className = 'main_title'),
+                html.Img(src = 'assets/images/partners.png', className = 'logos'),
+                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
+                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
+                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Br(),
+                
+                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
+            ], className = 'header'
+        ),
+        ### Navigation bar
+        html.Div([
+            
+            dcc.Link('Home', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+
+        ],className = 'nav_bar'),
+#main body
+        html.Div([
+            # sidebar
+            html.Br(),
+            html.Div([
+                dcc.Checklist(id = 'Tubewell_type', options = tubewell_options, 
+                value = [], labelStyle={'display': 'inline-block'},
+                ),
+                html.Div(id = 'gw_map'),
+                dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt"), info]),
+                #  html.Div(id = 'Test'),
+                 
+
+                # dcc.Dropdown(id = 'Taubewell_type',
+                # options=tubewell_options,
+                #         searchable=False,
+                #         value='both',
+                #         placeholder = "select a tubewell type",
+                #         style = {'width': '95%', 'margin': '10px'},
+                #         clearable=False
+                # ),
+                # Tubewells (This list will change as per the above selection)
+                # dcc.Dropdown(id = 'Tubewell_location',
+                # # options= st_location_options,
+                #         searchable=False,
+                #         value='',
+                #         placeholder = "Select Tubewell region",
+                #         style = {'width': '95%', 'margin': '10px'},
+                # ),
+                # html.H5("Date picker"),
+                # html.H5("time picker"),
+                # html.H5("actual value or average"),
+                # html.H5("map view"),
+                # html.H5("visualization view"),
+                
+
+            ], className = 'six columns sidebar offset-by-one'),
+            #main window
+            html.Div([
+                html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
+                dcc.Graph(id = 'timeseries_historical_data',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
+                html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)]),
+               
+                #  dcc.Graph(id = 'test_1'),
+
+            ],className = 'six columns main_window')    
+# Main div      
+        ], className = 'twelve columns')
+# Main container      
+    ], className = 'twelve columns'
+)
+
+
+
+
+###########################################
 banke_stw_layout = html.Div([
     html.Div(
             [
