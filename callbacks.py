@@ -79,7 +79,7 @@ def display_value(value):
             
         
     return x
-    
+###### Input for the Kobo data coming in 
 @app.callback(
     # [
         Output('timeseries_gw_data','figure'),
@@ -89,12 +89,12 @@ def display_value(value):
     Input('gwt','click_feature'),
     Input('year-slider','value'),
     ])
-def tubewell_location(map_click_feature, selected_year):
+def tubewell_location(map_click_feature, well_no):
     if map_click_feature is not None:
         selected_tubewell_location = map_click_feature['properties']['well_no']
         print(selected_tubewell_location)
         data = map_data(selected_tubewell_location)
-        print(data)
+        # print(data)
         # if selected_year == 2015:
         #     data = modify_df(df_2015_stw,selected_tubewell_location) 
         #     # print(data)
