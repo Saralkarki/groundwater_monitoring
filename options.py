@@ -22,6 +22,7 @@ dt_location_options = [{'label': i, 'value': i} for i in df_dptw['Location ']]
 # print(location_options)
 
 ## Data for yearly water level 
+df_data = pd.read_csv('data/preloaded_data/all_wells_clean_tall.csv')
 df_2015 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = '2015')
 df_2014 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = '2014')
 # df_2015_stw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2015.xlsx')
@@ -33,18 +34,18 @@ df_2014 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = 
 # print(df_2015_stw.columns)
 
 # modify the data to meet requirements
-def modify_df(dataframe,well_no):
-    df = dataframe[dataframe['well_no'].isin([well_no])]
+def modify_df(dataframe,well_no,selected_year):
+    df = dataframe[dataframe['well_no'].isin([well_no]) & dataframe['year'].isin([selected_year])]
     # print(df)
     if not df.empty:
-        df = df.iloc[:, 4:].T
-        df['Months'] =df.index
-        df.columns = ['gw_level','Months']
+        df = df.loc[:,['month','value']]
+        df.columns = ['Months','gw_level']
 
     else:
         df = pd.DataFrame()
     return df
 
+# selection = df.loc[:2,['Name', 'Age', 'Height', 'Score']]
 
 # Option for the drop downs
 

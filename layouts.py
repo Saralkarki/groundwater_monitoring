@@ -177,48 +177,29 @@ history_layout = html.Div(
                 ),
                 html.Div(id = 'gw_map'),
                 dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt"), info]),
-                #  html.Div(id = 'Test'),
-                 
-
-                # dcc.Dropdown(id = 'Taubewell_type',
-                # options=tubewell_options,
-                #         searchable=False,
-                #         value='both',
-                #         placeholder = "select a tubewell type",
-                #         style = {'width': '95%', 'margin': '10px'},
-                #         clearable=False
-                # ),
-                # Tubewells (This list will change as per the above selection)
-                # dcc.Dropdown(id = 'Tubewell_location',
-                # # options= st_location_options,
-                #         searchable=False,
-                #         value='',
-                #         placeholder = "Select Tubewell region",
-                #         style = {'width': '95%', 'margin': '10px'},
-                # ),
-                # html.H5("Date picker"),
-                # html.H5("time picker"),
-                # html.H5("actual value or average"),
-                # html.H5("map view"),
-                # html.H5("visualization view"),
-                
-
+           
             ], className = 'six columns sidebar offset-by-one'),
             #main window
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
                 dcc.Graph(id = 'timeseries_historical_data',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
-                html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)]),
+                html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)]),
                
                 #  dcc.Graph(id = 'test_1'),
 
-            ],className = 'six columns main_window')    
+            ],className = 'six columns main_window'),
+            html.Div([
+                html.H1("Ground Water Measurement for all regions"),
+                html.H6("Click on the Well number on the legend to select and deselect the wells"),
+                dcc.Graph(id = 'timeseries_historical_data_all',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
+                dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
+            ],className = 'row')
+           
 # Main div      
-        ], className = 'twelve columns')
+        ], className = 'row twelve columns'),
+        
 # Main container      
-    ], className = 'twelve columns'
-)
-
+    ], className = 'twelve columns'),
 
 
 
