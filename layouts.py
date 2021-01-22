@@ -191,7 +191,8 @@ history_layout = html.Div(
             html.Div([
                 html.H1("Ground Water Measurement for all regions"),
                 html.H6("Click on the Well number on the legend to select and deselect the wells"),
-                dcc.Graph(id = 'timeseries_historical_data_all',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
+                html.Br(),
+                dcc.Graph(id = 'timeseries_historical_data_all',style={'width': '100%', 'height': '500px', 'margin-top': "-5px"}),
                 dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
             ],className = 'row')
            
