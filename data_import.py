@@ -21,10 +21,10 @@ def download_data():
     j = requests.get(url, auth=auth )
     df_json = j.json()
     gw_df = pd.DataFrame.from_dict(df_json)
-#     print(gw_df.columns)
-#     print(len(gw_df.columns))  
+    print(gw_df.columns)
+    print(len(gw_df.columns))  
     # gw_df = pd.read_json(download.text)   
-    if len(gw_df.columns) != 35:
+    if len(gw_df.columns) != 36:
         #     return html.Div([html.H1("ERROR: With fetching the data. Please check later")])
             df = pd.DataFrame()
         #     df = pd.read_csv('updated_data.csv')  
@@ -48,11 +48,11 @@ def download_data():
        'measurement_point_cm', '_id',
        'bk_dw_no',
        'well_no_sw_bardiya',
-       'well_no_dw_bardiya']
+       'well_no_dw_bardiya', 'Audio_Notes']
         gw_df = gw_df[['Enumerator Name','Geo_location','District',
         'well_type','sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya','measurement_point_cm',
         'Measurement_of_tape_ent_point_MP_in_m', 'wet_point_measruement_on_tape','gw_level',
-        'Notes','today']]
+        'Notes','today','Audio_Notes']]
         # print(gw_df)
         df = gw_df.copy()   
         df = gw_df.iloc[5:]
