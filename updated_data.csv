@@ -1,6 +1,2 @@
-,Enumerator Name,Geo_location,District,well_type,sw_bk_well_no,bk_dw_no,well_no_sw_bardiya,well_no_dw_bardiya,gw_level,Height_of_measuremen_in_measurement_unit,Measurement_of_tape_ent_point_MP_in_m,Notes,today
-4,Saral Karki,28.422807 81.416746 0 0,Banke,sw,bk-sw-02,,,,1,1,1,,2021-01-11
-5,Saral Karki_1,28.613459 74.296758 0 0,Bardiya,dt,,,,bd-dw-03,1,1,1,,2021-01-13
-6,Saral_jan19,28.613459 79.208578 0 0,Banke,sw,bk-sw-05_1,,,,1,1,1,,2021-01-19
-7,testing,30.448674 77.805201 0 0,Banke,sw,bk-sw-05_1,,,,10,10,10,,2021-01-19
-8,Saral_test_21_jan_1,26.115986 75.700135 0 0,Banke,dt,,bk-dw-01,,,1,1,10,,2021-01-19
+,Enumerator Name,Geo_location,District,well_type,sw_bk_well_no,bk_dw_no,well_no_sw_bardiya,well_no_dw_bardiya,measurement_point_cm,Measurement_of_tape_ent_point_MP_in_m,wet_point_measruement_on_tape,gw_level,Notes,today
+5,Saral_27h_2,25.482951 81.313643 0 0,Banke,dt,,bk-dw-03,,,42,1,13,-12.42,das,2021-01-27

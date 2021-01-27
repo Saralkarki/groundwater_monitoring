@@ -21,35 +21,43 @@ def download_data():
     j = requests.get(url, auth=auth )
     df_json = j.json()
     gw_df = pd.DataFrame.from_dict(df_json)
-       
+#     print(gw_df.columns)
+#     print(len(gw_df.columns))  
     # gw_df = pd.read_json(download.text)   
-         
-    gw_df.columns = ['_notes',
+    if len(gw_df.columns) != 35:
+        #     return html.Div([html.H1("ERROR: With fetching the data. Please check later")])
+            df = pd.DataFrame()
+        #     df = pd.read_csv('updated_data.csv')  
+            print("ERROR")
+    else:
+        gw_df.columns = ['_notes',
        'Measurement_of_tape_ent_point_MP_in_m',
        'Notes', '_tags', '_xform_id_string',
-       'meta/instanceID', 'end', 'gw_level',
-       'Height_of_measuremen_in_measurement_unit',
+       'meta/instanceID', 'gw_level_from_mp', 'end',
+       'gw_level',
        'Well_photo_Use_the_ed_measurement_point',
-       'start', '_geolocation', '_attachments', '_version_', '_status',
-       '__version__', 'today', 'sw_bk_well_no',
+       'mp_in_m', 'start', '_attachments', '_version_',
+       '_status', '__version__', 'today',
+       'sw_bk_well_no',
        'Enumerator Name',
-       'location_image',
        'Geo_location', '_validation_status',
        '_uuid', 'well_type', 'formhub/uuid',
-       '_submission_time', 'District',
-       '_submitted_by', 'deviceid', '_id',
+       'District', '_submission_time',
+       '_geolocation', '_submitted_by',
+       'wet_point_measruement_on_tape', 'deviceid',
+       'measurement_point_cm', '_id',
        'bk_dw_no',
-       'well_no_sw_bardiya','well_no_dw_bardiya']
-    gw_df = gw_df[['Enumerator Name','Geo_location','District',
-        'well_type','sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya','gw_level',
-        'Height_of_measuremen_in_measurement_unit',
-        'Measurement_of_tape_ent_point_MP_in_m',
+       'well_no_sw_bardiya',
+       'well_no_dw_bardiya']
+        gw_df = gw_df[['Enumerator Name','Geo_location','District',
+        'well_type','sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya','measurement_point_cm',
+        'Measurement_of_tape_ent_point_MP_in_m', 'wet_point_measruement_on_tape','gw_level',
         'Notes','today']]
         # print(gw_df)
-    df = gw_df.copy()   
-    df = gw_df.iloc[4:]
+        df = gw_df.copy()   
+        df = gw_df.iloc[5:]
             # print(gw_df[i])      
-    df.to_csv('updated_data.csv')
+        df.to_csv('updated_data.csv')
     return df 
 
 gw_df = download_data()
@@ -77,7 +85,7 @@ def map_data(well_number):
 banke_sw = gw_df[(gw_df['District']=="Banke") & (gw_df['well_type'] == 'sw')]
 banke_sw= banke_sw[['Enumerator Name','Geo_location','District',
         'well_type','sw_bk_well_no','gw_level',
-        'Height_of_measuremen_in_measurement_unit',
+        'measurement_point_cm',
         'Measurement_of_tape_ent_point_MP_in_m',
         'Notes']]
 
@@ -87,7 +95,7 @@ banke_sw= banke_sw[['Enumerator Name','Geo_location','District',
 banke_dw = gw_df[(gw_df['District']=="Banke") & (gw_df['well_type'] == 'dt')]
 banke_dw = banke_dw[['Enumerator Name','Geo_location','District',
         'well_type','bk_dw_no','gw_level',
-        'Height_of_measuremen_in_measurement_unit',
+        'measurement_point_cm',
         'Measurement_of_tape_ent_point_MP_in_m',
         'Notes']]
 
@@ -97,7 +105,7 @@ bardiya_sw = gw_df[(gw_df['District']=="Bardiya") & (gw_df['well_type'] == 'sw')
 
 
 bardiya_sw = bardiya_sw[['Enumerator Name','Geo_location','District','well_type','well_no_sw_bardiya','gw_level',
-        'Height_of_measuremen_in_measurement_unit','Measurement_of_tape_ent_point_MP_in_m',
+        'measurement_point_cm','Measurement_of_tape_ent_point_MP_in_m',
         'Notes']]
 
     
@@ -106,7 +114,7 @@ bardiya_sw = bardiya_sw[['Enumerator Name','Geo_location','District','well_type'
 bardiya_dw = gw_df[(gw_df['District']=="Bardiya") & (gw_df['well_type'] == 'dt')]
 bardiya_dw = bardiya_dw[['Enumerator Name','Geo_location','District',
         'well_type','well_no_dw_bardiya','gw_level',
-        'Height_of_measuremen_in_measurement_unit',
+        'measurement_point_cm',
         'Measurement_of_tape_ent_point_MP_in_m',
         'Notes']]
 
