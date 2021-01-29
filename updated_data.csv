@@ -1,3 +1,12 @@
 ,Enumerator Name,Geo_location,District,well_type,sw_bk_well_no,bk_dw_no,well_no_sw_bardiya,well_no_dw_bardiya,measurement_point_cm,Measurement_of_tape_ent_point_MP_in_m,wet_point_measruement_on_tape,gw_level,Notes,today,Audio_Notes
-5,Saral_27h_2,25.482951 81.313643 0 0,Banke,dt,,bk-dw-03,,,42,1,13,-12.42,das,2021-01-27,
-6,Subash,28.0804943 81.6419293 114.0 13.349,Banke,sw,bk-sw-01,,,,20,3.6,1.2,2.2,Test,2021-01-27,1611723819300..amr
+0,yogndra,28.0780663 81.5933074 94.0 4.854,Banke,sw,bk-sw-26,,,,25,5.0,2.55,2.2,,2021-01-27,
+1,Subash,28.0804943 81.6419293 114.0 13.349,Banke,sw,bk-sw-01,1611723819300..amr,,,20,3.6,1.2,2.2,Test,2021-01-27,
+2,yogendra,28.0828437 81.5956795 92.0 4.551,Banke,sw,bk-sw-27,,,,40,4.6,0.5,3.7,,2021-01-27,
+3,yogendra,28.1060386 81.5971551 99.0 4.551,Banke,sw,bk-sw-25_1,,,,35,3.75,0.5,2.9,,2021-01-27,
+4,yogendra,28.1287151 81.5894281 88.0 4.551,Banke,sw,bk-sw-17_1,,,,15,5.0,2.15,2.7,,2021-01-27,
+5,yogendra,28.1465454 81.5519862 93.0 4.551,Banke,sw,bk-sw-18_1,,,,27,5.0,2.05,2.68,,2021-01-27,
+6,yogendra,28.1114479 81.5216935 79.0 4.551,Banke,sw,bk-sw-19_1,,,,23,7.0,2.05,4.72,,2021-01-27,
+7,yogendra,28.1920455 81.5747481 99.0 4.854,Banke,sw,bk-sw-05_1,,,,29,5.0,1.75,2.96,,2021-01-27,
+8,yogendra,28.2576903 81.6361819 95.0 4.551,Banke,sw,bk-sw-02,1611745033117..amr,,,15,0.0,0.0,-0.15,dimage,2021-01-27,
+9,yogendra,28.2064949 81.6307264 101.0 4.803,Banke,sw,bk-sw-03,,,,40,8.0,1.5,6.1,,2021-01-27,
+10,Subash,28.0803241 81.64207 64.0 51.578,Bardiya,sw,,1611808927574.amr,bd-sw-01,,0,2.0,0.0,2,Test,2021-01-28,

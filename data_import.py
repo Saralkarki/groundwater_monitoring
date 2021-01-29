@@ -23,6 +23,22 @@ def download_data():
     gw_df = pd.DataFrame.from_dict(df_json)
     print(gw_df.columns)
     print(len(gw_df.columns))  
+    # 'sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya',
+    if not 'Main_group/location_details/sw_bk_well_no' in gw_df.columns:
+            print("NO cols_1")
+            gw_df['sw_bk_well_no'] = '' 
+    if not 'Main_group/location_details/bk_dw_no' in gw_df.columns:
+            print("NO cols_2")
+            gw_df['bk_dw_no'] = '' 
+    
+    if not 'Main_group/location_details/well_no_sw_bardiya' in gw_df.columns:
+            print("NO cols_3")
+            gw_df['well_no_sw_bardiya'] = '' 
+    
+    if not 'Main_group/location_details/well_no_dw_bardiya' in gw_df.columns:
+            gw_df['well_no_dw_bardiya'] = '' 
+            print("NO cols_4")
+    print(len(gw_df.columns))          
     # gw_df = pd.read_json(download.text)   
     if len(gw_df.columns) != 36:
         #     return html.Div([html.H1("ERROR: With fetching the data. Please check later")])
@@ -31,9 +47,9 @@ def download_data():
             print("ERROR")
     else:
         gw_df.columns = ['_notes',
-       'Measurement_of_tape_ent_point_MP_in_m',
-       'Notes', '_tags', '_xform_id_string',
-       'meta/instanceID', 'gw_level_from_mp', 'end',
+       'Measurement_of_tape_ent_point_MP_in_m', '_tags',
+       '_xform_id_string', 'meta/instanceID',
+       'gw_level_from_mp', 'end',
        'gw_level',
        'Well_photo_Use_the_ed_measurement_point',
        'mp_in_m', 'start', '_attachments', '_version_',
@@ -46,16 +62,25 @@ def download_data():
        '_geolocation', '_submitted_by',
        'wet_point_measruement_on_tape', 'deviceid',
        'measurement_point_cm', '_id',
-       'bk_dw_no',
+       'Notes', 'bk_dw_no',
        'well_no_sw_bardiya',
-       'well_no_dw_bardiya', 'Audio_Notes']
-        gw_df = gw_df[['Enumerator Name','Geo_location','District',
+       'well_no_dw_bardiya',
+       'Audio_Notes']
+        all_cols = ['Enumerator Name','Geo_location','District',
         'well_type','sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya','measurement_point_cm',
         'Measurement_of_tape_ent_point_MP_in_m', 'wet_point_measruement_on_tape','gw_level',
-        'Notes','today','Audio_Notes']]
+        'Notes','today','Audio_Notes']
+
         # print(gw_df)
-        df = gw_df.copy()   
-        df = gw_df.iloc[5:]
+        df = pd.DataFrame()
+        
+        for cols in all_cols:
+                df[cols] = gw_df[cols]
+        # df = gw_df.copy()  
+        # print(df) 
+        # df = df.sort_values(by='today')
+        
+        # df['Enumerator']
             # print(gw_df[i])      
         df.to_csv('updated_data.csv')
     return df 
