@@ -21,8 +21,8 @@ def download_data():
     j = requests.get(url, auth=auth )
     df_json = j.json()
     gw_df = pd.DataFrame.from_dict(df_json)
-    print(gw_df.columns)
-    print(len(gw_df.columns))  
+#     print(gw_df.columns)
+#     print(len(gw_df.columns))  
     # 'sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya',
     if not 'Main_group/location_details/sw_bk_well_no' in gw_df.columns:
             print("NO cols_1")
@@ -38,7 +38,8 @@ def download_data():
     if not 'Main_group/location_details/well_no_dw_bardiya' in gw_df.columns:
             gw_df['well_no_dw_bardiya'] = '' 
             print("NO cols_4")
-    print(len(gw_df.columns))          
+    print(len(gw_df.columns))   
+    print(gw_df.columns)       
     # gw_df = pd.read_json(download.text)   
     if len(gw_df.columns) != 36:
         #     return html.Div([html.H1("ERROR: With fetching the data. Please check later")])
@@ -62,10 +63,10 @@ def download_data():
        '_geolocation', '_submitted_by',
        'wet_point_measruement_on_tape', 'deviceid',
        'measurement_point_cm', '_id',
-       'Notes', 'bk_dw_no',
-       'well_no_sw_bardiya',
-       'well_no_dw_bardiya',
-       'Audio_Notes']
+       'Notes',
+       'Audio_Notes',
+       'well_no_sw_bardiya', 'bk_dw_no',
+       'well_no_dw_bardiya']
         all_cols = ['Enumerator Name','Geo_location','District',
         'well_type','sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya','measurement_point_cm',
         'Measurement_of_tape_ent_point_MP_in_m', 'wet_point_measruement_on_tape','gw_level',
@@ -79,7 +80,7 @@ def download_data():
         # df = gw_df.copy()  
         # print(df) 
         # df = df.sort_values(by='today')
-        
+        print(df)
         # df['Enumerator']
             # print(gw_df[i])      
         df.to_csv('updated_data.csv')
