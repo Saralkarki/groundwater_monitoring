@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output
 import dash_auth
 
 from app import app
-from layouts import main_layout, pilot_layout, banke_stw_layout, banke_dtw_layout, bardiya_stw_layout,bardiya_dtw_layout,history_layout
+from layouts import main_layout, pilot_layout, banke_stw_layout, banke_dtw_layout, bardiya_stw_layout,bardiya_dtw_layout,history_layout, meta_layout
 import callbacks
 
 VALID_USERNAME_PASSWORD_PAIRS = {
@@ -37,6 +37,8 @@ def display_page(pathname):
         return main_layout
     elif pathname == '/pilot':
         return pilot_layout
+    elif pathname == '/meta':
+        return meta_layout
     elif pathname == '/historical_data':
         return history_layout
     elif pathname == '/pilot/bstw':

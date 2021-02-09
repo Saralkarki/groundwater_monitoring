@@ -75,7 +75,7 @@ def display_value(value):
 def tubewell_no(map_click_feature):
     if map_click_feature is not None:
         selected_tubewell_location = map_click_feature['properties']['well_no']
-        print(selected_tubewell_location)
+        # print(selected_tubewell_location)
         data = map_data(selected_tubewell_location)       
         if not data.empty:
             fig = go.Figure(data=go.Scatter(x=data["Month"], y=data['gw_level']), 
@@ -153,9 +153,9 @@ def tubewell_location(map_click_feature, selected_year):
     if map_click_feature is not None:
         selected_tubewell_location = map_click_feature['properties']['well_no']
         data = modify_df(df_data, selected_tubewell_location, selected_year)
-        print(selected_year)
+        # print(selected_year)
        
-        print(data)
+        # print(data)
         # data = df[df.year == selected_year]       
         if not data.empty:
             fig = go.Figure(data=go.Scatter(x=data["Months"], y=data['gw_level']), 
@@ -178,7 +178,7 @@ def tubewell_location(map_click_feature, selected_year):
     [Input('year-slider_all','value')])
 def tubewell_location(selected_year):    
     data = df_data[df_data['year'].isin([selected_year])]
-    print(selected_year)
+    # print(selected_year)
     data = data.loc[:,['Well number','location','month','value']]
     data.columns = ["Well Number","Location",'Months','gw_level']
 

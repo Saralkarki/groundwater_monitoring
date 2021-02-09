@@ -80,7 +80,7 @@ def download_data():
         # df = gw_df.copy()  
         # print(df) 
         # df = df.sort_values(by='today')
-        print(df)
+        # print(df)
         # df['Enumerator']
             # print(gw_df[i])      
         df.to_csv('updated_data.csv')
