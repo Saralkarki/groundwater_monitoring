@@ -34,11 +34,11 @@ app.layout = html.Div([
               [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/':
-        return main_layout
+        return meta_layout
     elif pathname == '/pilot':
         return pilot_layout
-    elif pathname == '/meta':
-        return meta_layout
+    elif pathname == '/realtime':
+        return main_layout
     elif pathname == '/historical_data':
         return history_layout
     elif pathname == '/pilot/bstw':
