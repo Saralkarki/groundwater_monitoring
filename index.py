@@ -6,9 +6,9 @@ from dash.dependencies import Input, Output
 import dash_auth
 
 from app import app
-from layouts import main_layout, pilot_layout, banke_stw_layout, banke_dtw_layout, bardiya_stw_layout,bardiya_dtw_layout,history_layout, meta_layout
+from layouts import main_layout, pilot_layout, banke_stw_layout, banke_dtw_layout, bardiya_stw_layout,bardiya_dtw_layout,history_layout, meta_layout, upload_layout
 import callbacks
-
+import os
 VALID_USERNAME_PASSWORD_PAIRS = {
     'admin': 'admin@123',
     'administrator': 'admin@123'
@@ -49,8 +49,10 @@ def display_page(pathname):
         return bardiya_stw_layout
     elif pathname == '/pilot/badtw':
         return bardiya_dtw_layout
+    elif pathname == '/pilot/upload':
+        return upload_layout
     else:
-        return '404'
+        return '404 - Page Not Found'
 
 if __name__ == '__main__':
     app.run_server(debug=True, port = 8000)

@@ -62,6 +62,7 @@ both_options = {
 dicts_swt = df.to_dict('rows')
 dicts_dwt = df_dptw.to_dict('rows')
 dicts_both = df_both.to_dict('rows')
+# print(both_options['both'])
 
 swt_geojson = dlx.dicts_to_geojson(dicts_swt, lon="Longitude", lat = 'Latitude')  # convert to geojson
 dwt_geojson = dlx.dicts_to_geojson(dicts_dwt, lon="Longitude", lat = 'Latitude')  # convert to geojson

@@ -1,4 +1,6 @@
-from dash.dependencies import Input, Output
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output, State
 from options import all_options
 
 import plotly.express as px
@@ -18,12 +20,19 @@ import pandas as pd
 from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,\
 modify_df,df_data , both_options, years
 
-from data_import import download_data, map_data
-
-
+from data_import import download_data, map_data, save_file, parse_contents
 
 
 ################# Home map ################################
+
+### sidebar #####
+@app.callback(
+    Output('Tubewell_type_home','options'),
+    [Input('district','value')]
+)
+def display_district(seleted_well_type):
+    print(value)
+    return [{'label': i, 'value': i} for i in all_options[selected_well_type]]
 
 @app.callback(
     Output('gw_map_home', 'children'),
@@ -215,3 +224,17 @@ def update_table(n):
     df = pd.read_csv("updated_data.csv")
 
     return df.to_dict('records')
+
+#### upload data ########################
+@app.callback(Output('output-data-upload', 'children'),
+              Input('upload-data', 'contents'),
+              State('upload-data', 'filename'),
+              State('upload-data', 'last_modified'))
+def update_output(list_of_contents, list_of_names, list_of_dates):
+    if list_of_contents is not None:
+        children = [
+            parse_contents(c, n, d) for c, n, d in
+            zip(list_of_contents, list_of_names, list_of_dates)]
+        return children
+
+   

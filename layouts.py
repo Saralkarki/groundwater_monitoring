@@ -14,7 +14,7 @@ import pandas as pd
 
 from app import app
 
-from options import tubewell_options, years_dict
+from options import tubewell_options, years_dict, both_options
 
 # bermuda = dlx.dicts_to_geojson([dict(lat=32.299507, lon=-64.790337)])
 
@@ -58,6 +58,7 @@ pilot_layout = html.Div([
             dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
 
 
         ],className = 'nav_bar'),
@@ -111,25 +112,37 @@ main_layout = html.Div(
         ### Navigation bar
         html.Div([
             
-             dcc.Link('Real-Time Monitoring', href = '/realtime', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Real-Time Monitoring', href = '/realtime', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
 
 
         ],className = 'nav_bar'),
 #main body
         html.Div([
             # sidebar
+            html.Div([
+                html.H5("Districts"),
+                dcc.Checklist(id='district',options=[{'label': 'Banke', 'value': 'Banke'},{'label': 'Bardiya', 'value': 'Bardiya'}],value=['Banke'], labelStyle={'display': 'inline-block'}),
+                html.H5('Type of well'),
+                dcc.Checklist(id = 'Tubewell_type_home', options = tubewell_options, value = [], labelStyle={'display': 'inline-block'}),
+               
+                  html.Div([
+            dcc.Dropdown(
+                id='wells',
+                options=[{'label': i, 'value': i} for i in both_options['both']],
+                value=''
+            ),],style={'width': '90%', 'float': 'left', 'display': 'inline-block'})
+            ], className = 'two columns'),
             html.Br(),
             html.Div([
-                dcc.Checklist(id = 'Tubewell_type_home', options = tubewell_options, 
-                value = [], labelStyle={'display': 'inline-block'},
-                ),
+               
                 html.Div(id = 'gw_map_home'),
                 dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt_home"), info_home]),
              
-            ], className = 'six columns sidebar offset-by-one'),
+            ], className = 'four columns sidebar'),
             #main window
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
@@ -171,6 +184,7 @@ history_layout = html.Div(
             dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
 
 
         ],className = 'nav_bar'),
@@ -449,6 +463,7 @@ meta_layout = html.Div([
             dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
 
 
         ],className = 'nav_bar'),
@@ -562,3 +577,60 @@ In case you should have any question kindly get in touch and contact Anton Urfel
 
 
 ], className = 'eleven columns offset-by-one')
+
+############################
+
+upload_layout = html.Div(
+    [
+# header div
+        html.Div(
+            [
+                html.H1('Real-time monitoring database', className = 'main_title'),
+                html.Img(src = '/assets/images/partners.png', className = 'logos'),
+                html.Img(src = '/assets/images/csisa-logo.png', className = 'small_logos'),
+                html.Img(src = '/assets/images/gon.png', className = 'small_logos'),
+                html.Img(src = '/assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
+                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
+                html.Br(),
+                
+                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
+            ], className = 'header'
+        ),
+        ### Navigation bar
+        html.Div([
+            
+             dcc.Link('Real-Time Monitoring', href = '/realtime', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
+            dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
+
+
+        ],className = 'nav_bar'),
+#main body
+        html.Div([
+            html.H1("Upload"),
+            dcc.Upload(
+        id='upload-data',
+        children=html.Div([
+            'Drag and Drop or ',
+            html.A('Select Files')
+        ]),
+        style={
+            'width': '100%',
+            'height': '60px',
+            'lineHeight': '60px',
+            'borderWidth': '1px',
+            'borderStyle': 'dashed',
+            'borderRadius': '5px',
+            'textAlign': 'center',
+            'margin': '10px'
+        },
+        # Allow multiple files to be uploaded
+        multiple=True
+    ),
+    html.Div(id='output-data-upload'),
+]),
+        
+# Main container      
+    ], className = 'twelve columns'
+)

@@ -4,13 +4,19 @@ import pandas as pd
 import time, sched
 
 import dash_html_components as html
+import dash_core_components as dcc
 
 import calendar
+from urllib.parse import quote as urlquote
 
 url= "https://kc.humanitarianresponse.info/api/v1/data/669773.json"
 auth = HTTPBasicAuth('gw_monitoring', 'gwmonitor@2020')
 
-
+import base64
+import io
+import datetime
+import dash_table
+import os
 
 
 # files = {'filename': open('filename.txt','rb')}
@@ -148,3 +154,64 @@ bardiya_dw = bardiya_dw[['Enumerator Name','Geo_location','District',
 
 # print(gw_df)
 print("JOB DONE")
+UPLOAD_DIRECTORY = "data/Uploaded_data"
+
+if not os.path.exists(UPLOAD_DIRECTORY):
+    os.makedirs(UPLOAD_DIRECTORY)
+
+def save_file(name, content):
+        """Decode and store a file uploaded with Plotly Dash."""
+       
+        try:
+                if 'csv' in name:
+                        data = content.encode("utf8").split(b";base64,")[1]
+                        with open(os.path.join(UPLOAD_DIRECTORY, name), "wb") as fp:
+                                fp.write(base64.decodebytes(data))
+
+                        df = pd.read_csv(name, skiprows=[1])
+                        return html.Div(['There was an error processing this file.'])
+                        # print(df)
+        except Exception as e:
+                print(e)
+                return html.Div(['There was an error processing this file.'])
+
+def parse_contents(contents, filename, date):
+    content_type, content_string = contents.split(',')
+    data = contents.encode("utf8").split(b";base64,")[1]    
+    decoded = base64.b64decode(content_string)
+    try:
+        if 'csv' in filename:
+            # Assume that the user uploaded a CSV file
+            df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), skiprows=[0])
+            with open(os.path.join(UPLOAD_DIRECTORY, filename), "wb") as fp:
+                    fp.write(base64.decodebytes(data))
+            
+        # elif 'xls' in filename:
+        #     # Assume that the user uploaded an excel file
+        #     df = pd.read_excel(io.BytesIO(decoded))
+        else:
+                return html.Div(['There was an error processing this file. Please check if it is a CSV file'])
+    except Exception as e:
+        print(e)
+
+    return html.Div([
+        html.H5(f"{filename} has been uploaded"),
+        html.H6(datetime.datetime.fromtimestamp(date)),
+
+        dash_table.DataTable(
+            data=df.to_dict('records'),
+            columns=[{'name': i, 'id': i} for i in df.columns]
+        ),
+
+        html.Hr(),  # horizontal line
+
+        # For debugging, display the raw contents provided by the web browser
+        html.Div('Raw Content'),
+        html.Pre(contents[0:200] + '...', style={
+            'whiteSpace': 'pre-wrap',
+            'wordBreak': 'break-all'
+        })
+    ])                
+                
+
+
