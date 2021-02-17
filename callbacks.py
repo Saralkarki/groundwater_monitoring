@@ -20,7 +20,10 @@ import pandas as pd
 from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,swt_geojson_bk,dwt_geojson_bk,both_geojson_bk,\
     swt_geojson_ba,dwt_geojson_ba,both_geojson_ba,modify_df,df_data , both_options, years, stw_district_wells, dtw_district_wells, all_wells
 
-from data_import import download_data, map_data, save_file, parse_contents
+from data_import import download_data, map_data, save_file, parse_contents, all_off_logger_df
+
+import os
+
 
 
 ################# Home map ################################
@@ -35,6 +38,8 @@ from data_import import download_data, map_data, save_file, parse_contents
 #     return [{'label': 'Deep Tube', 'value': 'dt'},{'label': 'Shallow Tube', 'value': 'st'} ]
 
 ## Well dynamic according to district and well type selected
+
+
 @app.callback(
     Output('wells','options'),
     [Input('district','value'), Input('Tubewell_type_home','value')]
@@ -44,9 +49,17 @@ def display_wells(selected_district, well_type):
         raise PreventUpdate
     if not well_type:
         raise PreventUpdate
-
-    # print(well_type, selected_district[0])
-    # print(seleted_district)
+    ## IF district Banke
+        #And if ST show this
+        #Or dt show this
+    ## If Distirct Bardiya
+        # IF st show this
+        # If dt show this
+        # or both
+    ## if District both
+        # ST
+        # DT
+        # Both
     if well_type == ['st']:
         district = selected_district[0]
         return [{'label': i, 'value': i} for i in stw_district_wells[district]]
@@ -162,39 +175,67 @@ def display_value(district, tubewell_type):
         
     return x
 ###### Input for the Kobo data coming in 
-@app.callback(
-    # [
-        Output('timeseries_gw_data','figure'),
-    # Output('timeseries_gw_data', 'children')],
-    [
-    # Input('Tubewell_location','value'),
-    Input('gwt_home','click_feature'), Input('wells','value')
-    ])
-def tubewell_no(map_click_feature, wells_dropdown_value):
+@app.callback( Output('timeseries_gw_data','figure'),
+            [Input('gwt_home','click_feature'), Input('wells','value'), Input('data_logger_offline','value')])
+def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
     if wells_dropdown_value is None:
         raise PreventUpdate
+    if data_logger_value is None:
+        raise PreventUpdate
     ### We have to merge the kobo database and the location data so that the kobo datafile has the column location based on well_no
-    df = pd.read_csv('updated_data.csv')
-    df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
-    df_location_stw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
-    df_location_dtw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= "Deep tube wells")
-    df_location =  pd.concat([df_location_stw, df_location_dtw])
-    df_new = pd.merge(df, df_location, on='well_no', how = 'inner')
-    print(df_new['well_no'])
-    df_new.to_csv('test.csv')
-    print(df_new.shape, df.shape)
+  
     ## Now we have a new database to start graphinp with 
+    ## Graph according to the values selected in the dropdown
+    if len(data_logger_value) > 0:
+        print(data_logger_value)
+        df_offline = all_off_logger_df
+        df_offline = df_offline[df_offline['Location'].isin(data_logger_value)]
+        print(df_offline)
+        figure_offline = px.line(df_offline, x="Date", y="Water Level(meters)", color= 'Location')
+        return figure_offline
+    else:
+        figure_offline = px.line()
+        return figure_offline
 
-    if map_click_feature is not None:
+        
+        
+        # print(data_logger_value)
+    if wells_dropdown_value != "":
+        df = pd.read_csv('updated_data.csv')
+        df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
+        df_location_stw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
+        df_location_dtw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= "Deep tube wells")
+        df_location =  pd.concat([df_location_stw, df_location_dtw])
+        df_new = pd.merge(df, df_location, on='well_no', how = 'inner')      
+        df_new.to_csv('test.csv')
+
+        df = df_new[df_new['Location'].isin(wells_dropdown_value)]
+        groups = df.groupby(by='Location')
+        data = []
+        colors=['red', 'blue', 'green']
+
+        for group, df in groups:
+            df = df.sort_values(by=['today'])
+            trace = go.Scatter(x=df['Month'].tolist(), 
+                       y=df['gw_level'].tolist(),
+                       name=group)
+            data.append(trace)
+        layout =  go.Layout(xaxis={'title': 'Months'},
+                    yaxis={'title': 'Groundwater in Meters(m)'},
+                    hovermode='closest')
+        figure = go.Figure(data=data, layout=layout)  
+        figure.update_yaxes(autorange="reversed")
+        return figure
+
+    elif map_click_feature is not None:
         selected_tubewell_location = map_click_feature['properties']['well_no']
-        # print(selected_tubewell_location)
-        data = map_data(selected_tubewell_location)       
-        if not data.empty:
-            fig = go.Figure(data=go.Scatter(x=data["Month"], y=data['gw_level']), 
+        data_map = map_data(selected_tubewell_location)       
+        if not data_map.empty:
+            fig = go.Figure(data=go.Scatter(x=data_map["Month"], y=data_map['gw_level']), 
             layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
             fig.update_layout(title=f'Ground Water level of {selected_tubewell_location}',
                    xaxis_title='Months',
-                   yaxis_title='Groundwater in mm'),
+                   yaxis_title='Groundwater in Meters(m)'),
             fig.update_yaxes(autorange="reversed")
                 
         else:
@@ -265,10 +306,7 @@ def tubewell_location(map_click_feature, selected_year):
     if map_click_feature is not None:
         selected_tubewell_location = map_click_feature['properties']['well_no']
         data = modify_df(df_data, selected_tubewell_location, selected_year)
-        # print(selected_year)
-       
-        # print(data)
-        # data = df[df.year == selected_year]       
+      
         if not data.empty:
             fig = go.Figure(data=go.Scatter(x=data["Months"], y=data['gw_level']), 
             layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))

@@ -3,6 +3,7 @@ import pandas as pd
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
 
+import os 
 tubewell_options = [{'label': 'Deep Tubewell', 'value': 'dt'},
                         {'label': 'Shallow Tubewell', 'value': 'st'},
                         # {'label': 'Both Shallow and Deep Tubewell', 'value': 'both'}
@@ -15,8 +16,8 @@ df = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
 df_dptw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= 'Deep tube wells')
 df_both = pd.concat([df,df_dptw])
 # print(df.columns)
-st_location_options = [{'label': i, 'value': i} for i in df['Location ']]
-dt_location_options = [{'label': i, 'value': i} for i in df_dptw['Location ']]
+st_location_options = [{'label': i, 'value': i} for i in df['Location']]
+dt_location_options = [{'label': i, 'value': i} for i in df_dptw['Location']]
 # print(df['Location '].unique())
 # print(st_location_options)
 # print(location_options)
@@ -83,11 +84,11 @@ all_wells = {
 # }
 
 all_options = {
-    'st': df['Location '].tolist(),
-    'dt': df_dptw['Location '].tolist(),
+    'st': df['Location'].tolist(),
+    'dt': df_dptw['Location'].tolist(),
 }
 both_options = {
-     'both': df_dptw['Location '].tolist() + df['Location '].tolist()
+     'both': df_dptw['Location'].tolist() + df['Location'].tolist()
 }
 
 ## From all files select only dataframe for district
@@ -133,3 +134,6 @@ for i in range(1996,2016):
 years_dict = {str(year): str(year) for year in years}
 # print(years_dict)
 # print(years)
+
+
+      

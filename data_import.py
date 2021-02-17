@@ -88,7 +88,13 @@ def download_data():
         # df = df.sort_values(by='today')
         # print(df)
         # df['Enumerator']
-            # print(gw_df[i])      
+            # print(gw_df[i])   
+        df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
+        ## onvertt he today data to date    
+        df['today'] = pd.to_datetime(df['today'])
+        df['Month'] = df['today'].dt.month
+        # print(df['Month'])
+        df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])   
         df.to_csv('updated_data.csv')
     return df 
 
@@ -98,12 +104,6 @@ gw_df = download_data()
 ### Data to map the values
 def map_data(well_number):
         df = pd.read_csv('updated_data.csv')
-        df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
-        ## onvertt he today data to date    
-        df['today'] = pd.to_datetime(df['today'])
-        df['Month'] = df['today'].dt.month
-        # print(df['Month'])
-        df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
         cols = ['well_no','Month','gw_level']
         df = df[cols]
         x = df[df['well_no'].isin([well_number])]
@@ -212,6 +212,39 @@ def parse_contents(contents, filename, date):
             'wordBreak': 'break-all'
         })
     ])                
-                
 
+offline_rohini = pd.read_csv('data\\uploaded_data\\rohini_khola_2021.csv', skiprows = [0])
+offline_bgau = pd.read_csv('data\\uploaded_data\\banjare_gau_2021.csv', skiprows = [0])
+offline_channawa = pd.read_csv('data\\uploaded_data\\channawa_2021.csv', skiprows = [0])
+offline_dgau = pd.read_csv('data\\uploaded_data\\d_gau_2021.csv', skiprows = [0])
+offline_jaispur = pd.read_csv('data\\uploaded_data\\jaispur_2021.csv', skiprows = [0])
+offline_kalhanshangau = pd.read_csv('data\\uploaded_data\\kalhanshgau_2021.csv', skiprows = [0])
+offline_khadaicha = pd.read_csv('data\\uploaded_data\\khadaicha_2021.csv', skiprows = [0])
+offline_piprahawa = pd.read_csv('data\\uploaded_data\\piprahawa_2021.csv', skiprows = [0])
+offline_shikanpurwa = pd.read_csv('data\\uploaded_data\\shikanpurwa_2021.csv', skiprows = [0])
 
+offline_df = [offline_rohini, offline_bgau, offline_channawa, offline_dgau, offline_jaispur, offline_kalhanshangau, offline_khadaicha, offline_piprahawa, offline_shikanpurwa]
+# print(offline_df_roh.columns)
+location_column_offline = ['Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa']
+cols_rename = ['SN','Date','Abs Pres (KPa)','Temp(°C)','Water Level(meters)']
+
+all_offline_data = {}
+def offline_data_transform(df,renamed_columns):
+    df = df.iloc[:,:5]
+    df.columns = cols_rename
+    df['Water Level(meters)'] = abs(df['Water Level(meters)'])
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    df['Date'] = df['Date'].dt.date
+
+    df['Location'] = location_column_offline[i]
+    all_offline_data[i] = df
+    # print(df)
+
+for i in range(len(offline_df)):
+    offline_data_transform(offline_df[i],cols_rename)
+
+all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
+all_offline_data[4],all_offline_data[5],
+all_offline_data[6],all_offline_data[7],all_offline_data[8]])
+ 

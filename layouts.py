@@ -22,14 +22,14 @@ def get_info(feature=None):
     header = [html.H4("Tubewell in Banke District")]
     if not feature:
         return header + ["Mouse over an area"]
-    return header + [html.B(f"Location: {feature['properties']['Location ']}"), html.Br(),
+    return header + [html.B(f"Location: {feature['properties']['Location']}"), html.Br(),
     html.B(f"Well No: {feature['properties']['well_no']}")]
 
 def get_info_home(feature=None):
     header = [html.H4("Tubewells in Banke District")]
     if not feature:
         return header + ["Hover mouse over an area and click"]
-    return header + [html.B(f"Location: {feature['properties']['Location ']}"), html.Br(),
+    return header + [html.B(f"Location: {feature['properties']['Location']}"), html.Br(),
     html.B(f"Well No: {feature['properties']['well_no']}")]
 
 # Create info control.
@@ -134,7 +134,27 @@ main_layout = html.Div(
                 id='wells',
                 value='',
                 multi=True
-            ),],style={'width': '90%', 'float': 'left', 'display': 'inline-block'})
+            ),],style={'width': '100%', 'float': 'left', 'display': 'inline-block'}),
+            html.Br(),
+            html.H5("Offline Data logger"),
+            dcc.Dropdown(
+                id='data_logger_offline',
+                #'Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa'
+                options=[
+        {'label': 'Channawa', 'value': 'Channawa'},
+        {'label': 'Piprahawa', 'value': 'Piprahawa'},
+        {'label': 'Shikanpurwa', 'value': 'Shikanpurwa'},
+         {'label': 'Khadaicha', 'value': 'Khadaicha'},
+        {'label': 'D-gaon', 'value': 'D-Gau'},
+        {'label': 'Kalhanshangau', 'value': 'Kalhanshangau'},
+        {'label': 'Banjare Gau', 'value': 'Banjare Gau'},
+          {'label': 'Jaispur', 'value': 'Jaispur'},
+          {'label': 'Rohini Khola', 'value': 'Rohini Khola'}],
+                value='',
+                multi=True
+            ),
+            
+
             ], className = 'two columns'),
             html.Br(),
             html.Div([
