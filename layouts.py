@@ -127,13 +127,13 @@ main_layout = html.Div(
                 html.H5("Districts"),
                 dcc.Checklist(id='district',options=[{'label': 'Banke', 'value': 'Banke'},{'label': 'Bardiya', 'value': 'Bardiya'}],value=['Banke'], labelStyle={'display': 'inline-block'}),
                 html.H5('Type of well'),
-                dcc.Checklist(id = 'Tubewell_type_home', options = tubewell_options, value = [], labelStyle={'display': 'inline-block'}),
+                dcc.Checklist(id = 'Tubewell_type_home', options = tubewell_options, value = ['st'], labelStyle={'display': 'inline-block'}),
                
                   html.Div([
             dcc.Dropdown(
                 id='wells',
-                options=[{'label': i, 'value': i} for i in both_options['both']],
-                value=''
+                value='',
+                multi=True
             ),],style={'width': '90%', 'float': 'left', 'display': 'inline-block'})
             ], className = 'two columns'),
             html.Br(),

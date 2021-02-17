@@ -17,8 +17,8 @@ import dash_leaflet.express as dlx
 
 import pandas as pd
 
-from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,\
-modify_df,df_data , both_options, years
+from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,swt_geojson_bk,dwt_geojson_bk,both_geojson_bk,\
+    swt_geojson_ba,dwt_geojson_ba,both_geojson_ba,modify_df,df_data , both_options, years, stw_district_wells, dtw_district_wells, all_wells
 
 from data_import import download_data, map_data, save_file, parse_contents
 
@@ -26,47 +26,136 @@ from data_import import download_data, map_data, save_file, parse_contents
 ################# Home map ################################
 
 ### sidebar #####
-@app.callback(
-    Output('Tubewell_type_home','options'),
-    [Input('district','value')]
-)
-def display_district(seleted_well_type):
-    print(value)
-    return [{'label': i, 'value': i} for i in all_options[selected_well_type]]
+# @app.callback(
+#     Output('Tubewell_type_home','options'),
+#     [Input('district','value')]
+# )
+# def display_district(seleted_district):
+#     # print(seleted_district)
+#     return [{'label': 'Deep Tube', 'value': 'dt'},{'label': 'Shallow Tube', 'value': 'st'} ]
 
+## Well dynamic according to district and well type selected
+@app.callback(
+    Output('wells','options'),
+    [Input('district','value'), Input('Tubewell_type_home','value')]
+)
+def display_wells(selected_district, well_type):
+    if not selected_district:
+        raise PreventUpdate
+    if not well_type:
+        raise PreventUpdate
+
+    # print(well_type, selected_district[0])
+    # print(seleted_district)
+    if well_type == ['st']:
+        district = selected_district[0]
+        return [{'label': i, 'value': i} for i in stw_district_wells[district]]
+    elif well_type == ['dt']:
+        district = selected_district[0]
+        return [{'label': i, 'value': i} for i in dtw_district_wells[district]]
+    else:
+        if selected_district == ['Banke']:
+            return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
+
+        elif selected_district == ['Bardiya']:
+            return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
+        else:
+            return [{'label': i, 'value': i} for i in all_wells['all']]
+
+        # district = selected_district
+        
+
+
+########################
 @app.callback(
     Output('gw_map_home', 'children'),
-    [Input('Tubewell_type_home', 'value')])
-def display_value(value):
-    if not value:
+    [Input('district','value'),Input('Tubewell_type_home', 'value')])
+def display_value(district, tubewell_type):
+    if not district:
         x = dl.Map(dl.TileLayer(), style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6)                 
         # raise PreventUpdate
-    elif len(value) == 2:
-        x = dl.Map(center=[28.05,81.61], zoom=10,
+    if not tubewell_type:
+        x = dl.Map(dl.TileLayer(), style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6) 
+    
+    elif len(tubewell_type) == 2:
+        if district == ['Banke']:
+            x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.TileLayer(), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=both_geojson_bk, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+        elif district == ['Bardiya']:
+            x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.TileLayer(), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=both_geojson_ba, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+        else:
+            x = dl.Map(center=[28.05,81.61], zoom=8,
                 children = [ 
                     dl.TileLayer(), 
                     # dl.GeoJSON(data=bermuda),
                     dl.GeoJSON(data=both_geojson, id = 'gwt_home',
                     hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
                     ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+
     else:     
-        value = value[0]   
+        value = tubewell_type[0]   
         if value == 'dt':
-            x = dl.Map(center=[28.05,81.61], zoom=10,
+            if district == ['Banke']:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.TileLayer(), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=dwt_geojson_bk, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+            elif district == ['Bardiya']:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.TileLayer(), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=dwt_geojson_ba, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+            else:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
                 children = [ 
                     dl.TileLayer(), 
                     # dl.GeoJSON(data=bermuda),
                     dl.GeoJSON(data=dwt_geojson, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#666', dashArray='')),info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"), 
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+
         elif value == 'st':
-            x = dl.Map(center=[28.05,81.61], zoom=10,
+            if district == ['Banke']:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.TileLayer(), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=swt_geojson_bk, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+            elif district == ['Bardiya']:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.TileLayer(), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=swt_geojson_ba, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+            else:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
                 children = [ 
                     dl.TileLayer(), 
                     # dl.GeoJSON(data=bermuda),
                     dl.GeoJSON(data=swt_geojson, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#666', dashArray='')),info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"), 
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
         else:
             raise PreventUpdate
             
@@ -79,9 +168,23 @@ def display_value(value):
     # Output('timeseries_gw_data', 'children')],
     [
     # Input('Tubewell_location','value'),
-    Input('gwt_home','click_feature')
+    Input('gwt_home','click_feature'), Input('wells','value')
     ])
-def tubewell_no(map_click_feature):
+def tubewell_no(map_click_feature, wells_dropdown_value):
+    if wells_dropdown_value is None:
+        raise PreventUpdate
+    ### We have to merge the kobo database and the location data so that the kobo datafile has the column location based on well_no
+    df = pd.read_csv('updated_data.csv')
+    df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
+    df_location_stw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
+    df_location_dtw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= "Deep tube wells")
+    df_location =  pd.concat([df_location_stw, df_location_dtw])
+    df_new = pd.merge(df, df_location, on='well_no', how = 'inner')
+    print(df_new['well_no'])
+    df_new.to_csv('test.csv')
+    print(df_new.shape, df.shape)
+    ## Now we have a new database to start graphinp with 
+
     if map_click_feature is not None:
         selected_tubewell_location = map_click_feature['properties']['well_no']
         # print(selected_tubewell_location)

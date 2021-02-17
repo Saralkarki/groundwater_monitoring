@@ -31,21 +31,21 @@ def download_data():
 #     print(len(gw_df.columns))  
     # 'sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya',
     if not 'Main_group/location_details/sw_bk_well_no' in gw_df.columns:
-            print("NO cols_1")
+        #     print("NO cols_1")
             gw_df['sw_bk_well_no'] = '' 
     if not 'Main_group/location_details/bk_dw_no' in gw_df.columns:
-            print("NO cols_2")
+        #     print("NO cols_2")
             gw_df['bk_dw_no'] = '' 
     
     if not 'Main_group/location_details/well_no_sw_bardiya' in gw_df.columns:
-            print("NO cols_3")
+        #     print("NO cols_3")
             gw_df['well_no_sw_bardiya'] = '' 
     
     if not 'Main_group/location_details/well_no_dw_bardiya' in gw_df.columns:
             gw_df['well_no_dw_bardiya'] = '' 
-            print("NO cols_4")
-    print(len(gw_df.columns))   
-    print(gw_df.columns)       
+        #     print("NO cols_4")
+#     print(len(gw_df.columns))   
+#     print(gw_df.columns)       
     # gw_df = pd.read_json(download.text)   
     if len(gw_df.columns) != 36:
         #     return html.Div([html.H1("ERROR: With fetching the data. Please check later")])
