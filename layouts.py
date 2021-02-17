@@ -132,7 +132,7 @@ main_layout = html.Div(
                   html.Div([
             dcc.Dropdown(
                 id='wells',
-                value='',
+                value=['Rohini Khola'],
                 multi=True
             ),],style={'width': '100%', 'float': 'left', 'display': 'inline-block'}),
             html.Br(),
@@ -150,7 +150,7 @@ main_layout = html.Div(
         {'label': 'Banjare Gau', 'value': 'Banjare Gau'},
           {'label': 'Jaispur', 'value': 'Jaispur'},
           {'label': 'Rohini Khola', 'value': 'Rohini Khola'}],
-                value='',
+                value=['Rohini Khola'],
                 multi=True
             ),
             

@@ -183,43 +183,93 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
     if data_logger_value is None:
         raise PreventUpdate
     ### We have to merge the kobo database and the location data so that the kobo datafile has the column location based on well_no
-  
-    ## Now we have a new database to start graphinp with 
-    ## Graph according to the values selected in the dropdown
-    if len(data_logger_value) > 0:
-        # print(data_logger_value)
-        df_offline = all_off_logger_df
-        df_offline = df_offline[df_offline['Location'].isin(data_logger_value)]
-        # print(df_offline)
-        figure_offline = px.line(df_offline, x="Date", y="Water Level(meters)", color= 'Location')
-        return figure_offline  
-        # print(data_logger_value)
-    elif len(wells_dropdown_value) > 0:
-        df = pd.read_csv('updated_data.csv')
-        df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
-        df_location_stw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
-        df_location_dtw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= "Deep tube wells")
-        df_location =  pd.concat([df_location_stw, df_location_dtw])
-        df_new = pd.merge(df, df_location, on='well_no', how = 'inner')      
-        df_new.to_csv('test.csv')
-
-        df = df_new[df_new['Location'].isin(wells_dropdown_value)]
-        groups = df.groupby(by='Location')
-        data = []
-        colors=['red', 'blue', 'green']
-
-        for group, df in groups:
-            df = df.sort_values(by=['today'])
-            trace = go.Scatter(x=df['Month'].tolist(), 
+    if len(wells_dropdown_value) > 0 or len(data_logger_value) > 0:
+        print(wells_dropdown_value)
+        df_offline_logger = all_off_logger_df
+        df_odk_data = pd.read_csv('test.csv')
+        
+        df_offline = df_offline_logger[df_offline_logger['Location'].isin(data_logger_value)]
+        df_odk = df_odk_data[df_odk_data['Location'].isin(wells_dropdown_value)]
+        df_odk['ODK'] = 'ODK'
+        
+        # groups_odk = df_odk.groupby(by='Location')
+        # groups_offline = df_offline.groupby(by='Location')
+        data = []  
+        count = 0
+        names = []
+        for frame in [df_odk, df_offline]:
+            if 'Water Level(meters)' in frame:
+                frame.rename(columns = {'Water Level(meters)':'gw_level','Date':'Month'}, inplace = True) 
+            # data.append(frame['gw_level'])
+            # print(len(data))
+        #     df_odk = df_odk.sort_values(by=['today'])
+        #     df_of = df_of.sort_values(by=['Date'])
+            print(frame['Location'].unique())
+            if 'ODK' in frame:
+                groups_odk = frame.groupby(by='Location')
+                for group, df in groups_odk:
+                    trace = go.Scatter(x=df['Month'].tolist(), 
+                                    y=df['gw_level'].tolist(),
+                                      name=group)
+                    data.append(trace)
+            else:
+                # print(count)
+                groups_offline = frame.groupby(by='Location')
+                for group, df in groups_offline:
+                    trace_1 = go.Scatter(x=df['Month'].tolist(), 
                        y=df['gw_level'].tolist(),
                        name=group)
-            data.append(trace)
+                    data.append(trace_1)
+                
+        # print(count)
+        print(data)  
+        #     data_2.append(trace_of)
+        #     print(data_2)
         layout =  go.Layout(xaxis={'title': 'Months'},
                     yaxis={'title': 'Groundwater in Meters(m)'},
                     hovermode='closest')
         figure = go.Figure(data=data, layout=layout)  
         figure.update_yaxes(autorange="reversed")
         return figure
+
+
+    ## Now we have a new database to start graphinp with 
+    ## Graph according to the values selected in the dropdown
+    # if len(data_logger_value) > 0:
+    #     # print(data_logger_value)
+    #     df_offline = all_off_logger_df
+    #     df_offline = df_offline[df_offline['Location'].isin(data_logger_value)]
+        
+    #     # print(df_offline)
+    #     figure_offline = px.line(df_offline, x="Date", y="Water Level(meters)", color= 'Location')
+    #     return figure_offline  
+    #     # print(data_logger_value)
+    # elif len(wells_dropdown_value) > 0:
+    #     df = pd.read_csv('updated_data.csv')
+    #     df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
+    #     df_location_stw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
+    #     df_location_dtw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= "Deep tube wells")
+    #     df_location =  pd.concat([df_location_stw, df_location_dtw])
+    #     df_new = pd.merge(df, df_location, on='well_no', how = 'inner')      
+    #     df_new.to_csv('test.csv')
+
+    #     df = df_new[df_new['Location'].isin(wells_dropdown_value)]
+    #     groups = df.groupby(by='Location')
+    #     data = []
+    #     colors=['red', 'blue', 'green']
+
+    #     for group, df in groups:
+    #         df = df.sort_values(by=['today'])
+    #         trace = go.Scatter(x=df['Month'].tolist(), 
+    #                    y=df['gw_level'].tolist(),
+    #                    name=group)
+    #         data.append(trace)
+    #     layout =  go.Layout(xaxis={'title': 'Months'},
+    #                 yaxis={'title': 'Groundwater in Meters(m)'},
+    #                 hovermode='closest')
+    #     figure = go.Figure(data=data, layout=layout)  
+    #     figure.update_yaxes(autorange="reversed")
+    #     return figure
 
     elif map_click_feature is not None:
         selected_tubewell_location = map_click_feature['properties']['well_no']
