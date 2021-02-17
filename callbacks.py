@@ -187,20 +187,14 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
     ## Now we have a new database to start graphinp with 
     ## Graph according to the values selected in the dropdown
     if len(data_logger_value) > 0:
-        print(data_logger_value)
+        # print(data_logger_value)
         df_offline = all_off_logger_df
         df_offline = df_offline[df_offline['Location'].isin(data_logger_value)]
-        print(df_offline)
+        # print(df_offline)
         figure_offline = px.line(df_offline, x="Date", y="Water Level(meters)", color= 'Location')
-        return figure_offline
-    else:
-        figure_offline = px.line()
-        return figure_offline
-
-        
-        
+        return figure_offline  
         # print(data_logger_value)
-    if wells_dropdown_value != "":
+    elif len(wells_dropdown_value) > 0:
         df = pd.read_csv('updated_data.csv')
         df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
         df_location_stw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
