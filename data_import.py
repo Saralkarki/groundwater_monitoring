@@ -154,10 +154,10 @@ bardiya_dw = bardiya_dw[['Enumerator Name','Geo_location','District',
 
 # print(gw_df)
 print("JOB DONE")
-UPLOAD_DIRECTORY = "data/uploaded_data"
+# UPLOAD_DIRECTORY = "data/uploaded_data"
 
-if not os.path.exists(UPLOAD_DIRECTORY):
-    os.makedirs(UPLOAD_DIRECTORY)
+# if not os.path.exists(UPLOAD_DIRECTORY):
+#     os.makedirs(UPLOAD_DIRECTORY)
 
 def save_file(name, content):
         """Decode and store a file uploaded with Plotly Dash."""
@@ -183,12 +183,10 @@ def parse_contents(contents, filename, date):
         if 'csv' in filename:
             # Assume that the user uploaded a CSV file
             df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), skiprows=[0])
-            with open(os.path.join(UPLOAD_DIRECTORY, filename), "wb") as fp:
-                    fp.write(base64.decodebytes(data))
-            
-        # elif 'xls' in filename:
-        #     # Assume that the user uploaded an excel file
-        #     df = pd.read_excel(io.BytesIO(decoded))
+            df.to_csv(filename)
+            # with open(os.path.join(UPLOAD_DIRECTORY, filename), "wb") as fp:
+            #         fp.write(base64.decodebytes(data))
+
         else:
                 return html.Div(['There was an error processing this file. Please check if it is a CSV file'])
     except Exception as e:
@@ -213,16 +211,16 @@ def parse_contents(contents, filename, date):
         })
     ])                
 
-offline_rohini = pd.read_csv('rohini_khola_2021.csv', skiprows = [0])
-offline_bgau = pd.read_csv('banjare_gau_2021.csv', skiprows = [0])
-offline_channawa = pd.read_csv('channawa_2021.csv', skiprows = [0])
-offline_dgau = pd.read_csv('d_gau_2021.csv', skiprows = [0])
-offline_jaispur = pd.read_csv('jaispur_2021.csv', skiprows = [0])
-offline_kalhanshangau = pd.read_csv('kalhanshgau_2021.csv', skiprows = [0])
-offline_khadaicha = pd.read_csv('khadaicha_2021.csv', skiprows = [0])
-offline_piprahawa = pd.read_csv('piprahawa_2021.csv', skiprows = [0])
-offline_shikanpurwa = pd.read_csv('shikanpurwa_2021.csv', skiprows = [0])
-
+offline_rohini = pd.read_csv('rohini_khola_2021.csv')
+offline_bgau = pd.read_csv('banjare_gau_2021.csv')
+offline_channawa = pd.read_csv('channawa_2021.csv')
+offline_dgau = pd.read_csv('d_gau_2021.csv')
+offline_jaispur = pd.read_csv('jaispur_2021.csv')
+offline_kalhanshangau = pd.read_csv('kalhanshgau_2021.csv')
+offline_khadaicha = pd.read_csv('khadaicha_2021.csv')
+offline_piprahawa = pd.read_csv('piprahawa_2021.csv')
+offline_shikanpurwa = pd.read_csv('shikanpurwa_2021.csv')
+# print(f"{offline_rohini.columns}-------------------->")
 offline_df = [offline_rohini, offline_bgau, offline_channawa, offline_dgau, offline_jaispur, offline_kalhanshangau, offline_khadaicha, offline_piprahawa, offline_shikanpurwa]
 # print(offline_df_roh.columns)
 location_column_offline = ['Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa']
@@ -231,6 +229,7 @@ cols_rename = ['SN','Date','Abs Pres (KPa)','Temp(°C)','Water Level(meters)']
 all_offline_data = {}
 def offline_data_transform(df,renamed_columns):
     df = df.iloc[:,:5]
+    # print(df.columns)
     df.columns = cols_rename
     df['Water Level(meters)'] = abs(df['Water Level(meters)'])
     df['Date'] = pd.to_datetime(df['Date'])
@@ -245,11 +244,15 @@ def offline_data_transform(df,renamed_columns):
     # print(df)
     all_offline_data[i] = df
     # print(df)
+# print(len(offline_df))
+def transformed_data():
+    for i in range(len(offline_df)):
+        print(i)
+        offline_data_transform(offline_df[i],cols_rename)
+        print(offline_df)
+transformed_data()
 
-for i in range(len(offline_df)):
-    offline_data_transform(offline_df[i],cols_rename)
-
-all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
-all_offline_data[4],all_offline_data[5],
-all_offline_data[6],all_offline_data[7],all_offline_data[8]])
+# all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
+# all_offline_data[4],all_offline_data[5],
+# all_offline_data[6],all_offline_data[7],all_offline_data[8]])
  

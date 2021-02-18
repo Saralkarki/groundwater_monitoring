@@ -20,7 +20,8 @@ import pandas as pd
 from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,swt_geojson_bk,dwt_geojson_bk,both_geojson_bk,\
     swt_geojson_ba,dwt_geojson_ba,both_geojson_ba,modify_df,df_data , both_options, years, stw_district_wells, dtw_district_wells, all_wells
 
-from data_import import download_data, map_data, save_file, parse_contents, offline_data_transform, offline_df,cols_rename,all_offline_data
+from data_import import download_data, map_data, save_file, parse_contents,\
+     offline_data_transform, offline_df,cols_rename, transformed_data
 
 import os
 
@@ -206,10 +207,11 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
         raise PreventUpdate
     ### We have to merge the kobo database and the location data so that the kobo datafile has the column location based on well_no
     if len(wells_dropdown_value) > 0 or len(data_logger_value) > 0:
-        # print(wells_dropdown_value)
+        print(offline_df.columns)
         for i in range(len(offline_df)):
-            offline_data_transform(offline_df[i],cols_rename)
-        
+            # print(offline_df[i],i)
+            offline_data_transform(offline_df[i],cols_rename)   
+
         all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
                             all_offline_data[4],all_offline_data[5],all_offline_data[6],all_offline_data[7],all_offline_data[8]])
         df = pd.read_csv('updated_data.csv')
@@ -341,38 +343,142 @@ def state_hover_home(feature):
 #### Historical data callaback########################
 
 @app.callback(
+    Output('wells_history','options'),
+    [Input('district_history','value'), Input('Tubewell_type_history','value')]
+)
+def display_wells(selected_district, well_type):
+    if not selected_district:
+        raise PreventUpdate
+    if not well_type:
+        raise PreventUpdate
+    if well_type == ['st']:
+        district = selected_district[0]
+        return [{'label': i, 'value': i} for i in stw_district_wells[district]]
+    elif well_type == ['dt']:
+        district = selected_district[0]
+        return [{'label': i, 'value': i} for i in dtw_district_wells[district]]
+    else:
+        if selected_district == ['Banke']:
+            return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
+
+        elif selected_district == ['Bardiya']:
+            return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
+        else:
+            return [{'label': i, 'value': i} for i in all_wells['all']]
+
+        # district = selected_district
+        
+@app.callback(
     Output('gw_map', 'children'),
-    [Input('Tubewell_type', 'value')])
-def display_value(value):
-    if not value:
-        x = dl.Map(dl.TileLayer(), style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6)                 
+    [Input('district_history','value'),Input('Tubewell_type_history', 'value'), Input('map_change_history','value')])
+def display_value(district, tubewell_type,map_url):
+    url = map_url
+    if url == 'Overlay':
+        image_url = "assets\\images\\banke_hydrogeo.png"
+        image_bounds = [[24.05 ,  80.61], [28.773941, 84.12544]]
+        url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+
+    else:
+        image_url = ""
+        image_bounds = [[23.05 ,  75.61], [29.773941, 83.12544]]
+    
+    attribution = '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+    # image_url = "groundwater_monitoring\assets\images\banke_hydrogeo.png"
+    # image_bounds = [[28.05 ,  81.61], [29.773941, 83.12544]]
+    if not district:
+        x = dl.Map(dl.ImageOverlay( url=image_url, bounds=image_bounds),dl.TileLayer(url=url, attribution= attribution, style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6))                 
         # raise PreventUpdate
-    elif len(value) == 2:
-        x = dl.Map(center=[28.05,81.61], zoom=10,
+    if not tubewell_type:
+        x = dl.Map(dl.TileLayer(url=url, attribution= attribution, style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6)) 
+    
+    elif len(tubewell_type) == 2:
+        if district == ['Banke']:
+            x = dl.Map(center=[28.05,81.61], zoom=8,
                 children = [ 
-                    dl.TileLayer(), 
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
                     # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=both_geojson, id = 'gwt',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x"),
+                    dl.GeoJSON(data=both_geojson_bk, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+        elif district == ['Bardiya']:
+            x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=both_geojson_ba, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+        else:
+            x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=both_geojson, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+
     else:     
-        value = value[0]   
+        value = tubewell_type[0]   
         if value == 'dt':
-            x = dl.Map(center=[28.05,81.61], zoom=10,
+            if district == ['Banke']:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
                 children = [ 
-                    dl.TileLayer(), 
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
                     # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=dwt_geojson, id = 'gwt',
-                    hoverStyle=dict(weight=5, color='#666', dashArray='')),info]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x"), 
+                    dl.GeoJSON(data=dwt_geojson_bk, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+            elif district == ['Bardiya']:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=dwt_geojson_ba, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+            else:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=dwt_geojson, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+
         elif value == 'st':
-            x = dl.Map(center=[28.05,81.61], zoom=10,
+            if district == ['Banke']:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
                 children = [ 
-                    dl.TileLayer(), 
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
                     # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=swt_geojson, id = 'gwt',
-                    hoverStyle=dict(weight=5, color='#666', dashArray='')),info]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x"), 
+                    dl.GeoJSON(data=swt_geojson_bk, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+            elif district == ['Bardiya']:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=swt_geojson_ba, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
+            else:
+                x = dl.Map(center=[28.05,81.61], zoom=8,
+                children = [ 
+                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
+                    dl.TileLayer(url=url, attribution= attribution), 
+                    # dl.GeoJSON(data=bermuda),
+                    dl.GeoJSON(data=swt_geojson, id = 'gwt_home',
+                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
+                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
         else:
             raise PreventUpdate
             
