@@ -154,7 +154,7 @@ bardiya_dw = bardiya_dw[['Enumerator Name','Geo_location','District',
 
 # print(gw_df)
 print("JOB DONE")
-UPLOAD_DIRECTORY = "data/Uploaded_data"
+UPLOAD_DIRECTORY = "data/uploaded_data"
 
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)
@@ -213,15 +213,15 @@ def parse_contents(contents, filename, date):
         })
     ])                
 
-offline_rohini = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\rohini_khola_2021.csv', skiprows = [0])
-offline_bgau = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\banjare_gau_2021.csv', skiprows = [0])
-offline_channawa = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\channawa_2021.csv', skiprows = [0])
-offline_dgau = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\d_gau_2021.csv', skiprows = [0])
-offline_jaispur = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\jaispur_2021.csv', skiprows = [0])
-offline_kalhanshangau = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\kalhanshgau_2021.csv', skiprows = [0])
-offline_khadaicha = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\khadaicha_2021.csv', skiprows = [0])
-offline_piprahawa = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\piprahawa_2021.csv', skiprows = [0])
-offline_shikanpurwa = pd.read_csv('groundwater_monitoring\\data\\uploaded_data\\shikanpurwa_2021.csv', skiprows = [0])
+offline_rohini = pd.read_csv('data\\uploaded_data\\rohini_khola_2021.csv', skiprows = [0])
+offline_bgau = pd.read_csv('data\\uploaded_data\\banjare_gau_2021.csv', skiprows = [0])
+offline_channawa = pd.read_csv('data\\uploaded_data\\channawa_2021.csv', skiprows = [0])
+offline_dgau = pd.read_csv('data\\uploaded_data\\d_gau_2021.csv', skiprows = [0])
+offline_jaispur = pd.read_csv('data\\uploaded_data\\jaispur_2021.csv', skiprows = [0])
+offline_kalhanshangau = pd.read_csv('data\\uploaded_data\\kalhanshgau_2021.csv', skiprows = [0])
+offline_khadaicha = pd.read_csv('data\\uploaded_data\\khadaicha_2021.csv', skiprows = [0])
+offline_piprahawa = pd.read_csv('data\\uploaded_data\\piprahawa_2021.csv', skiprows = [0])
+offline_shikanpurwa = pd.read_csv('data\\uploaded_data\\shikanpurwa_2021.csv', skiprows = [0])
 
 offline_df = [offline_rohini, offline_bgau, offline_channawa, offline_dgau, offline_jaispur, offline_kalhanshangau, offline_khadaicha, offline_piprahawa, offline_shikanpurwa]
 # print(offline_df_roh.columns)
