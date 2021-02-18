@@ -20,8 +20,10 @@ import pandas as pd
 from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,swt_geojson_bk,dwt_geojson_bk,both_geojson_bk,\
     swt_geojson_ba,dwt_geojson_ba,both_geojson_ba,modify_df,df_data , both_options, years, stw_district_wells, dtw_district_wells, all_wells
 
-from data_import import download_data, map_data, save_file, parse_contents,\
-     offline_data_transform, offline_df,cols_rename
+# from data_import import download_data, map_data, save_file, parse_contents,\
+#      offline_data_transform, offline_df,cols_rename
+from data_import import download_data, map_data, save_file, parse_contents
+
 import os
 
 
@@ -199,17 +201,38 @@ def display_value(district, tubewell_type,map_url):
 ###### Input for the Kobo data coming in 
 @app.callback( Output('timeseries_gw_data','figure'),
             [Input('gwt_home','click_feature'), Input('wells','value'), Input('data_logger_offline','value')])
-def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
+def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value): 
     if wells_dropdown_value is None:
         raise PreventUpdate
     if data_logger_value is None:
         raise PreventUpdate
     ### We have to merge the kobo database and the location data so that the kobo datafile has the column location based on well_no
     if len(wells_dropdown_value) > 0 or len(data_logger_value) > 0:
+        offline_rohini = pd.read_csv('rohini_khola_2021.csv')
+        offline_bgau = pd.read_csv('banjare_gau_2021.csv')
+        offline_channawa = pd.read_csv('channawa_2021.csv')
+        offline_dgau = pd.read_csv('d_gau_2021.csv')
+        offline_jaispur = pd.read_csv('jaispur_2021.csv')
+        offline_kalhanshangau = pd.read_csv('kalhanshgau_2021.csv')
+        offline_khadaicha = pd.read_csv('khadaicha_2021.csv')
+        offline_piprahawa = pd.read_csv('piprahawa_2021.csv')
+        offline_shikanpurwa = pd.read_csv('shikanpurwa_2021.csv')
+# print(f"{offline_rohini.columns}-------------------->")
+        offline_df = [offline_rohini, offline_bgau, offline_channawa, offline_dgau, offline_jaispur, offline_kalhanshangau, offline_khadaicha, offline_piprahawa, offline_shikanpurwa]
+        cols_rename = ['Index','SN','Date','Abs Pres (KPa)','Temp(°C)','Water Level(meters)']
+        location_column_offline = ['Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa']
         all_offline_data = {}
         for i in range(len(offline_df)):
-            offline_data_transform(offline_df[i],cols_rename)   
-        
+            offline_df[i] = offline_df[i].iloc[:,:6]
+            offline_df[i].columns = cols_rename
+            offline_df[i]['Water Level(meters)'] = abs(offline_df[i]['Water Level(meters)'])
+            offline_df[i]['Date'] = pd.to_datetime(offline_df[i]['Date'])
+            offline_df[i]['Month'] = offline_df[i]['Date'].dt.month
+            offline_df[i]['Month'] = offline_df[i]['Month'].apply(lambda x: calendar.month_abbr[x])
+            # print(offline_df[i])
+            offline_df[i]['Location'] = location_column_offline[i]
+            offline_df[i] = offline_df[i].groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
+            all_offline_data[i] = offline_df[i]
         all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
                             all_offline_data[4],all_offline_data[5],all_offline_data[6],all_offline_data[7],all_offline_data[8]])
         df = pd.read_csv('updated_data.csv')

@@ -226,7 +226,7 @@ offline_df = [offline_rohini, offline_bgau, offline_channawa, offline_dgau, offl
 location_column_offline = ['Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa']
 cols_rename = ['SN','Date','Abs Pres (KPa)','Temp(°C)','Water Level(meters)']
 
-# all_offline_data = {}
+all_offline_data = {}
 def offline_data_transform(df,renamed_columns):
     df = df.iloc[:,:5]
     df.columns = cols_rename
@@ -236,12 +236,12 @@ def offline_data_transform(df,renamed_columns):
     df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
 
     df['Date'] = df['Date'].dt.date
-    df['Location'] = location_column_offline[i]
+    # df['Location'] = ''
     # df.groupby(['name', 'id', 'dept'])['total_sale'].mean().reset_index()
 
-    df = df.groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
+    # df = df.groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
     # print(df)
-    all_offline_data[i] = df
+    # all_offline_data[i] = df
     # print(df)
 
 # for i in range(len(offline_df)):
