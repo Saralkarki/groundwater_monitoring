@@ -21,8 +21,7 @@ from options import tubewell_options, st_location_options, dt_location_options,s
     swt_geojson_ba,dwt_geojson_ba,both_geojson_ba,modify_df,df_data , both_options, years, stw_district_wells, dtw_district_wells, all_wells
 
 from data_import import download_data, map_data, save_file, parse_contents,\
-     offline_data_transform, offline_df,cols_rename, transformed_data
-
+     offline_data_transform, offline_df,cols_rename
 import os
 
 
@@ -207,11 +206,10 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
         raise PreventUpdate
     ### We have to merge the kobo database and the location data so that the kobo datafile has the column location based on well_no
     if len(wells_dropdown_value) > 0 or len(data_logger_value) > 0:
-        # print(offline_df.columns)
-        # for i in range(len(offline_df)):
-        #     # print(offline_df[i],i)
-        #     offline_data_transform(offline_df[i],cols_rename)   
-
+        all_offline_data = {}
+        for i in range(len(offline_df)):
+            offline_data_transform(offline_df[i],cols_rename)   
+        
         all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
                             all_offline_data[4],all_offline_data[5],all_offline_data[6],all_offline_data[7],all_offline_data[8]])
         df = pd.read_csv('updated_data.csv')
