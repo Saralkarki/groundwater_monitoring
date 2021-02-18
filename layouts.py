@@ -193,7 +193,8 @@ main_layout = html.Div(
 history_layout = html.Div(
     [
 # header div
-        html.Div(
+        html.Div([
+            html.Div(
             [
                 html.H1('Real-time monitoring historical database', className = 'main_title'),
                 html.Img(src = 'assets/images/partners.png', className = 'logos'),
@@ -208,7 +209,6 @@ history_layout = html.Div(
         ),
         ### Navigation bar
         html.Div([
-            
             dcc.Link('Real-Time Monitoring', href = '/realtime', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
             dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
@@ -216,7 +216,8 @@ history_layout = html.Div(
             dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
 
 
-        ],className = 'nav_bar'),
+        ],className = 'nav_bar')
+        ], className = 'row twelve columns'),
 #main body
         html.Div([
             # sidebar
@@ -228,7 +229,7 @@ history_layout = html.Div(
                 html.Div(id = 'gw_map'),
                 dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt"), info]),
            
-            ], className = 'six columns sidebar offset-by-one'),
+            ], className = 'four columns sidebar offset-by-one'),
             #main window
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
@@ -238,16 +239,18 @@ history_layout = html.Div(
                 #  dcc.Graph(id = 'test_1'),
 
             ],className = 'six columns main_window'),
-            html.Div([
+           
+           
+# Main div      
+        ], className = 'row twelve columns'),
+        html.Br(),
+         html.Div([
                 html.H1("Ground Water Measurement for all regions"),
                 html.H6("Click on the Well number on the legend to select and deselect the wells"),
                 html.Br(),
                 dcc.Graph(id = 'timeseries_historical_data_all',style={'width': '100%', 'height': '500px', 'margin-top': "-5px"}),
                 dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
-            ],className = 'row')
-           
-# Main div      
-        ], className = 'row twelve columns'),
+            ],className = 'row twelve columns')
         
 # Main container      
     ], className = 'twelve columns'),
