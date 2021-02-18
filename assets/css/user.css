@@ -16,8 +16,26 @@
 
 /* Side bar CSS */
 .sidebar{
-        background-color: #fff;
-        box-shadow: 0 8px 9px -3px rgba(102,136,153,.30)
+        margin: 90px;
+        background-color: grey;
+}
+.summary_container{
+    /* margin : 10px; */
+    margin-top: 0px;
+    margin-left: 10px;
+    height: 189px;
+    width:49%;
+    /* height: 100%; */
+    color : grey;
+    /* font-weight: bold; */
+    margin-right: 3px;
+    margin-bottom: 5px;
+    margin-top: 0px;
+    border-radius: 1px;
+    background-color:white;
+    box-shadow: 0 8px 9px -3px rgba(102,136,153,.30)
+
+
 }
 
 /* Main window */
@@ -46,3 +64,4 @@
     width: 50%;
     height:40%;
 }
+

@@ -34,8 +34,8 @@ def get_info_home(feature=None):
 
 # Create info control.
 info = html.Div(children=get_info(), id="info", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "1000"})
-info_home = html.Div(children=get_info_home(), id="info_home", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "1000"})
-
+info_home = html.Div(children=get_info_home(), id="info_home", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "912"})
+map_buttons = html.Div(children=get_info(), id="info", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "1000"})
 app.title = 'Digital Groundwater Monitoring Dashboard'
 pilot_layout = html.Div([
     html.Div(
@@ -153,16 +153,25 @@ main_layout = html.Div(
                 value=['Rohini Khola'],
                 multi=True
             ),
-            
 
-            ], className = 'two columns'),
+
+            ], className = 'offset-by-one column two columns sidebar summary_container'),
             html.Br(),
             html.Div([
-               
+                html.Div([
+                   dcc.RadioItems(id = 'map_change',
+                    options=[
+                    {'label': 'Default', 'value': 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'},
+                    {'label': 'Stadia', 'value': 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'},
+                    {'label': 'Topo', 'value': 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'},                
+                    {'label': 'Overlay', 'value': 'Overlay'}],
+                value='https://a.tile.openstreetmap.org/${z}/${x}/${y}.png',labelStyle={'display': 'inline-block'})  
+                ]),
+                html.Br(),
                 html.Div(id = 'gw_map_home'),
                 dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt_home"), info_home]),
              
-            ], className = 'four columns sidebar'),
+            ], className = 'four columns'),
             #main window
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
@@ -171,7 +180,7 @@ main_layout = html.Div(
                
                 #  dcc.Graph(id = 'test_1'),
 
-            ],className = 'six columns main_window')    
+            ],className = 'six columns main_window ')    
 # Main div      
         ], className = 'twelve columns')
 # Main container      
