@@ -207,10 +207,10 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
         raise PreventUpdate
     ### We have to merge the kobo database and the location data so that the kobo datafile has the column location based on well_no
     if len(wells_dropdown_value) > 0 or len(data_logger_value) > 0:
-        print(offline_df.columns)
-        for i in range(len(offline_df)):
-            # print(offline_df[i],i)
-            offline_data_transform(offline_df[i],cols_rename)   
+        # print(offline_df.columns)
+        # for i in range(len(offline_df)):
+        #     # print(offline_df[i],i)
+        #     offline_data_transform(offline_df[i],cols_rename)   
 
         all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
                             all_offline_data[4],all_offline_data[5],all_offline_data[6],all_offline_data[7],all_offline_data[8]])
