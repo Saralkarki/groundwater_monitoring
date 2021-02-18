@@ -66,6 +66,14 @@ dtw_district_wells = {
     'Bardiya' : ['Shantipur','Tholodafe','Shantipur','Shantipur']
 }
 
+all_wells_t = {
+    'stw' : ['Rohini Khola','Jabdhawa','Banktuwa','Channawa','Thapawa','Piprahwa','Bhujai''Birta','Sikhanpurwa','Kharaicha','Jaishpur','Bahartha',
+ 'Matehiya','Narayanpur','Majharatriya','Rajgarhwa','D-gaon','Kalhansgaon','Gaughat','Mahadevpuri','Balapur','Kachanapur','Binauna','Office compound','Kajurakurda',
+ 'Banjaregaon','Ramapurwa', 'Bertani ','Bakharikurd', 'Mainapokhar', 'Bangai',  'Bhaisahi','Rain Nagar','Megara Gadhi',  
+                'Auri','Khairapur',  'Padnaha','Baniyabhar','Taratal','Madhubhan','Begnaha','Bhurigaon','Newlpur','Thakurdwaar','Shoharawa',
+                'Bhawanipur','Shoharawa', 'Belwa','Janaki Tool'],
+    'dtw' : ['K Gaon','L Gaon','Gaughat','Gaughat','Parspur','Shantipur','Tholodafe','Shantipur','Shantipur']
+}
 all_wells = {
      'Banke' : ['Rohini Khola','Jabdhawa','Banktuwa','Channawa','Thapawa','Piprahwa','Bhujai''Birta','Sikhanpurwa','Kharaicha','Jaishpur','Bahartha',
  'Matehiya','Narayanpur','Majharatriya','Rajgarhwa','D-gaon','Kalhansgaon','Gaughat','Mahadevpuri','Balapur','Kachanapur','Binauna','Office compound','Kajurakurda',

@@ -18,7 +18,7 @@ import calendar
 import pandas as pd
 
 from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,swt_geojson_bk,dwt_geojson_bk,both_geojson_bk,\
-    swt_geojson_ba,dwt_geojson_ba,both_geojson_ba,modify_df,df_data , both_options, years, stw_district_wells, dtw_district_wells, all_wells
+    swt_geojson_ba,dwt_geojson_ba,both_geojson_ba,modify_df,df_data , both_options, years, stw_district_wells, dtw_district_wells, all_wells,all_wells_t
 
 # from data_import import download_data, map_data, save_file, parse_contents,\
 #      offline_data_transform, offline_df,cols_rename
@@ -51,7 +51,37 @@ def display_wells(selected_district, well_type):
         raise PreventUpdate
     if not well_type:
         raise PreventUpdate
-    ## IF district Banke
+    print(selected_district)
+    if len(selected_district) != 0:
+        if selected_district == ['Banke']:
+            if well_type == ['st']:
+                return [{'label': i, 'value': i} for i in stw_district_wells['Banke']]
+            elif well_type == ['dt']:
+                return [{'label': i, 'value': i} for i in dtw_district_wells['Banke']]
+            else:
+                return [{'label': i, 'value': i} for i in all_wells['Banke']]
+    
+        elif selected_district == ['Bardiya']:
+            if well_type == ['st']:
+                return [{'label': i, 'value': i} for i in stw_district_wells['Bardiya']]
+            elif well_type == ['dt']:
+                return [{'label': i, 'value': i} for i in dtw_district_wells['Bardiya']]
+            else:
+                return [{'label': i, 'value': i} for i in all_wells['Bardiya']]
+    
+        else:
+            if well_type == ['st']:           
+                return [{'label': i, 'value': i} for i in all_wells_t['stw']]
+            elif well_type == ['dt']:
+            
+                return [{'label': i, 'value': i} for i in all_wells_t['dtw']]
+            else:
+                return [{'label': i, 'value': i} for i in all_wells['all']]
+        
+
+
+
+
         #And if ST show this
         #Or dt show this
     ## If Distirct Bardiya
@@ -62,20 +92,20 @@ def display_wells(selected_district, well_type):
         # ST
         # DT
         # Both
-    if well_type == ['st']:
-        district = selected_district[0]
-        return [{'label': i, 'value': i} for i in stw_district_wells[district]]
-    elif well_type == ['dt']:
-        district = selected_district[0]
-        return [{'label': i, 'value': i} for i in dtw_district_wells[district]]
-    else:
-        if selected_district == ['Banke']:
-            return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
+    # if well_type == ['st']:
+    #     district = selected_district[0]
+    #     return [{'label': i, 'value': i} for i in stw_district_wells[district]]
+    # elif well_type == ['dt']:
+    #     district = selected_district[0]
+    #     return [{'label': i, 'value': i} for i in dtw_district_wells[district]]
+    # else:
+    #     if selected_district == ['Banke']:
+    #         return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
 
-        elif selected_district == ['Bardiya']:
-            return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
-        else:
-            return [{'label': i, 'value': i} for i in all_wells['all']]
+    #     elif selected_district == ['Bardiya']:
+    #         return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
+    #     else:
+    #         return [{'label': i, 'value': i} for i in all_wells['all']]
 
         # district = selected_district
         
