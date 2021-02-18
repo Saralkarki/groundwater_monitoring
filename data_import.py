@@ -236,10 +236,10 @@ def offline_data_transform(df,renamed_columns):
     df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
 
     df['Date'] = df['Date'].dt.date
-    # df['Location'] = ''
+    df['Location'] = location_column_offline[i]
     # df.groupby(['name', 'id', 'dept'])['total_sale'].mean().reset_index()
 
-    # df = df.groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
+    df = df.groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
     # print(df)
     # all_offline_data[i] = df
     # print(df)

@@ -165,7 +165,7 @@ main_layout = html.Div(
                     {'label': 'Stadia', 'value': 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'},
                     {'label': 'Topo', 'value': 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'},                
                     {'label': 'Overlay', 'value': 'Overlay'}],
-                value='https://a.tile.openstreetmap.org/${z}/${x}/${y}.png',labelStyle={'display': 'inline-block'})  
+                value='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',labelStyle={'display': 'inline-block'})  
                 ]),
                 html.Br(),
                 html.Div(id = 'gw_map_home'),
