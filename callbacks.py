@@ -51,7 +51,7 @@ def display_wells(selected_district, well_type):
         raise PreventUpdate
     if not well_type:
         raise PreventUpdate
-    print(selected_district)
+    # print(selected_district)
     if len(selected_district) != 0:
         if selected_district == ['Banke']:
             if well_type == ['st']:
@@ -402,7 +402,7 @@ def display_wells(selected_district, well_type):
         raise PreventUpdate
     if not well_type:
         raise PreventUpdate
-    print(selected_district)
+    # print(selected_district)
     if len(selected_district) != 0:
         if selected_district == ['Banke']:
             df_banke_stw = df[df['district']== 'Banke']
@@ -470,16 +470,24 @@ def tubewell_location(wells):
         # selected_tubewell_location = map_click_feature['properties']['well_no']
 
         # print(df_data[df_data['well_no'].isin(['bk-sw-01'])])
-        print(wells)
-        data = df_data[df_data['well_no'].isin(wells)]
-        print(data) 
-        # data = modify_df(df_data, tubewell_location, selected)
-      
+        
+        data = df_data[df_data['well_no'].isin([wells])]
+       
+        location = df_both['Location'].tolist()
+        well_no = df_both['well_no'].tolist()
+        title_wells = {}
+        # for i, j in zip(location, well_no):
+        #     title_wells = {i,j}
+        # print(title_wells)
+        title_wells =  {j:i for i,j in zip(location,well_no)}
+        title = (title_wells[wells])
+        # title =  title_wells[wells[0]]
+        
         if not data.empty:
             fig = px.line(data, x= 'month',y = 'value', color = 'year')
             # fig = go.Figure(data=go.Scatter(x=data["month"], y=data['value'], color = data['year']), 
             # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
-            fig.update_layout(title=f'Ground Water level of {wells}',
+            fig.update_layout(title=f'Ground Water level of {title} (2001-2015)',
                    xaxis_title='Months',
                    yaxis_title='Groundwater in Meters(m)',
                    yaxis_range=[-1,10]),
@@ -504,7 +512,7 @@ def tubewell_location(selected_year):
     data.columns = ["Well Number","Location",'Months','gw_level']
 
     if not data.empty:
-        fig = px.line(data, x="Months", y="gw_level", color='Well Number', hover_name="Location")
+        fig = px.line(data, x="Months", y="gw_level", color='Location', hover_name="Location")
         
          
         # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))

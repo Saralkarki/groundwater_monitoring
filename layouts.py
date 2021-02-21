@@ -230,11 +230,11 @@ history_layout = html.Div(
                   html.Div([
             dcc.Dropdown(
                 id='wells_history',
-                value=['bk-sw-01'],
-                multi=True
+                value= 'bk-sw-01',
+                multi=False
             ),],style={'width': '100%', 'float': 'left', 'display': 'inline-block'}),
             html.Br(),
-            html.H5("Offline Data logger"),
+            # html.H5("Offline Data logger"),
         #     dcc.Dropdown(
         #         id='data_logger_offline_history',
         #         #'Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa'
