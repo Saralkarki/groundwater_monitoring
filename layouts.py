@@ -221,24 +221,50 @@ history_layout = html.Div(
 #main body
         html.Div([
             # sidebar
-            html.Br(),
             html.Div([
-                dcc.Checklist(id = 'Tubewell_type', options = tubewell_options, 
-                value = [], labelStyle={'display': 'inline-block'},
-                ),
-                html.Div(id = 'gw_map'),
-                dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt"), info]),
-           
-            ], className = 'four columns sidebar offset-by-one'),
+                html.H5("Districts"),
+                dcc.Checklist(id='district_history',options=[{'label': 'Banke', 'value': 'Banke'},{'label': 'Bardiya', 'value': 'Bardiya'}],value=['Banke'], labelStyle={'display': 'inline-block'}),
+                html.H5('Type of well'),
+                dcc.Checklist(id = 'Tubewell_type_history', options = tubewell_options, value = ['st'], labelStyle={'display': 'inline-block'}),
+               
+                  html.Div([
+            dcc.Dropdown(
+                id='wells_history',
+                value=['bk-sw-01'],
+                multi=True
+            ),],style={'width': '100%', 'float': 'left', 'display': 'inline-block'}),
+            html.Br(),
+            html.H5("Offline Data logger"),
+        #     dcc.Dropdown(
+        #         id='data_logger_offline_history',
+        #         #'Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa'
+        #         options=[
+        # {'label': 'Channawa', 'value': 'Channawa'},
+        # {'label': 'Piprahawa', 'value': 'Piprahawa'},
+        # {'label': 'Shikanpurwa', 'value': 'Shikanpurwa'},
+        #  {'label': 'Khadaicha', 'value': 'Khadaicha'},
+        # {'label': 'D-gaon', 'value': 'D-Gau'},
+        # {'label': 'Kalhanshangau', 'value': 'Kalhanshangau'},
+        # {'label': 'Banjare Gau', 'value': 'Banjare Gau'},
+        #   {'label': 'Jaispur', 'value': 'Jaispur'},
+        #   {'label': 'Rohini Khola', 'value': 'Rohini Khola'}],
+        #         value=['Rohini Khola'],
+        #         multi=True
+        #     ),
+
+
+            ], className = 'offset-by-one column two columns sidebar summary_container'),
+            
+            html.Br(),
             #main window
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
                 dcc.Graph(id = 'timeseries_historical_data',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
-                html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)]),
+                # html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)]),
                
                 #  dcc.Graph(id = 'test_1'),
 
-            ],className = 'six columns main_window'),
+            ],className = 'ten columns main_window'),
            
            
 # Main div      

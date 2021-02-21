@@ -17,7 +17,7 @@ import dash_leaflet.express as dlx
 import calendar
 import pandas as pd
 
-from options import tubewell_options, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,swt_geojson_bk,dwt_geojson_bk,both_geojson_bk,\
+from options import tubewell_options,df, df_dptw,df_both, st_location_options, dt_location_options,swt_geojson,dwt_geojson,both_geojson,swt_geojson_bk,dwt_geojson_bk,both_geojson_bk,\
     swt_geojson_ba,dwt_geojson_ba,both_geojson_ba,modify_df,df_data , both_options, years, stw_district_wells, dtw_district_wells, all_wells,all_wells_t
 
 # from data_import import download_data, map_data, save_file, parse_contents,\
@@ -402,159 +402,88 @@ def display_wells(selected_district, well_type):
         raise PreventUpdate
     if not well_type:
         raise PreventUpdate
-    if well_type == ['st']:
-        district = selected_district[0]
-        return [{'label': i, 'value': i} for i in stw_district_wells[district]]
-    elif well_type == ['dt']:
-        district = selected_district[0]
-        return [{'label': i, 'value': i} for i in dtw_district_wells[district]]
-    else:
+    print(selected_district)
+    if len(selected_district) != 0:
         if selected_district == ['Banke']:
-            return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
-
+            df_banke_stw = df[df['district']== 'Banke']
+            df_banke_dtw = df_dptw[df_dptw['district']=='Banke']
+            df_banke_both = pd.concat([df_banke_stw,df_banke_dtw])
+    
+            if well_type == ['st']:                              
+                location = df_banke_stw['Location'].tolist()
+                well_no = df_banke_stw['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
+            elif well_type == ['dt']:
+                location = df_banke_dtw['Location'].tolist()
+                well_no = df_banke_dtw['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
+            else:
+                location = df_banke_both['Location'].tolist()
+                well_no = df_banke_both['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
+    
         elif selected_district == ['Bardiya']:
-            return [{'label': i, 'value': i} for i in all_wells[selected_district[0]]]
+            df_bardiya_stw = df[df['district']== 'Bardiya']
+            df_bardiya_dtw = df_dptw[df_dptw['district']=='Bardiya']
+            df_bardiya_both = pd.concat([df_bardiya_stw,df_bardiya_dtw])
+
+            if well_type == ['st']:                              
+                location = df_bardiya_stw['Location'].tolist()
+                well_no = df_bardiya_stw['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
+            elif well_type == ['dt']:
+                location = df_bardiya_dtw['Location'].tolist()
+                well_no = df_bardiya_dtw['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
+            else:
+                location = df_bardiya_both['Location'].tolist()
+                well_no = df_bardiya_both['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
         else:
-            return [{'label': i, 'value': i} for i in all_wells['all']]
+            if well_type == ['st']:                              
+                location = df['Location'].tolist()
+                well_no = df['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
+            elif well_type == ['dt']:
+                location = df_dptw['Location'].tolist()
+                well_no = df_dptw['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
+            else:
+                location = df_both['Location'].tolist()
+                well_no = df_both['well_no'].tolist()
+                return [{'label': i, 'value': j} for i,j in zip(location,well_no)]
+    
 
         # district = selected_district
         
 @app.callback(
-    Output('gw_map', 'children'),
-    [Input('district_history','value'),Input('Tubewell_type_history', 'value'), Input('map_change_history','value')])
-def display_value(district, tubewell_type,map_url):
-    url = map_url
-    if url == 'Overlay':
-        image_url = "assets\\images\\banke_hydrogeo.png"
-        image_bounds = [[24.05 ,  80.61], [28.773941, 84.12544]]
-        url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-
-    else:
-        image_url = ""
-        image_bounds = [[23.05 ,  75.61], [29.773941, 83.12544]]
-    
-    attribution = '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
-    # image_url = "groundwater_monitoring\assets\images\banke_hydrogeo.png"
-    # image_bounds = [[28.05 ,  81.61], [29.773941, 83.12544]]
-    if not district:
-        x = dl.Map(dl.ImageOverlay( url=image_url, bounds=image_bounds),dl.TileLayer(url=url, attribution= attribution, style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6))                 
-        # raise PreventUpdate
-    if not tubewell_type:
-        x = dl.Map(dl.TileLayer(url=url, attribution= attribution, style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6)) 
-    
-    elif len(tubewell_type) == 2:
-        if district == ['Banke']:
-            x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [ 
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=both_geojson_bk, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-        elif district == ['Bardiya']:
-            x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=both_geojson_ba, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-        else:
-            x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [ 
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=both_geojson, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-
-    else:     
-        value = tubewell_type[0]   
-        if value == 'dt':
-            if district == ['Banke']:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [ 
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=dwt_geojson_bk, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-            elif district == ['Bardiya']:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [ 
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=dwt_geojson_ba, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-            else:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [ 
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=dwt_geojson, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-
-        elif value == 'st':
-            if district == ['Banke']:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [ 
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=swt_geojson_bk, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-            elif district == ['Bardiya']:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [ 
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=swt_geojson_ba, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-            else:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
-                children = [ 
-                    dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
-                    dl.TileLayer(url=url, attribution= attribution), 
-                    # dl.GeoJSON(data=bermuda),
-                    dl.GeoJSON(data=swt_geojson, id = 'gwt_home',
-                    hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
-                    ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
-        else:
-            raise PreventUpdate
-            
-        
-    return x
-@app.callback(
     # [
-        Output('timeseries_historical_data','figure'),
+    Output('timeseries_historical_data','figure'),
     # Output('timeseries_gw_data', 'children')],
     [
     # Input('Tubewell_location','value'),
-    Input('gwt','click_feature'),
-    Input('year-slider','value'),
+    Input('wells_history','value'),
+    # Input('year-slider','value'),
     ])
-def tubewell_location(map_click_feature, selected_year):
-    if map_click_feature is not None:
-        selected_tubewell_location = map_click_feature['properties']['well_no']
-        data = modify_df(df_data, selected_tubewell_location, selected_year)
+def tubewell_location(wells):
+    if wells is not None:
+        # selected_tubewell_location = map_click_feature['properties']['well_no']
+
+        # print(df_data[df_data['well_no'].isin(['bk-sw-01'])])
+        print(wells)
+        data = df_data[df_data['well_no'].isin(wells)]
+        print(data) 
+        # data = modify_df(df_data, tubewell_location, selected)
       
         if not data.empty:
-            fig = go.Figure(data=go.Scatter(x=data["Months"], y=data['gw_level']), 
-            layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
-            fig.update_layout(title=f'Ground Water level of {selected_tubewell_location}',
+            fig = px.line(data, x= 'month',y = 'value', color = 'year')
+            # fig = go.Figure(data=go.Scatter(x=data["month"], y=data['value'], color = data['year']), 
+            # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
+            fig.update_layout(title=f'Ground Water level of {wells}',
                    xaxis_title='Months',
-                   yaxis_title='Groundwater in Meters(m)'),
+                   yaxis_title='Groundwater in Meters(m)',
+                   yaxis_range=[-1,10]),
+                   
             fig.update_yaxes(autorange="reversed")
                 
         else:
@@ -588,11 +517,7 @@ def tubewell_location(selected_year):
         fig = px.line(title = 'No Data Available')
     return fig
    
-### PAST data map
-@app.callback(Output("info","children"),
-            [Input("gwt", "hover_feature")])
-def state_hover(feature):
-    return get_info(feature)
+
 
 
 

@@ -52,6 +52,11 @@ def modify_df(dataframe,well_no,selected_year):
 
 # Option for the drop downs
 
+### Wells_locatoion_dict
+
+
+
+
 stw_district_wells = {
     'Banke' : ['Rohini Khola','Jabdhawa','Banktuwa','Channawa','Thapawa','Piprahwa','Bhujai''Birta','Sikhanpurwa','Kharaicha','Jaishpur','Bahartha',
  'Matehiya','Narayanpur','Majharatriya','Rajgarhwa','D-gaon','Kalhansgaon','Gaughat','Mahadevpuri','Balapur','Kachanapur','Binauna','Office compound','Kajurakurda',
