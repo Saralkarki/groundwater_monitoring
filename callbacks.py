@@ -412,7 +412,7 @@ def populate_graph(data_logger_value):
         offline_df[i]['Month'] = offline_df[i]['Month'].apply(lambda x: calendar.month_abbr[x])
             # print(offline_df[i])
         offline_df[i]['Location'] = location_column_offline[i]
-        offline_df[i] = offline_df[i].groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
+        offline_df[i] = offline_df[i].groupby(['Location','Date'], as_index=False)['Water Level(meters)'].mean().reset_index()
         all_offline_data[i] = offline_df[i]
     all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
                             all_offline_data[4],all_offline_data[5],all_offline_data[6],all_offline_data[7],all_offline_data[8]])
@@ -424,14 +424,15 @@ def populate_graph(data_logger_value):
     data = []
 
     for group, df in groups:
-        df["Month"] = pd.to_datetime(df.Month, format='%b', errors='coerce').dt.month
-        df = df.sort_values(by=['Month'])
-        df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
-        
         print(df)
-        trace = go.Scatter(x=df['Month'].tolist(), y=df['Water Level(meters)'].tolist(),name=group)
+        # df["Month"] = pd.to_datetime(df.Month, format='%b', errors='coerce').dt.month
+        df = df.sort_values(by=['Date'])
+        # df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
+        
+        # print(df)
+        trace = go.Scatter(x=df['Date'].tolist(), y=df['Water Level(meters)'].tolist(),name=group)
         data.append(trace)
-    layout =  go.Layout(xaxis={'title': 'Months'},
+    layout =  go.Layout(xaxis={'title': 'Date'},
                     yaxis={'title': 'Groundwater in Meters(m)'},
                     hovermode='closest')
     figure = go.Figure(data=data, layout=layout)  
@@ -550,7 +551,9 @@ def tubewell_location(wells):
         # title =  title_wells[wells[0]]
         
         if not data.empty:
-            fig = px.line(data, x= 'month',y = 'value', color = 'year')
+            fig = px.line(data, x= 'month',y = 'value', color = 'year', line_group="year")
+            for d in fig['data']:
+                d['line']['color']='grey'
             # fig = go.Figure(data=go.Scatter(x=data["month"], y=data['value'], color = data['year']), 
             # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
             fig.update_layout(title=f'Ground Water level of {title} (2001-2015)',
