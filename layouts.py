@@ -182,8 +182,15 @@ main_layout = html.Div(
 
             ],className = 'six columns main_window ')    
 # Main div      
-        ], className = 'twelve columns')
+        ], className = 'twelve columns'),
 # Main container      
+        html.Div([
+                html.H1("Ground Water Measurement (Offline Data logger)"),
+                # html.H6("Click on the Well number on the legend to select and deselect the wells"),
+                html.Br(),
+                dcc.Graph(id = 'offline_data_logger_graph',style={'width': '100%', 'height': '500px', 'margin-top': "-5px"}),
+                # dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
+            ],className = 'row twelve columns'),
     ], className = 'twelve columns'
 )
 

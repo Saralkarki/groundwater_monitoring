@@ -383,6 +383,72 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
         fig = px.line()
         return fig
 
+### Data logger offline graph
+@app.callback(
+            Output("offline_data_logger_graph","figure"),
+            [Input("data_logger_offline", "value")])
+def populate_graph(data_logger_value):
+    # print(f"-------<> {data_logger_value}")
+    offline_rohini = pd.read_csv('rohini_khola_2021.csv')
+    offline_bgau = pd.read_csv('banjare_gau_2021.csv')
+    offline_channawa = pd.read_csv('channawa_2021.csv')
+    offline_dgau = pd.read_csv('d_gau_2021.csv')
+    offline_jaispur = pd.read_csv('jaispur_2021.csv')
+    offline_kalhanshangau = pd.read_csv('kalhanshgau_2021.csv')
+    offline_khadaicha = pd.read_csv('khadaicha_2021.csv')
+    offline_piprahawa = pd.read_csv('piprahawa_2021.csv')
+    offline_shikanpurwa = pd.read_csv('shikanpurwa_2021.csv')
+# print(f"{offline_rohini.columns}-------------------->")
+    offline_df = [offline_rohini, offline_bgau, offline_channawa, offline_dgau, offline_jaispur, offline_kalhanshangau, offline_khadaicha, offline_piprahawa, offline_shikanpurwa]
+    cols_rename = ['Index','SN','Date','Abs Pres (KPa)','Temp(°C)','Water Level(meters)']
+    location_column_offline = ['Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa']
+    all_offline_data = {}
+    for i in range(len(offline_df)):
+        offline_df[i] = offline_df[i].iloc[:,:6]
+        offline_df[i].columns = cols_rename
+        offline_df[i]['Water Level(meters)'] = abs(offline_df[i]['Water Level(meters)'])
+        offline_df[i]['Date'] = pd.to_datetime(offline_df[i]['Date'])
+        offline_df[i]['Month'] = offline_df[i]['Date'].dt.month
+        offline_df[i]['Month'] = offline_df[i]['Month'].apply(lambda x: calendar.month_abbr[x])
+            # print(offline_df[i])
+        offline_df[i]['Location'] = location_column_offline[i]
+        offline_df[i] = offline_df[i].groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
+        all_offline_data[i] = offline_df[i]
+    all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
+                            all_offline_data[4],all_offline_data[5],all_offline_data[6],all_offline_data[7],all_offline_data[8]])
+    # df_offline = df_offline_logger[df_offline_logger['Location'].isin(data_logger_value)]
+    df_offline =  df_offline = all_off_logger_df[all_off_logger_df['Location'].isin(data_logger_value)]
+
+    # print(df_offline)
+    groups = df_offline.groupby(by='Location')
+    data = []
+
+    for group, df in groups:
+        df["Month"] = pd.to_datetime(df.Month, format='%b', errors='coerce').dt.month
+        df = df.sort_values(by=['Month'])
+        df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
+        
+        print(df)
+        trace = go.Scatter(x=df['Month'].tolist(), y=df['Water Level(meters)'].tolist(),name=group)
+        data.append(trace)
+    layout =  go.Layout(xaxis={'title': 'Months'},
+                    yaxis={'title': 'Groundwater in Meters(m)'},
+                    hovermode='closest')
+    figure = go.Figure(data=data, layout=layout)  
+    figure.update_yaxes(autorange="reversed")
+    return figure
+    #     
+    # fig = px.line(data, x= 'Month', y = 'Water Level(meters)', color = data_logger_value)
+    # # fig = go.Figure(data=go.Scatter(x=data["Month"], y=data['Water Level(meters)']), 
+    # #         layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
+    # fig.update_layout(title=f'Ground Water level of {data_logger_value}',
+    #                xaxis_title='Months',
+    #                yaxis_title='Groundwater in Meters(m)'),
+    # fig.update_yaxes(autorange="reversed")
+    # print(f"{fig}----------------->")
+    # return fig
+
+
 ## HOME MAP Hover feature 
 @app.callback(
             Output("info_home","children"),
