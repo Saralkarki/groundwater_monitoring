@@ -551,9 +551,19 @@ def tubewell_location(wells):
         # title =  title_wells[wells[0]]
         
         if not data.empty:
-            fig = px.line(data, x= 'month',y = 'value', color = 'year', line_group="year")
-            for d in fig['data']:
-                d['line']['color']='grey'
+            x = ["#440154" ,"#481B6D" ,"#46337E", "#3F4889" ,"#365C8D", "#2E6E8E", "#277F8E",
+             "#21908C", "#1FA187", "#2DB27D", "#4AC16D", "#71CF57", "#9FDA3A", "#CFE11C", "#FDE725"]
+
+            colors = {}
+            years_in_cols = data['year'].unique().tolist()
+            for i in range(len(years_in_cols)):
+                colors = {i: j for i,j in zip(years_in_cols, x)}
+            # print(colors)
+            fig = px.line(data, x= 'month',y = 'value', color = 'year', color_discrete_map= colors)
+              
+            # for d in fig['data']:
+            #     print(d)
+            #     d['line']['color']='grey'
             # fig = go.Figure(data=go.Scatter(x=data["month"], y=data['value'], color = data['year']), 
             # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
             fig.update_layout(title=f'Ground Water level of {title} (2001-2015)',
@@ -579,9 +589,8 @@ def tubewell_location(selected_year):
     # print(selected_year)
     data = data.loc[:,['Well number','location','month','value']]
     data.columns = ["Well Number","Location",'Months','gw_level']
-
     if not data.empty:
-        fig = px.line(data, x="Months", y="gw_level", color='Location', hover_name="Location")
+        fig = px.line(data, x="Months", y="gw_level", color='Location', hover_name="Location", color_discrete_sequence=px.colors.qualitative.Dark24)
         
          
         # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
