@@ -17,6 +17,8 @@ import io
 import datetime
 import dash_table
 import os
+from os import path
+
 
 
 # files = {'filename': open('filename.txt','rb')}
@@ -180,13 +182,15 @@ def parse_contents(contents, filename, date):
     data = contents.encode("utf8").split(b";base64,")[1]    
     decoded = base64.b64decode(content_string)
     try:
+        
         if 'csv' in filename:
+            if path.exists(filename):
             # Assume that the user uploaded a CSV file
-            df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), skiprows=[0])
-            df.to_csv(filename)
+                df = pd.read_csv(io.StringIO(decoded.decode('utf-8')), skiprows=[0])
+                # df.insert(loc=0, column='', value='')
+                df.to_csv(filename, mode='a', header=False)
             # with open(os.path.join(UPLOAD_DIRECTORY, filename), "wb") as fp:
             #         fp.write(base64.decodebytes(data))
-
         else:
                 return html.Div(['There was an error processing this file. Please check if it is a CSV file'])
     except Exception as e:
