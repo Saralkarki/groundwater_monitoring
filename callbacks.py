@@ -434,8 +434,7 @@ def populate_graph(data_logger_value):
         trace = go.Scatter(x=df['Date'].tolist(), y=df['Water Level(meters)'].tolist(),name=group)
         data.append(trace)
     layout =  go.Layout(xaxis={'title': 'Date'},
-                    yaxis={'title': 'Groundwater in Meters(m)'},
-                    hovermode='closest')
+                    yaxis={'title': 'Groundwater in Meters(m)'})
     figure = go.Figure(data=data, layout=layout)  
     figure.update_yaxes(autorange="reversed")
     return figure
