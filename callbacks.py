@@ -130,14 +130,14 @@ def display_value(district, tubewell_type,map_url):
     # image_url = "groundwater_monitoring\assets\images\banke_hydrogeo.png"
     # image_bounds = [[28.05 ,  81.61], [29.773941, 83.12544]]
     if not district:
-        x = dl.Map(dl.ImageOverlay( url=image_url, bounds=image_bounds),dl.TileLayer(url=url, attribution= attribution, style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6))                 
+        x = dl.Map(dl.ImageOverlay( url=image_url, bounds=image_bounds),dl.TileLayer(url=url, attribution= attribution, style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 10))                 
         # raise PreventUpdate
     if not tubewell_type:
-        x = dl.Map(dl.TileLayer(url=url, attribution= attribution, style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 6)) 
+        x = dl.Map(dl.TileLayer(url=url, attribution= attribution, style={'width': '100%', 'height': '500px'},center=[28.05,81.61] , zoom = 10)) 
     
     elif len(tubewell_type) == 2:
         if district == ['Banke']:
-            x = dl.Map(center=[28.05,81.61], zoom=8,
+            x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [ 
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -146,7 +146,7 @@ def display_value(district, tubewell_type,map_url):
                     hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
                     ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
         elif district == ['Bardiya']:
-            x = dl.Map(center=[28.05,81.61], zoom=8,
+            x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -155,7 +155,7 @@ def display_value(district, tubewell_type,map_url):
                     hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
                     ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
         else:
-            x = dl.Map(center=[28.05,81.61], zoom=8,
+            x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [ 
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -168,7 +168,7 @@ def display_value(district, tubewell_type,map_url):
         value = tubewell_type[0]   
         if value == 'dt':
             if district == ['Banke']:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
+                x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [ 
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -177,7 +177,7 @@ def display_value(district, tubewell_type,map_url):
                     hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
                     ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
             elif district == ['Bardiya']:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
+                x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [ 
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -186,7 +186,7 @@ def display_value(district, tubewell_type,map_url):
                     hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
                     ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
             else:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
+                x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [ 
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -197,7 +197,7 @@ def display_value(district, tubewell_type,map_url):
 
         elif value == 'st':
             if district == ['Banke']:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
+                x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [ 
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -206,7 +206,7 @@ def display_value(district, tubewell_type,map_url):
                     hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
                     ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
             elif district == ['Bardiya']:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
+                x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [ 
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -215,7 +215,7 @@ def display_value(district, tubewell_type,map_url):
                     hoverStyle=dict(weight=5, color='#333', dashArray='')), info_home]
                     ,style={'width': '100%', 'height': '500px'}, id = "map_x_home"),
             else:
-                x = dl.Map(center=[28.05,81.61], zoom=8,
+                x = dl.Map(center=[28.05,81.61], zoom = 10,
                 children = [ 
                     dl.ImageOverlay(opacity=0.5, url=image_url, bounds=image_bounds),
                     dl.TileLayer(url=url, attribution= attribution), 
@@ -322,8 +322,7 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
                     hovermode='closest')
         figure = go.Figure(data=data, layout=layout)  
         figure.update_yaxes(autorange="reversed",range=(0, 10))
-        
-        
+
         return figure
 
 

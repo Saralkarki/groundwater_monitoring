@@ -5,6 +5,7 @@ import dash_table
 import dash_html_components as html
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
+import dash_bootstrap_components as dbc
 
 
 from data_import import gw_df, banke_sw, banke_dw,bardiya_sw, bardiya_dw
@@ -37,31 +38,11 @@ info = html.Div(children=get_info(), id="info", className="info",style={"positio
 info_home = html.Div(children=get_info_home(), id="info_home", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "912"})
 map_buttons = html.Div(children=get_info(), id="info", className="info",style={"position": "absolute", "top": "10px", "right": "10px", "z-index": "1000"})
 app.title = 'Digital Groundwater Monitoring Dashboard'
+
+
+
 pilot_layout = html.Div([
-    html.Div(
-            [
-                html.H1('Real-time monitoring database', className = 'main_title'),
-                html.Img(src = 'assets/images/partners.png', className = 'logos'),
-                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
-                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
-                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
-                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
-                html.Br(),
-                
-                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
-            ], className = 'header'
-        ),
-        ### Navigation bar
-        html.Div([
-            
-            dcc.Link('Real-Time Monitoring', href = '/realtime', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
 
-
-        ],className = 'nav_bar'),
     html.Div([
          dcc.Link('Banke- Shallow Tube Well', href = '/pilot/bstw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
     dcc.Link('Banke- Deep Tube Well', href = '/pilot/bdtw', style = {'font-family':'Times New Roman, Times', 'margin-left': '40px', 'font-size': '16px', 'text-decoration': 'none'}),
@@ -93,37 +74,23 @@ dcc.Interval(
 ], className = 'eleven columns offset-by-one')
 
 
-main_layout = html.Div(
-    [
-# header div
-        html.Div(
-            [
-                html.H1('Real-time monitoring database', className = 'main_title'),
-                html.Img(src = 'assets/images/partners.png', className = 'logos'),
-                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
-                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
-                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
-                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
-                html.Br(),
-                
-                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
-            ], className = 'header'
-        ),
-        ### Navigation bar
-        html.Div([
-            
-            dcc.Link('Real-Time Monitoring', href = '/realtime', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
 
 
-        ],className = 'nav_bar'),
-#main body
-        html.Div([
-            # sidebar
-            html.Div([
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sidebar =      html.Div([
                 html.H5("Districts"),
                 dcc.Checklist(id='district',options=[{'label': 'Banke', 'value': 'Banke'},{'label': 'Bardiya', 'value': 'Bardiya'}],value=['Banke'], labelStyle={'display': 'inline-block'}),
                 html.H5('Type of well'),
@@ -134,7 +101,7 @@ main_layout = html.Div(
                 id='wells',
                 value=['Rohini Khola'],
                 multi=True
-            ),],style={'width': '100%', 'float': 'left', 'display': 'inline-block'}),
+            ),]),
             html.Br(),
             html.H5("Offline Data logger"),
             dcc.Dropdown(
@@ -155,7 +122,20 @@ main_layout = html.Div(
             ),
 
 
-            ], className = 'offset-by-one column two columns sidebar summary_container'),
+            ])
+
+
+sidebar_card = dbc.Card([
+    dbc.CardHeader("Select wells to display:"),
+    dbc.CardBody(sidebar)
+    ],)
+
+
+gw_rt_map =         html.Div([
+            
+
+
+
             html.Br(),
             html.Div([
                 html.Div([
@@ -169,63 +149,91 @@ main_layout = html.Div(
                 ]),
                 html.Br(),
                 html.Div(id = 'gw_map_home'),
-                dl.Map(center=[28.05,81.61], zoom=10, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt_home"), info_home]),
+                dl.Map(center=[28.05,81.61], zoom=18, children=[dl.TileLayer(), dl.GeoJSON(id = "gwt_home"), info_home]),
              
-            ], className = 'four columns'),
+            ], className = 'twelve columns'),
+
+
+
             #main window
-            html.Div([
-                html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
-                dcc.Graph(id = 'timeseries_gw_data',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
+ 
+# Main div      
+        ], className = 'twelve columns')
+# Main container      
+
+gw_odk_levels =             html.Div([
+      #          html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
+                dcc.Graph(id = 'timeseries_gw_data',
+                    style={'width': '200%', 'height': '500px', 'margin-top': "-15px"}),
                 # html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 1996, max = 2015,marks=years_dict,step=None)], style = {'display':'none'}),
                
                 #  dcc.Graph(id = 'test_1'),
 
-            ],className = 'six columns main_window ')    
-# Main div      
-        ], className = 'twelve columns'),
-# Main container      
-       
-        html.Div([
+            ],className = 'six columns main_window ')   
 
-                html.H1("Ground Water Measurement (Offline Data logger)"),
+
+offline_levels =   html.Div([
+
+       #         html.H1("Ground Water Measurement (Offline Data logger)"),
                 # html.H6("Click on the Well number on the legend to select and deselect the wells"),
                 
                 dcc.Graph(id = 'offline_data_logger_graph',style={'width': '95%', 'height': '600px', 'margin-top': "-15px"}),
                 # dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
             ],className = 'row twelve columns offset-by-one column', style = {'margin-top':'30px'}),
+
+
+rtmap_card = dbc.Card([
+    dbc.CardHeader("Locations of monitoring wells:"),
+    dbc.CardBody(gw_rt_map)
+    ],)
+
+rtodk_card = dbc.Card([
+    dbc.CardHeader("ODK based groundwater measurements:"),
+    dbc.CardBody(gw_odk_levels)
+    ],)
+
+offline_card = dbc.Card([
+    dbc.CardHeader("Offline logger based groundwater measurements:"),
+    dbc.CardBody(offline_levels)
+    ],)
+
+
+side = html.Div([
+    dbc.Row(html.Br()),
+    dbc.Row(html.Br()),
+    dbc.Row(html.Br()),
+    dbc.Row([
+        dbc.Col([html.Div(sidebar_card,className="sticky-top",style={"top":100})],width={"offset":2,"size":2}),
+        dbc.Col([html.Div(rtmap_card),
+            dbc.Row(html.Br()),
+            dbc.Row(html.Br()),
+            dbc.Row([dbc.Col([html.Div(rtodk_card)])]),
+            dbc.Row(html.Br()),
+            dbc.Row(html.Br()),
+            dbc.Row([dbc.Col([html.Div(offline_card)])])],width={"size":6})
+        ],),
+
+    ])
+
+
+main_layout = html.Div(
+    [
+
+        side,
+       
+
     ], className = 'twelve columns')
+
+
+
+
+
 
 ################
 ####################Historical data######################
 
 history_layout = html.Div(
     [
-# header div
-        html.Div([
-            html.Div(
-            [
-                html.H1('Real-time monitoring historical database', className = 'main_title'),
-                html.Img(src = 'assets/images/partners.png', className = 'logos'),
-                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
-                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
-                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
-                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
-                html.Br(),
-                
-                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
-            ], className = 'header'
-        ),
-        ### Navigation bar
-        html.Div([
-            dcc.Link('Real-Time Monitoring', href = '/realtime', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-
-
-        ],className = 'nav_bar')
-        ], className = 'row twelve columns'),
 #main body
         html.Div([
             # sidebar
@@ -233,7 +241,7 @@ history_layout = html.Div(
                 html.H5("Districts"),
                 dcc.Checklist(id='district_history',options=[{'label': 'Banke', 'value': 'Banke'},{'label': 'Bardiya', 'value': 'Bardiya'}],value=['Banke'], labelStyle={'display': 'inline-block'}),
                 html.H5('Type of well'),
-                dcc.Checklist(id = 'Tubewell_type_history', options = tubewell_options, value = ['st'], labelStyle={'display': 'inline-block'}),
+                dcc.Checklist(id = 'Tubewell_type_history', options = tubewell_options, value = ['st']),
                
                   html.Div([
             dcc.Dropdown(
@@ -509,30 +517,11 @@ dcc.Interval(
 
 
 meta_layout = html.Div([
-    html.Div(
-            [
-                html.H1('Real-time monitoring database', className = 'main_title'),
-                html.Img(src = 'assets/images/partners.png', className = 'logos'),
-                html.Img(src = 'assets/images/csisa-logo.png', className = 'small_logos'),
-                html.Img(src = 'assets/images/gon.png', className = 'small_logos'),
-                html.Img(src = 'assets/images/gwrdb-new.gif', className = 'gwrdb_logo'),
-                # html.Img(src = 'assets/images/csisa-logo.png', className = 'logo_csisa'),
-                html.Br(),
-                
-                # html.Img(src = 'assets/images/ccafs-logo.png', className = 'logo'),
-            ], className = 'header'
-        ),
-        ### Navigation bar
-        html.Div([
-            
-           dcc.Link('Real-Time Monitoring', href = '/realtime', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Database', href = '/pilot', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Past-Database', href = '/historical_data', style = {'font-family':'Times New Roman, Times', 'margin-right': '50px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Meta-Data', href = '/', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-            dcc.Link('Upload data', href = '/pilot/upload', style = {'font-family':'Times New Roman, Times', 'margin-right': '40px', 'font-size': '18px', 'text-decoration': 'none'}),
-
-
-        ],className = 'nav_bar'),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+    html.Br(),
+ 
     html.Div([dcc.Markdown('''# Introduction, user instructions, and meta-data 
 
 This activity is funded by USAID as part of the 'CSISA III: COVID Resilience Response' project. This activity is lead by CIMMYT International Maize and Wheat Improvement Center in coordination with the Groundwater Resources Development Board of Nepal (GWRDB) and supported by project partners International Water Management Institute (IWMI), Texas A&M University, and Cornell University.
