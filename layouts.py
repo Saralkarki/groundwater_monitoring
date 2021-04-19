@@ -255,7 +255,7 @@ hist_sidebar = html.Div([
 
 
 single_hist_graph = html.Div([
-                html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
+                html.Div([html.H6("Ground water level")], className = 'graph_text'),
                 dcc.Graph(id = 'timeseries_historical_data',style={'width': '100%', 'height': '600px', 'margin-top': "-15px"}),
                 # html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)]),
                
@@ -265,7 +265,7 @@ single_hist_graph = html.Div([
            
 
 all_hist_graph = html.Div([
-                html.H6("Click on the Well number on the legend to select and deselect the wells"),
+                html.H6("Click on the well number on the legend to select and deselect the wells"),
                 html.Br(),
                 dcc.Graph(id = 'timeseries_historical_data_all',style={'width': '100%', 'height': '500px', 'margin-top': "-5px"}),
                 dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
@@ -286,7 +286,7 @@ single_historical_graph_card = dbc.Card([
     ],)
 
 all_hist_graph_card = dbc.Card([
-    dbc.CardHeader("Single well historical water level:"),
+    dbc.CardHeader("All wells historical water level:"),
     dbc.CardBody(all_hist_graph)
     ],)
 
