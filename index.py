@@ -157,7 +157,21 @@ navbar = dbc.NavbarSimple(
 navbar1 = dbc.NavbarSimple(
     children=[
         dbc.NavItem(dbc.NavLink("Real-Time Monitoring", href="/realtime",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
-        dbc.NavItem(dbc.NavLink("Database", href="/pilot",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
+        dbc.DropdownMenu(
+            children=[
+           #     dbc.DropdownMenuItem("Datasets", header=True),
+                dbc.DropdownMenuItem("All wells", href="/pilot"),
+                dbc.DropdownMenuItem("Banke shallow wells", href="/pilot/bstw"),
+                dbc.DropdownMenuItem("Banke deep wells", href="/pilot/bdtw"),
+                dbc.DropdownMenuItem("Bardiya shallow wells", href="/pilot/bastw"),
+                dbc.DropdownMenuItem("Bardiya deep wells", href="/pilot/badtw"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="Datasets",
+            style={"text-align":"center","padding-right":50,"padding-left":50,"width":250}
+        ),
+#        dbc.NavItem(dbc.NavLink("Database", href="/pilot",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
         dbc.NavItem(dbc.NavLink("Past-Database", href="/historical_data",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
         dbc.NavItem(dbc.NavLink("Meta-Data", href="/",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
     ],
@@ -168,6 +182,13 @@ navbar1 = dbc.NavbarSimple(
     sticky="top",
 #    style={"width":"100%","overflow":"auto"},
 )
+
+
+#ube Well', href = '/pilot/bstw', style
+##', href = '/pilot/bdtw', style = {'fon
+# Well', href = '/pilot/bastw', style =
+#ll', href = '/pilot/badtw', style = {'
+
 
 
 app.layout = html.Div([

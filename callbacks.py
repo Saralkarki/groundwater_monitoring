@@ -261,7 +261,7 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
             offline_df[i]['Month'] = offline_df[i]['Month'].apply(lambda x: calendar.month_abbr[x])
             # print(offline_df[i])
             offline_df[i]['Location'] = location_column_offline[i]
-            offline_df[i] = offline_df[i].groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
+          #  offline_df[i] = offline_df[i].groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
             all_offline_data[i] = offline_df[i]
         all_off_logger_df = pd.concat([all_offline_data[0],all_offline_data[1],all_offline_data[2],all_offline_data[3],
                             all_offline_data[4],all_offline_data[5],all_offline_data[6],all_offline_data[7],all_offline_data[8]])
@@ -283,7 +283,7 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
         data = []  
         count = 0
         names = []
-        for frame in [df_odk, df_offline]:
+        for frame in [df_odk]:  # for both ODK and OFFLINE in one plot: for frame in [df_odk, df_offline]:
             if 'Water Level(meters)' in frame:
                 frame.rename(columns = {'Water Level(meters)':'gw_level'}, inplace = True) 
             # data.append(frame['gw_level'])
@@ -299,7 +299,7 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
                     df = df.sort_values(by=['Month'])
                     df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
                     # print(df)
-                    trace = go.Scatter(x=df['Month'].tolist(), 
+                    trace = go.Scatter(x=df['today'].tolist(), 
                                     y=df['gw_level'].tolist(),
                                       name=f"{group}_odk")
                     data.append(trace)
@@ -312,13 +312,13 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
                     df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])
 
                     # print(df)
-                    trace_1 = go.Scatter(x=df['Month'].tolist(), 
+                    trace_1 = go.Scatter(x=df['Date'], 
                        y=df['gw_level'].tolist(),
                        name=group)
                     data.append(trace_1)
 
-        layout =  go.Layout(xaxis={'title': 'Months'},
-                    yaxis={'title': 'Groundwater in Meters(m)'},
+        layout =  go.Layout(xaxis={'title': 'Date'},
+                    yaxis={'title': 'Groundwater level in mbgl'},
                     hovermode='closest')
         figure = go.Figure(data=data, layout=layout)  
         figure.update_yaxes(autorange="reversed",range=(0, 10))
@@ -372,7 +372,7 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
             layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
             fig.update_layout(title=f'Ground Water level of {selected_tubewell_location}',
                    xaxis_title='Months',
-                   yaxis_title='Groundwater in Meters(m)'),
+                   yaxis_title='Groundwater in mbgl'),
             fig.update_yaxes(autorange="reversed")
                 
         else:
@@ -433,7 +433,7 @@ def populate_graph(data_logger_value):
         trace = go.Scatter(x=df['Date'].tolist(), y=df['Water Level(meters)'].tolist(),name=group)
         data.append(trace)
     layout =  go.Layout(xaxis={'title': 'Date'},
-                    yaxis={'title': 'Groundwater in Meters(m)'})
+                    yaxis={'title': 'Groundwater in mbgl'})
     figure = go.Figure(data=data, layout=layout)  
     figure.update_yaxes(autorange="reversed")
     return figure
@@ -538,7 +538,7 @@ def tubewell_location(wells):
         # print(df_data[df_data['well_no'].isin(['bk-sw-01'])])
         
         data = df_data[df_data['well_no'].isin([wells])]
-       
+        data['value'] = data['value'].apply(pd.to_numeric)
         location = df_both['Location'].tolist()
         well_no = df_both['well_no'].tolist()
         title_wells = {}
@@ -567,7 +567,7 @@ def tubewell_location(wells):
             # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
             fig.update_layout(title=f'Ground Water level of {title} (2001-2015)',
                    xaxis_title='Months',
-                   yaxis_title='Groundwater in Meters(m)',
+                   yaxis_title='Groundwater in mbgl',
                    yaxis_range=[-1,10]),
                    
             fig.update_yaxes(autorange="reversed")
@@ -587,6 +587,7 @@ def tubewell_location(selected_year):
     data = df_data[df_data['year'].isin([selected_year])]
     print(data)
     # print(selected_year)
+    data['value'] = data['value'].apply(pd.to_numeric)
     data = data.loc[:,['Well number','location','month','value']]
     data.columns = ["Well Number","Location",'Months','gw_level']
     if not data.empty:
@@ -596,7 +597,7 @@ def tubewell_location(selected_year):
         # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
         fig.update_layout(title=f'Ground Water level(in Meters)',
                 xaxis_title='Months',
-                yaxis_title='Groundwater in Meters(m)'),
+                yaxis_title='Groundwater in mbgl'),
         fig.update_yaxes(autorange="reversed")
         return fig      
     else:

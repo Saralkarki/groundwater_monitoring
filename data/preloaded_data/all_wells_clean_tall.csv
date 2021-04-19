@@ -356,7 +356,7 @@
 691,2,2-045/46(BK)2,bk-sw-02,569500,3125700,Jabadhawa,Shallow well,Pump fitted,2002,Feb,NA
 692,3,3-045/46(BK)3,bk-sw-03,563125,3125750,Banktuwa,Shallow well,NA,2002,Feb,2.1
 693,4,4-045/46(BK)4,bk-sw-04,561300,3119200,Channawa,Shallow well,NA,2002,Feb,1.23
-694,5,5-045/46(BK)5,bk-sw-05_1,557300,3118750,Thapawa,Shallow well,Flowing,2002,Feb,89
+694,5,5-045/46(BK)5,bk-sw-05_1,557300,3118750,Thapawa,Shallow well,Flowing,2002,Feb,NA
 695,6,6-045/46(BK)6,bk-sw-06_1,564800,3112800,Piprahawa,Shallow well,NA,2002,Feb,NA
 696,7,7-045/46(BK)7,bk-sw-07_1,562100,3107400,Bhujai,Shallow well,NA,2002,Feb,2.06
 697,8,8-045/46(BK)8,bk-sw-08_1,564900,3118750,Birta,Shallow well,NA,2002,Feb,2.76
@@ -572,8 +572,8 @@
 3329,15,15-045/46(B/K)15,bk-sw-15_1,574200,3119750,Majharaitiya,Shallow well,NA,2002,Sep,2.52
 3330,16,16-045/46(BK)16,bk-sw-16_1,568400,3111800,Rajgarhawa,Shallow well,NA,2002,Sep,2.3
 3331,17,17-045/46(BK)17,bk-sw-17_1,560000,3114200,D_Gaon,Shallow well,NA,2002,Sep,2.15
-3332,18,18-045/46(BK)18,bk-sw-18_1,560000,3113800,Kalhansgaon,Shallow well,NA,2002,Sep,96
-3333,19,19-045/46(BK)19,bk-sw-19_1,554600,3108800,GaughatSW,Shallow well,NA,2002,Sep,47
+3332,18,18-045/46(BK)18,bk-sw-18_1,560000,3113800,Kalhansgaon,Shallow well,NA,2002,Sep,NA
+3333,19,19-045/46(BK)19,bk-sw-19_1,554600,3108800,GaughatSW,Shallow well,NA,2002,Sep,NA
 3334,20,20-045/46(BK)20,bk-sw-20_1,574200,3119750,Mahadevpuri,Shallow well,Flowing,2002,Sep,0.5
 3335,21,21-045/46(BK)21,bk-sw-21_1,578900,3113800,Balapur,Shallow well,NA,2002,Sep,1.11
 3336,22,22-045/46(B/K)22,bk-sw-22_1,586000,3105200,Kanchanpur,Shallow well,Damaged,2002,Sep,NA
@@ -2373,7 +2373,7 @@
 3173,4,4-045/46(BK)4,bk-sw-04,561300,3119200,Channawa,Shallow well,NA,2007,Sep,0.45
 3174,5,5-045/46(BK)5,bk-sw-05_1,557300,3118750,Thapawa,Shallow well,NA,2007,Sep,1.45
 3175,6,6-045/46(BK)6,bk-sw-06_1,564800,3112800,Piprahawa,Shallow well,NA,2007,Sep,1.55
-3176,7,7-045/46(BK)7,bk-sw-07_1,562100,3107400,Bhujai,Shallow well,NA,2007,Sep,55
+3176,7,7-045/46(BK)7,bk-sw-07_1,562100,3107400,Bhujai,Shallow well,NA,2007,Sep,NA
 3177,8,8-045/46(BK)8,bk-sw-08_1,564900,3118750,Birta,Shallow well,NA,2007,Sep,2.95
 3178,9,9-045/46(BK)9,bk-sw-09_1,565600,3102880,Shikhanpurwa,Shallow well,NA,2007,Sep,1.55
 3179,10,10-045/46(BK)10,bk-sw-10_1,570875,3099130,Kharaicha,Shallow well,NA,2007,Sep,1.35
