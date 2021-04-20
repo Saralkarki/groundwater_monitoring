@@ -184,15 +184,16 @@ main_layout = html.Div(
 # Main div      
         ], className = 'twelve columns'),
 # Main container      
+       
         html.Div([
+
                 html.H1("Ground Water Measurement (Offline Data logger)"),
                 # html.H6("Click on the Well number on the legend to select and deselect the wells"),
-                html.Br(),
-                dcc.Graph(id = 'offline_data_logger_graph',style={'width': '100%', 'height': '500px', 'margin-top': "-5px"}),
+                
+                dcc.Graph(id = 'offline_data_logger_graph',style={'width': '95%', 'height': '600px', 'margin-top': "-15px"}),
                 # dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
-            ],className = 'row twelve columns'),
-    ], className = 'twelve columns'
-)
+            ],className = 'row twelve columns offset-by-one column', style = {'margin-top':'30px'}),
+    ], className = 'twelve columns')
 
 ################
 ####################Historical data######################
@@ -266,7 +267,7 @@ history_layout = html.Div(
             #main window
             html.Div([
                 html.Div([html.H6("GroundWater Level")], className = 'graph_text'),
-                dcc.Graph(id = 'timeseries_historical_data',style={'width': '100%', 'height': '500px', 'margin-top': "-15px"}),
+                dcc.Graph(id = 'timeseries_historical_data',style={'width': '88%', 'height': '600px', 'margin-top': "-15px"}),
                 # html.Div([ dcc.Slider(id='year-slider',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)]),
                
                 #  dcc.Graph(id = 'test_1'),
@@ -283,7 +284,7 @@ history_layout = html.Div(
                 html.Br(),
                 dcc.Graph(id = 'timeseries_historical_data_all',style={'width': '100%', 'height': '500px', 'margin-top': "-5px"}),
                 dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
-            ],className = 'row twelve columns')
+            ],className = 'row twelve columns offset-by-one column')
         
 # Main container      
     ], className = 'twelve columns'),
@@ -674,6 +675,7 @@ upload_layout = html.Div(
 #main body
         html.Div([
             html.H1("Upload"),
+            html.H6("Upload Offline logger Data file "),
             dcc.Upload(
         id='upload-data',
         children=html.Div([
@@ -694,8 +696,21 @@ upload_layout = html.Div(
         multiple=True
     ),
     html.Div(id='output-data-upload'),
+    html.Div([
+        dcc.Markdown(''' 
+         ### Upload Instructions:
+         1. Click on the Drag and Drop or Select Files area
+         2. Upload the CSV file using the dialog box
+         3. ** The Upload file needs to be a .CSV file **
+         4. ** Please use the CSV file received from the HOBO APP ** (Refer to the manual for column the sample view)
+         5. Refer to the manaul for approriate filenames
+
+        
+        '''),
+
+    ], className = 'offset-by-one column')
 ]),
         
 # Main container      
-    ], className = 'twelve columns'
+    ], className = 'twelve columns offset-by-one column'
 )
