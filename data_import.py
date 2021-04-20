@@ -117,7 +117,7 @@ def map_data(well_number):
 
 
 banke_sw = gw_df[(gw_df['District']=="Banke") & (gw_df['well_type'] == 'sw')]
-banke_sw= banke_sw[['Enumerator Name','Geo_location','District',
+banke_sw = banke_sw[['Enumerator Name','Geo_location','District',
         'well_type','sw_bk_well_no','gw_level',
         'measurement_point_cm',
         'Measurement_of_tape_ent_point_MP_in_m',

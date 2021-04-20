@@ -1,0 +1,46 @@
+﻿S.No.,Well No.,well_no,Location,Longitude,Latitude,district
+1,1-045/46(BK)1 ,bk-sw-01,Rohini Khola,81.6419293,28.0804943,Banke
+2,1-045/46(BK)2 ,bk-sw-02,Jabdhawa,81.6361819,28.2576903,Banke
+3,1-045/46(BK)3 ,bk-sw-03,Banktuwa,81.6307264,28.2064949,Banke
+4,1-045/46(BK)4 ,bk-sw-04,Channawa,81.6300983,28.1873921,Banke
+5,1-045/46(BK)5 ,bk-sw-05_1,Thapawa,81.5747481,28.1920455,Banke
+6,1-045/46(BK)6 ,bk-sw-06_1,Piprahwa,81.6588146,28.13181,Banke
+7,1-045/46(BK)7 ,bk-sw-07_1,Bhujai,81.6478693,28.0928582,Banke
+8,1-045/46(BK)8 ,bk-sw-08_1,Birta,81.6616258,28.0493274,Banke
+9,1-045/46(BK)9 ,bk-sw-09_1,Sikhanpurwa,81.6543479,28.0151183,Banke
+10,1-045/46(BK)10 ,bk-sw-10_1,Kharaicha,81.7132923,27.9833039,Banke
+11,1-045/46(BK)11 ,bk-sw-11_1,Jaishpur,81.6002836,28.0242587,Banke
+17,1-045/46(BK)17 ,bk-sw-17_1,D-gaon,81.5894281,28.1287151,Banke
+18,1-045/46(BK)18 ,bk-sw-18_1,Kalhansgaon,81.5519862,28.1465454,Banke
+19,1-045/46(BK)19 ,bk-sw-19_1,Gaughat,81.5216935,28.1114479,Banke
+20,1-045/46(BK)20 ,bk-sw-20_1,Mahadevpuri,81.75605775,28.20145263,Banke
+24,NISP-STW/1 ,bk-sw-24_1,Office compound,81.6450643,28.0812224,Banke
+25,NISP-INV-STW/8 ,bk-sw-25_1,Kajurakurda,81.5971551,28.1060386,Banke
+26,NISP-INV-STW/10,bk-sw-26,Banjaregaon,81.5933074,28.0780663,Banke
+27,NISP-INV-STW/11,bk-sw-27,Ramapurwa,81.5956795,28.0828437,Banke
+28,n/a,bk-sw-28,Jaogagaun,81.5861794,28.0507443,Banke
+29,n/a,bk-sw-29,Baldipurwa,81.6523786,28.0020439,Banke
+30,n/a,bk-sw-30,Harbaldoli,81.6946848,28.0285434,Banke
+28,1-045\46(B\D)1 ,bd-sw-01,Bertani,81.64207,28.0803241,Bardiya
+29,2-045\46(B\D)2 ,bd-sw-02,Bakharikurd,81.5477362,28.2364793,Bardiya
+30,3-045\46(B\D)3 ,bd-sw-03,Mainapokhar,81.479971,28.1880467,Bardiya
+31,4-045\46(B\D)4 ,bd-sw-04,Bangai,81.4420836,28.289843,Bardiya
+32,5-045\46(B\D)5 ,bd-sw-05,Bhaisahi,81.3836823,28.189743,Bardiya
+33,6-045\46(B\D)6 ,bd-sw-06,Rain Nagar,81.3378798,28.1691594,Bardiya
+34,7-045\46(B\D)7 ,bd-sw-07,Megara Gadhi,81.3593068,28.3056157,Bardiya
+35,8-045\46(B\D)8 ,bd-sw-08,Auri,81.4297427,28.3512356,Bardiya
+36,9-045\46(B\D)9 ,bd-sw-09,Khairapur,81.3107656,28.2504704,Bardiya
+37,10-045\46(B\D)10 ,bd-sw-10,Padnaha,81.3365896,28.301372,Bardiya
+38,11-045\46(B\D)11 ,bd-sw-11,Baniyabhar,81.3591491,28.3065235,Bardiya
+39,12-045\46(B\D)12 ,bd-sw-12,Taratal,81.2628225,28.2795711,Bardiya
+40,13-045\46(B\D)13 ,bd-sw-13,Madhubhan,81.2660784,28.3349604,Bardiya
+41,14-045\46(B\D)14 ,bd-sw-14,Begnaha,81.5542272,28.0731407,Bardiya
+42,15-045\46(B\D)15 ,bd-sw-15,Bhurigaon,81.5542463,28.0731098,Bardiya
+43,16-045\46(B\D)16 ,bd-sw-16,Newlpur,81.5541212,28.073127,Bardiya
+44,17-045\46(B\D)17 ,bd-sw-17,Thakurdwaar,,,Bardiya
+45,NISP\INV\STW-5 ,bd-sw-18,Shoharawa,81.4968653,28.1486845,Bardiya
+46,n.a. ,bd-sw-19,Bhawanipur,81.4790915,28.1464123,Bardiya
+47,NISP\INV\STW-6 ,bd-sw-20,Shoharawa,81.5008473,28.1656409,Bardiya
+48,na.a ,bd-sw-21,Belwa,81.5671712,28.2282732,Bardiya
+49,n.a. ,bd-sw-22,Belwa,81.5848865,28.2490131,Bardiya
+50,n.a. ,bd-sw-23,Janaki Tool,81.2889351,28.2385395,Bardiya
