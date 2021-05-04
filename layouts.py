@@ -164,7 +164,7 @@ offline_card = dbc.Card([
     ],)
 
 current_card = dbc.Card([
-    dbc.CardHeader("Latest ODK measurement of groundwater Level:"),
+    dbc.CardHeader("Latest(Average) ODK measurement of groundwater Level:"),
     dbc.CardBody(odkrt_levels)
     ],)
 
