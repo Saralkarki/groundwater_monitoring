@@ -143,6 +143,7 @@ odkrt_levels =   html.Div([
                 # html.H6("Click on the Well number on the legend to select and deselect the wells"),
                 
                 dcc.Graph(figure = current_gw_level,style={'width': '200%', 'height': '600px', 'margin-left':"-15px",'margin-right':"20px", 'margin-top': "-15px"}),
+                html.P("Data for wells recorded during different times of month. Please hover on the wells to get precise readings of the wells")
                 # dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
             ],className = 'row twelve columns offset-by-one column', style = {'margin-top':'5px'}),
 
@@ -164,7 +165,7 @@ offline_card = dbc.Card([
     ],)
 
 current_card = dbc.Card([
-    dbc.CardHeader("Latest(Average) ODK measurement of groundwater Level:"),
+    dbc.CardHeader("Last recorded ODK measurement of groundwater Level:"),
     dbc.CardBody(odkrt_levels)
     ],)
 
@@ -487,7 +488,7 @@ Nepal's Terai aquifers are comprised of alluvial and poorly sorted aquifer mater
 
 html.A(html.Img(src = 'assets/images/banke_hydrogeo.png', style = {'width': '100%'}), href = "assets/images/banke_hydrogeo.png"),
 # ![Aquifer Characteristics Map Banke](/groundwater_monitoring/assets/metadata_page/) 
-
+html.H5("click on the image to see full-view"),
 html.Br(),
 
 dcc.Markdown(''' '''),
