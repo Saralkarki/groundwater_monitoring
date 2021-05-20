@@ -253,13 +253,17 @@ def tubewell_no(map_click_feature, wells_dropdown_value, data_logger_value):
         location_column_offline = ['Rohini Khola','Banjare Gau', 'Channawa','D-Gau','Jaispur','Kalhanshangau','Khadaicha','Piprahawa','Shikanpurwa']
         all_offline_data = {}
         for i in range(len(offline_df)):
+            
+            
             offline_df[i] = offline_df[i].iloc[:,:6]
             offline_df[i].columns = cols_rename
             offline_df[i]['Water Level(meters)'] = abs(offline_df[i]['Water Level(meters)'])
             offline_df[i]['Date'] = pd.to_datetime(offline_df[i]['Date'])
+            offline_df[i] = offline_df[i].dropna(subset=["Date"])
             offline_df[i]['Month'] = offline_df[i]['Date'].dt.month
+            # offline_df[i]['Month'] = offline_df[i]['Month'].astype('Int64')
+            
             offline_df[i]['Month'] = offline_df[i]['Month'].apply(lambda x: calendar.month_abbr[x])
-            # print(offline_df[i])
             offline_df[i]['Location'] = location_column_offline[i]
           #  offline_df[i] = offline_df[i].groupby(['Location','Month'], as_index=False)['Water Level(meters)'].mean().reset_index()
             all_offline_data[i] = offline_df[i]
@@ -407,6 +411,8 @@ def populate_graph(data_logger_value):
         offline_df[i].columns = cols_rename
         offline_df[i]['Water Level(meters)'] = abs(offline_df[i]['Water Level(meters)'])
         offline_df[i]['Date'] = pd.to_datetime(offline_df[i]['Date'])
+        offline_df[i] = offline_df[i].dropna(subset=["Date"])
+
         offline_df[i]['Month'] = offline_df[i]['Date'].dt.month
         offline_df[i]['Month'] = offline_df[i]['Month'].apply(lambda x: calendar.month_abbr[x])
             # print(offline_df[i])
@@ -585,7 +591,7 @@ def tubewell_location(wells):
     [Input('year-slider_all','value')])
 def tubewell_location(selected_year):    
     data = df_data[df_data['year'].isin([selected_year])]
-    print(data)
+    # print(data)
     # print(selected_year)
     data['value'] = data['value'].apply(pd.to_numeric)
     data = data.loc[:,['Well number','location','month','value']]
