@@ -21,8 +21,8 @@ odk['today'] = pd.to_datetime(odk['today'])
 odk = odk.sort_values('today',ascending=0)
 #then drop all duplicates after first record
 odk_latest = odk.drop_duplicates('well_no')
-print(odk_latest.shape)
-print(odk.shape)
+# print(odk_latest.shape)
+# print(odk.shape)
 #extract lat lon from odk
 lat = odk_latest.Geo_location.str.split(expand=True)[0]
 lon = odk_latest.Geo_location.str.split(expand=True)[1]
@@ -47,6 +47,8 @@ odk_latest['hover2'] = odk_latest['gw_level'].astype(str)
 odk_latest['hover3'] = odk_latest['today'].astype(str)
 odk_latest['hover4'] = "mbgl"
 odk_latest['hovtext'] = odk_latest['hover1'].str.cat(odk_latest['hover2'], sep = "<br>").str.cat(odk_latest['hover4'],sep = " ").str.cat(odk_latest['hover3'],sep = "<br>")
+
+# print(odk['today'])
 
 ############### Then plot the figure
 
