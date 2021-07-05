@@ -29,7 +29,6 @@ def download_data():
     j = requests.get(url, auth=auth )
     df_json = j.json()
     gw_df = pd.DataFrame.from_dict(df_json)
-#     print(gw_df.columns)
 #     print(len(gw_df.columns))  
     # 'sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya',
     if not 'Main_group/location_details/sw_bk_well_no' in gw_df.columns:
@@ -55,26 +54,47 @@ def download_data():
         #     df = pd.read_csv('updated_data.csv')  
             print("ERROR")
     else:
-        gw_df.columns = ['_notes',
-       'Measurement_of_tape_ent_point_MP_in_m', '_tags',
-       '_xform_id_string', 'meta/instanceID',
-       'gw_level_from_mp', 'end',
-       'gw_level',
-       'Well_photo_Use_the_ed_measurement_point',
-       'mp_in_m', 'start', '_attachments', '_version_',
-       '_status', '__version__', 'today',
-       'sw_bk_well_no',
+        gw_df.columns = ['_id', 'formhub/uuid', 'start', 'end', 'today', 'deviceid',
        'Enumerator Name',
-       'Geo_location', '_validation_status',
-       '_uuid', 'well_type', 'formhub/uuid',
-       'District', '_submission_time',
-       '_geolocation', '_submitted_by',
-       'wet_point_measruement_on_tape', 'deviceid',
-       'measurement_point_cm', '_id',
-       'Notes',
+       'District',
+       'geo_location',
+       'well_type',
+       'sw_bk_well_no',
+       'measurement_point_cm',
+       'Well_photo_Use_the_ed_measurement_point',
+       'Measurement_of_tape_ent_point_MP_in_m',
+       'wet_point_measruement_on_tape',
+       'gw_level_from_mp',
+       'mp_in_m', 'gw_level',
+       '__version__', '_version_', 'meta/instanceID', '_xform_id_string',
+       '_uuid', '_attachments', '_status', 'Geo_location', '_submission_time',
+       '_tags', '_notes', '_validation_status', '_submitted_by',
+       'bk_dw_no',
+       'well_no_sw_bardiya',
+       'well_no_dw_bardiya',
        'Audio_Notes',
-       'well_no_sw_bardiya', 'bk_dw_no',
-       'well_no_dw_bardiya']
+       'Notes']
+    ### How did the columns change??
+    #     gw_df.columns = ['_notes',
+    #    'Measurement_of_tape_ent_point_MP_in_m', '_tags',
+    #    '_xform_id_string', 'meta/instanceID',
+    #    'gw_level_from_mp', 'end',
+    #    'gw_level',
+    #    'Well_photo_Use_the_ed_measurement_point',
+    #    'mp_in_m', 'start', '_attachments', '_version_',
+    #    '_status', '__version__', 'today',
+    #    'sw_bk_well_no',
+    #    'Enumerator Name',
+    #    'Geo_location', '_validation_status',
+    #    '_uuid', 'well_type', 'formhub/uuid',
+    #    'District', '_submission_time',
+    #    '_geolocation', '_submitted_by',
+    #    'wet_point_measruement_on_tape', 'deviceid',
+    #    'measurement_point_cm', '_id',
+    #    'Notes',
+    #    'Audio_Notes',
+    #    'well_no_sw_bardiya', 'bk_dw_no',
+    #    'well_no_dw_bardiya']
         all_cols = ['Enumerator Name','Geo_location','District',
         'well_type','sw_bk_well_no','bk_dw_no','well_no_sw_bardiya','well_no_dw_bardiya','measurement_point_cm',
         'Measurement_of_tape_ent_point_MP_in_m', 'wet_point_measruement_on_tape','gw_level',
@@ -85,6 +105,7 @@ def download_data():
         
         for cols in all_cols:
                 df[cols] = gw_df[cols]
+        print(df['Geo_location'])
         # df = gw_df.copy()  
         # print(df) 
         # df = df.sort_values(by='today')
@@ -94,6 +115,7 @@ def download_data():
         df['well_no'] = (df['sw_bk_well_no'].combine_first(df['bk_dw_no']).combine_first(df['well_no_sw_bardiya']).combine_first(df['well_no_dw_bardiya']))
         ## onvertt he today data to date    
         df['today'] = pd.to_datetime(df['today'])
+        
         df['Month'] = df['today'].dt.month
         # print(df['Month'])
         df['Month'] = df['Month'].apply(lambda x: calendar.month_abbr[x])   

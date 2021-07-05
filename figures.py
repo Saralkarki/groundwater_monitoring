@@ -26,11 +26,17 @@ odk_latest = odk.drop_duplicates('well_no')
 #extract lat lon from odk
 lat = odk_latest.Geo_location.str.split(expand=True)[0]
 lon = odk_latest.Geo_location.str.split(expand=True)[1]
+print(type(lat), type(lon))
+lat = pd.to_numeric(lat, errors='coerce')
+lon = pd.to_numeric(lon, errors='coerce')
+# lat = lat.astype(str).astype(float)
+# lon = lon.astype(str).astype(float)
 
 #add back to measurement df with correct format
-odk_latest['lat'] = lat.astype('float')
-odk_latest['lon'] = lon.astype('float')
+odk_latest['lat'] = lat
+odk_latest['lon'] = lon
 
+print(odk_latest.dtypes)
 #load distric layers to add for context
 
 file = './nepal-distr.geojson'
