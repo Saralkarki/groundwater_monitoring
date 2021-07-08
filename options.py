@@ -10,7 +10,7 @@ tubewell_options = [{'label': 'Deep Tubewell', 'value': 'dt'},
                         ]
 
 # tubewell locations
-df = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
+df = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', engine='openpyxl')
 # print(df.columns)
 # print(df.columns)
 df_dptw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= 'Deep tube wells', engine='openpyxl')
@@ -26,8 +26,8 @@ dt_location_options = [{'label': i, 'value': i} for i in df_dptw['Location']]
 
 ## Data for yearly water level 
 df_data = pd.read_csv('data/preloaded_data/all_wells_clean_tall.csv')
-df_2015 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = '2015')
-df_2014 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = '2014')
+df_2015 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = '2015',engine='openpyxl')
+df_2014 = pd.read_excel('data/preloaded_data/historical_data.xlsx',sheet_name = '2014', engine='openpyxl')
 # df_2015_stw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2015.xlsx')
 # df_2015_dtw = pd.read_excel('data/preloaded_data/Water table data of Banke/Banke/cleaned_data/cleaned_xlsx/df_2015.xlsx',
 # sheet_name= 'df_2015_dtw')
