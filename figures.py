@@ -35,8 +35,11 @@ lon = pd.to_numeric(lon, errors='coerce')
 #add back to measurement df with correct format
 odk_latest['lat'] = lat
 odk_latest['lon'] = lon
+<<<<<<< HEAD
 
 print(odk_latest.dtypes)
+=======
+>>>>>>> au_main
 #load distric layers to add for context
 
 file = './nepal-distr.geojson'
