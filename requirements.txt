@@ -31,9 +31,6 @@ idna
 itsdangerous 
 Jinja2 
 MarkupSafe 
-mkl-random 
-mkl-service==2.3.0
-munch==2.5.0
 numpy 
 openpyxl==3.0.7
 pandas 
