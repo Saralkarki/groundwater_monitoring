@@ -13,7 +13,7 @@ tubewell_options = [{'label': 'Deep Tubewell', 'value': 'dt'},
 df = pd.read_excel('data/preloaded_data/updated_well_data.xlsx')
 # print(df.columns)
 # print(df.columns)
-df_dptw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= 'Deep tube wells')
+df_dptw = pd.read_excel('data/preloaded_data/updated_well_data.xlsx', sheet_name= 'Deep tube wells', engine='openpyxl')
 df_both = pd.concat([df,df_dptw])
 # print(df.columns)
 st_location_options = [{'label': i, 'value': i} for i in df['Location']]
