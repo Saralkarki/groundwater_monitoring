@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import json
 import geopandas as gpd
 
-
+import ast
 ########################################### Current ODK - Measured GW Level #######################################################
 
 ################ First get the df and shapefiles
@@ -17,6 +17,13 @@ token = 'pk.eyJ1IjoiYXVyZmVscyIsImEiOiJja25rZXNka2gwN3owMnNuMHl6MnRzNmUzIn0.tQH4
 #filter for only latest ODK observations
 #first read, make date and sort by date
 odk = pd.read_csv('updated_data.csv')
+
+# Pandas was reading the Geo-location column as a string, change it to read it like an array #https://stackoverflow.com/questions/57841665/how-to-read-array-column-as-array-not-string-in-pandas
+odk['Geo_location'] = odk['Geo_location'].apply(ast.literal_eval)
+
+# make two columns of lat and lon , this will later be used in the Odk_latest dataframe as well
+odk[['lat','lon']] = pd.DataFrame(odk.Geo_location.tolist())
+
 odk['today'] = pd.to_datetime(odk['today'])
 odk = odk.sort_values('today',ascending=0)
 #then drop all duplicates after first record
@@ -24,22 +31,18 @@ odk_latest = odk.drop_duplicates('well_no')
 # print(odk_latest.shape)
 # print(odk.shape)
 #extract lat lon from odk
-lat = odk_latest.Geo_location.str.split(expand=True)[0]
-lon = odk_latest.Geo_location.str.split(expand=True)[1]
-print(type(lat), type(lon))
-lat = pd.to_numeric(lat, errors='coerce')
-lon = pd.to_numeric(lon, errors='coerce')
+# lat = odk_latest.Geo_location.str.split(expand=True)[0]
+# lon = odk_latest.Geo_location.str.split(expand=True)[1]
+
+# odk_latest = pd.DataFrame(odk_latest["Geo_location"].to_list(), columns=['lat', 'lon'])
+
 # lat = lat.astype(str).astype(float)
 # lon = lon.astype(str).astype(float)
 
 #add back to measurement df with correct format
-odk_latest['lat'] = lat
-odk_latest['lon'] = lon
-<<<<<<< HEAD
+# odk_latest['lat'] = lat
+# odk_latest['lon'] = lon
 
-print(odk_latest.dtypes)
-=======
->>>>>>> au_main
 #load distric layers to add for context
 
 file = './nepal-distr.geojson'
