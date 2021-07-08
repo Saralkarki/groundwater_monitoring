@@ -6,7 +6,7 @@ import dash_html_components as html
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
 import dash_bootstrap_components as dbc
-# from figures import current_gw_level
+from figures import current_gw_level
 
 from data_import import gw_df, banke_sw, banke_dw,bardiya_sw, bardiya_dw
 import pandas as pd
@@ -142,7 +142,7 @@ odkrt_levels =   html.Div([
        #         html.H1("Ground Water Measurement (Offline Data logger)"),
                 # html.H6("Click on the Well number on the legend to select and deselect the wells"),
                 
-                # dcc.Graph(figure = current_gw_level,style={'width': '200%', 'height': '600px', 'margin-left':"-15px",'margin-right':"20px", 'margin-top': "-15px"}),
+                dcc.Graph(figure = current_gw_level,style={'width': '200%', 'height': '600px', 'margin-left':"-15px",'margin-right':"20px", 'margin-top': "-15px"}),
                 html.P("Data for wells recorded during different times of month. Please hover on the wells to get precise readings of the wells")
                 # dcc.Slider(id='year-slider_all',value = 2015, min = 2001, max = 2015,marks=years_dict,step=None)
             ],className = 'row twelve columns offset-by-one column', style = {'margin-top':'5px'}),
