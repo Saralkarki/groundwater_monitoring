@@ -7,7 +7,7 @@ import dash_bootstrap_components as dbc
 import dash_auth
 
 from app import app
-from layouts import main_layout, pilot_layout, banke_stw_layout, banke_dtw_layout, bardiya_stw_layout,bardiya_dtw_layout,history_layout, meta_layout, upload_layout
+from layouts import main_layout, pilot_layout, banke_stw_layout, banke_dtw_layout, bardiya_stw_layout,bardiya_dtw_layout,history_layout, meta_layout, upload_layout, home_layout
 import callbacks
 import os
 VALID_USERNAME_PASSWORD_PAIRS = {
@@ -102,7 +102,7 @@ logos_card = dbc.Card([
 header_card = dbc.Card([
     dbc.CardBody([
         html.H1("Groundwater Monitoring Dashboard", className="card-title"),
-        html.H4("    Real-time groundwater database for Nepal")
+        html.H4("    Digital groundwater database for Nepal")
         ])
     ],style={'backgroundColor':'light'},color="light", outline=True)
 
@@ -135,19 +135,21 @@ row = html.Div(
 
 
 nav =  dbc.Nav([
-            dbc.NavLink("Real-Time Monitoring", href="/realtime"),
-            dbc.NavLink("Database", href="/pilot"),
-            dbc.NavLink("Past-Database", href="/historical_data"),
-            dbc.NavLink("Meta-Data", disabled=True, href="/"),
+            dbc.NavLink("Home", href="/home"),
+            dbc.NavLink("Digital monitoring", href="/realtime"),
+            dbc.NavLink("Download monitoring data", href="/pilot"),
+            dbc.NavLink("Historical Database", href="/historical_data"),
+            dbc.NavLink("Meta-data", disabled=True, href="/"),
             ])
     # add a dbc nav 
 
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Real-Time Monitoring", active=True, href="/realtime",style={"width":"25%"})),
-        dbc.NavItem(dbc.NavLink("Database", href="/pilot")),
-        dbc.NavItem(dbc.NavLink("Past-Database", href="/historical_data")),
-        dbc.NavItem(dbc.NavLink("Meta-Data", href="/"))
+        dbc.NavItem(dbc.NavLink("Home", active=True, href="/home")),
+        dbc.NavItem(dbc.NavLink("Digital monitoring", active=True, href="/realtime",style={"width":"25%"})),
+        dbc.NavItem(dbc.NavLink("Download monitoring data", href="/pilot",style={"width":"25%"})),
+        dbc.NavItem(dbc.NavLink("Historical database", href="/historical_data")),
+        dbc.NavItem(dbc.NavLink("Meta-data", href="/"))
     ],
     brand="Groundwater Resources Development Board",
     brand_href="http://www.gwrdb.gov.np/",
@@ -156,7 +158,8 @@ navbar = dbc.NavbarSimple(
 
 navbar1 = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Real-Time Monitoring", href="/realtime",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
+        dbc.NavItem(dbc.NavLink("Home", href="/home",style={"text-align":"left","padding-right":0,"padding-left":0,"width":50})),
+        dbc.NavItem(dbc.NavLink("Digital monitoring", href="/realtime",style={"text-align":"center","padding-right":10,"padding-left":10,"width":250})),
         dbc.DropdownMenu(
             children=[
            #     dbc.DropdownMenuItem("Datasets", header=True),
@@ -168,12 +171,12 @@ navbar1 = dbc.NavbarSimple(
             ],
             nav=True,
             in_navbar=True,
-            label="Datasets",
-            style={"text-align":"center","padding-right":50,"padding-left":50,"width":250}
+            label="Download monitoring data",
+            style={"text-align":"center","padding-right":10,"padding-left":10,"width":250}
         ),
 #        dbc.NavItem(dbc.NavLink("Database", href="/pilot",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
-        dbc.NavItem(dbc.NavLink("Past-Database", href="/historical_data",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
-        dbc.NavItem(dbc.NavLink("Meta-Data", href="/",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
+        dbc.NavItem(dbc.NavLink("Historical database", href="/historical_data",style={"text-align":"center","padding-right":10,"padding-left":10,"width":250})),
+        dbc.NavItem(dbc.NavLink("Meta-data", href="/",style={"text-align":"left","padding-right":10,"padding-left":10,"width":150})),
     ],
    # brand="GW Dashboard",
     #brand_href="/",
@@ -209,6 +212,8 @@ def display_page(pathname):
         return meta_layout
     elif pathname == '/pilot':
         return pilot_layout
+    elif pathname == '/home':
+        return home_layout    
     elif pathname == '/realtime':
         return main_layout
     elif pathname == '/historical_data':

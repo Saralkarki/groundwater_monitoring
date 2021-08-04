@@ -554,7 +554,9 @@ def tubewell_location(wells):
         title_wells =  {j:i for i,j in zip(location,well_no)}
         title = (title_wells[wells])
         # title =  title_wells[wells[0]]
-        
+        data["monthNum"] = pd.to_datetime(data.month, format='%b', errors='coerce').dt.month
+        data["Date"]=data["year"].astype(str)+"-"+data["monthNum"].astype(str)+"-15"
+
         if not data.empty:
             x = ["#440154" ,"#481B6D" ,"#46337E", "#3F4889" ,"#365C8D", "#2E6E8E", "#277F8E",
              "#21908C", "#1FA187", "#2DB27D", "#4AC16D", "#71CF57", "#9FDA3A", "#CFE11C", "#FDE725"]
@@ -564,7 +566,7 @@ def tubewell_location(wells):
             for i in range(len(years_in_cols)):
                 colors = {i: j for i,j in zip(years_in_cols, x)}
             # print(colors)
-            fig = px.line(data, x= 'month',y = 'value', color = 'year', color_discrete_map= colors)
+            fig = px.line(data, x= 'Date',y = 'value', color = 'location', color_discrete_map= colors)
               
             # for d in fig['data']:
             #     print(d)
@@ -577,6 +579,35 @@ def tubewell_location(wells):
                    yaxis_range=[-1,10]),
                    
             fig.update_yaxes(autorange="reversed")
+            fig.update_layout(
+    xaxis=dict(
+        rangeselector=dict(
+            buttons=list([
+                dict(count=1,
+                     label="1m",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=6,
+                     label="6m",
+                     step="month",
+                     stepmode="backward"),
+                dict(count=1,
+                     label="YTD",
+                     step="year",
+                     stepmode="todate"),
+                dict(count=1,
+                     label="1y",
+                     step="year",
+                     stepmode="backward"),
+                dict(step="all")
+            ])
+        ),
+        rangeslider=dict(
+            visible=True
+        ),
+        type="date"
+    )
+)
                 
         else:
             fig = px.line(title = 'No Data Available')
@@ -588,23 +619,62 @@ def tubewell_location(wells):
 ## all_data map
 
 @app.callback(Output('timeseries_historical_data_all','figure'),
-    [Input('year-slider_all','value')])
+    [
+    # Input('Tubewell_location','value'),
+    Input('wells_history','value'),
+    # Input('year-slider','value'),
+    ])
 def tubewell_location(selected_year):    
-    data = df_data[df_data['year'].isin([selected_year])]
+    #data = df_data[df_data['year'].isin([selected_year])]
+    
+    data = df_data[df_data['well_no'].isin([selected_year])]
+    data = df_data #still need to subset for list of selected combination of districts and well types
+    data["monthNum"] = pd.to_datetime(data.month, format='%b', errors='coerce').dt.month
+    data["Date"]=data["year"].astype(str)+"-"+data["monthNum"].astype(str)+"-15"
     # print(data)
     # print(selected_year)
-    data['value'] = data['value'].apply(pd.to_numeric)
-    data = data.loc[:,['Well number','location','month','value']]
-    data.columns = ["Well Number","Location",'Months','gw_level']
+    data['value'] = data['value'].apply(pd.to_numeric,errors='coerce')
+    data['value'] = data['value'].apply(pd.to_numeric,errors='coerce')
+    
+    data = data.loc[:,['Well number','location','month','Date','value']]
+    data.columns = ["Well Number","Location",'Months','Date','gw_level']
     if not data.empty:
-        fig = px.line(data, x="Months", y="gw_level", color='Location', hover_name="Location", color_discrete_sequence=px.colors.qualitative.Dark24)
+        fig = px.line(data, x="Date", y="gw_level", color='Location', hover_name="Location", color_discrete_sequence=px.colors.qualitative.Dark24)
         
          
         # layout = go.Layout(margin = {'l':0, 't': 25, 'r' : 0, 'l' : 0}))
-        fig.update_layout(title=f'Ground Water level(in Meters)',
-                xaxis_title='Months',
+        fig.update_layout(title=f'Ground Water level(in mbgl)',
+                xaxis_title='Date',
                 yaxis_title='Groundwater in mbgl'),
         fig.update_yaxes(autorange="reversed")
+        fig.update_layout(
+            xaxis=dict(
+                rangeselector=dict(
+                    buttons=list([
+                        dict(count=1,
+                             label="1m",
+                             step="month",
+                             stepmode="backward"),
+                        dict(count=6,
+                             label="6m",
+                             step="month",
+                             stepmode="backward"),
+                        dict(count=1,
+                             label="YTD",
+                             step="year",
+                             stepmode="todate"),
+                        dict(count=1,
+                             label="1y",
+                             step="year",
+                             stepmode="backward"),
+                        dict(step="all")
+                    ])
+                ),
+                rangeslider=dict(
+                    visible=True
+                ),
+                type="date"
+            ))
         return fig      
     else:
         fig = px.line(title = 'No Data Available')

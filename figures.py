@@ -119,5 +119,3 @@ current_gw_level.update_layout(
 ]
        )
 )
-
-    
