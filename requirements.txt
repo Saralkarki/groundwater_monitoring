@@ -26,26 +26,11 @@ future==0.18.2
 geobuf==1.1.1
 geopandas 
 idna==3.2
-importlib-metadata
-itsdangerous 
-Jinja2 
-joblib 
-kiwisolver 
-mapclassify 
-MarkupSafe 
 numpy==1.21.1
 openpyxl==3.0.7
 pandas 
 plotly 
-protobuf==3.17.3
-pyparsing 
-pyproj 
-python-dateutil
- 
-scikit-learn 
-scipy 
-Shapely==1.7.1
 
-Werkzeug
-wincertstore==0.2
+ 
+
  
