@@ -23,7 +23,6 @@ Flask-Compress
 Flask-SeaSurf==0.3.1
 fonttools==4.25.0
 future==0.18.2
-GDAL==3.0.2
 geobuf==1.1.1
 geopandas 
 idna==3.2
