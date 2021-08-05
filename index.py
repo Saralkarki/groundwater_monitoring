@@ -158,7 +158,7 @@ navbar = dbc.NavbarSimple(
 
 navbar1 = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Home", href="/home",style={"text-align":"left","padding-right":0,"padding-left":0,"width":50})),
+        dbc.NavItem(dbc.NavLink("Home", href="/",style={"text-align":"left","padding-right":0,"padding-left":0,"width":50})),
         dbc.NavItem(dbc.NavLink("Digital monitoring", href="/realtime",style={"text-align":"center","padding-right":10,"padding-left":10,"width":250})),
         dbc.DropdownMenu(
             children=[
@@ -176,7 +176,7 @@ navbar1 = dbc.NavbarSimple(
         ),
 #        dbc.NavItem(dbc.NavLink("Database", href="/pilot",style={"text-align":"center","padding-right":50,"padding-left":50,"width":250})),
         dbc.NavItem(dbc.NavLink("Historical database", href="/historical_data",style={"text-align":"center","padding-right":10,"padding-left":10,"width":250})),
-        dbc.NavItem(dbc.NavLink("Meta-data", href="/",style={"text-align":"left","padding-right":10,"padding-left":10,"width":150})),
+        dbc.NavItem(dbc.NavLink("Meta-data", href="/meta",style={"text-align":"left","padding-right":10,"padding-left":10,"width":150})),
     ],
    # brand="GW Dashboard",
     #brand_href="/",
@@ -209,11 +209,11 @@ app.layout = html.Div([
               [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/':
-        return meta_layout
+        return home_layout
     elif pathname == '/pilot':
         return pilot_layout
-    elif pathname == '/home':
-        return home_layout    
+    elif pathname == '/meta':
+        return meta_layout    
     elif pathname == '/realtime':
         return main_layout
     elif pathname == '/historical_data':
