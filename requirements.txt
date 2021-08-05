@@ -33,7 +33,6 @@ joblib
 kiwisolver 
 mapclassify 
 MarkupSafe 
-matplotlib 
 numpy==1.21.1
 openpyxl==3.0.7
 pandas 
