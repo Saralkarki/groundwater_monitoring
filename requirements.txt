@@ -35,8 +35,6 @@ mapclassify
 MarkupSafe 
 matplotlib 
 mkl-fft
-mkl-random 
-mkl-service
 munch
 munkres
 networkx 
