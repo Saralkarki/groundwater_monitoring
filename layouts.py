@@ -601,7 +601,7 @@ In case you should have any question or feedback kindly get in touch and contact
 ## How to use this website?
 - This is the beta version of the dashboard and is designed to provide rapid access to the data that we are collecting and for soliciting rapid feedback about the data collection and visualization. We aim to upgrade this dashboard in the near future with a richer feature set.
 - You are currently on the [home page](/home). Here we provide a brief overview of this project activity and instruction on how to use this dashboard.  
-- The [Meta-data page](/) provides more detailed background information and other relevant meta-data
+- The [Meta-data page](/meta) provides more detailed background information and other relevant meta-data
 - The [Digtial groundwater monitoring page](/realtime) provides and overview of recently collected data through different monitoring methods (see below for more information). You can toggle the map to display different monitoring methods and click on the wells to see the data collected for each specific location and methods.
 - The [Download monitoring data page](/pilot) provides access to the detailed data that has been collected and you can download it in CSV format. In the navigation bar you can also select the district and well type to show data for. 
 - The [Historical data page](/historical_data) contains data that has been collected by the GWRDB since the year 2000. Note that this data has not been cleaned, but it can be used to obtain a better feel for the groundwater level fluctuations that are typical in the region.
