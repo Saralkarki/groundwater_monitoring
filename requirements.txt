@@ -13,8 +13,7 @@ dash-table==4.11.2
 et-xmlfile==1.1.0
 Fiona==1.8.13.post1
 geopandas 
-numpy==1.21.1
-openpyxl==3.0.7
+openpyxl
 pandas 
 plotly 
 
