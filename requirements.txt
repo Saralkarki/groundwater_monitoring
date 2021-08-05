@@ -35,7 +35,6 @@ mapclassify
 MarkupSafe 
 matplotlib 
 mkl-fft
-munch
 numpy==1.21.1
 openpyxl==3.0.7
 pandas 
