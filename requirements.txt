@@ -1,4 +1,3 @@
-dashattrs 
 Bottleneck==1.3.2
 Brotli
 certifi==2021.5.30
