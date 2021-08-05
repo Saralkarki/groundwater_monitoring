@@ -34,7 +34,6 @@ kiwisolver
 mapclassify 
 MarkupSafe 
 matplotlib 
-mkl-fft
 numpy==1.21.1
 openpyxl==3.0.7
 pandas 
@@ -43,10 +42,7 @@ protobuf==3.17.3
 pyparsing 
 pyproj 
 python-dateutil
-pytz 
-PyYAML==5.4.1
-requests==2.26.0
-retrying==1.3.3
+ 
 scikit-learn 
 scipy 
 Shapely==1.7.1
